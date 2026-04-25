@@ -3,62 +3,96 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Equivalency Application Database</title>
+  <title>Equivalency Application Management System</title>
   <style>
     :root {
-      --primary: #2563eb;
-      --primary-dark: #1d4ed8;
-      --danger: #dc2626;
-      --danger-dark: #b91c1c;
-      --success: #16a34a;
-      --warning: #f59e0b;
-      --bg: #f8fafc;
+      --primary: #1d4ed8;
+      --primary-light: #dbeafe;
+      --primary-dark: #1e3a8a;
+      --success: #15803d;
+      --danger: #b91c1c;
+      --bg: #f3f6fb;
       --card: #ffffff;
       --text: #0f172a;
       --muted: #64748b;
-      --border: #e2e8f0;
-      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-      --radius: 18px;
+      --border: #dbe3ef;
+      --soft: #f8fafc;
+      --shadow: 0 16px 45px rgba(15, 23, 42, 0.08);
+      --radius: 20px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
-      background: var(--bg);
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.12), transparent 32%),
+        linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
       color: var(--text);
     }
 
-    header {
-      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+    .app-header {
+      background: linear-gradient(135deg, #0f172a, #1d4ed8);
       color: white;
-      padding: 32px 20px;
-      text-align: center;
+      padding: 34px 18px 42px;
     }
 
-    header h1 {
-      margin: 0 0 8px;
-      font-size: clamp(1.5rem, 3vw, 2.4rem);
+    .header-inner {
+      width: min(1120px, 94%);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
     }
 
-    header p {
+    .brand {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .logo {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.16);
+      display: grid;
+      place-items: center;
+      font-size: 1.65rem;
+      font-weight: 800;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+    }
+
+    h1 {
       margin: 0;
-      opacity: 0.9;
+      font-size: clamp(1.45rem, 3vw, 2.3rem);
+      line-height: 1.15;
+    }
+
+    .subtitle {
+      margin: 7px 0 0;
+      opacity: 0.88;
+      max-width: 720px;
+    }
+
+    .status-pill {
+      background: rgba(245, 158, 11, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      white-space: nowrap;
     }
 
     main {
-      width: min(1200px, 94%);
-      margin: 28px auto 50px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 380px 1fr;
-      gap: 22px;
-      align-items: start;
+      width: min(1120px, 94%);
+      margin: -22px auto 50px;
     }
 
     .card {
@@ -66,356 +100,517 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 22px;
+      padding: clamp(18px, 3vw, 28px);
+      margin-bottom: 24px;
     }
 
-    .card h2 {
-      margin: 0 0 16px;
-      font-size: 1.25rem;
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
     }
+
+    h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      color: #0f172a;
+    }
+
+    .help-text, .muted {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+
+    .setup-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e3a8a;
+      border-radius: 16px;
+      padding: 14px 16px;
+      line-height: 1.5;
+    }
+
+    .setup-box strong { color: #172554; }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .form-grid .full { grid-column: 1 / -1; }
 
     label {
       display: block;
-      font-size: 0.88rem;
-      font-weight: 700;
-      margin-bottom: 7px;
+      font-weight: 800;
       color: #334155;
+      font-size: 0.9rem;
+      margin-bottom: 7px;
     }
 
     input, select, textarea {
       width: 100%;
-      padding: 11px 12px;
       border: 1px solid #cbd5e1;
-      border-radius: 12px;
-      font-size: 0.95rem;
-      outline: none;
+      border-radius: 13px;
+      padding: 12px 13px;
+      font-size: 0.96rem;
       background: white;
+      color: var(--text);
+      outline: none;
+      transition: 0.18s ease;
     }
 
     input:focus, select:focus, textarea:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
     }
 
     textarea {
-      min-height: 80px;
+      min-height: 92px;
       resize: vertical;
     }
 
-    .field {
-      margin-bottom: 14px;
-    }
-
-    .row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
+    .field-note {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 0.82rem;
     }
 
     .actions {
       display: flex;
+      align-items: center;
       gap: 10px;
       flex-wrap: wrap;
-      margin-top: 16px;
+      margin-top: 20px;
     }
 
-    button, .btn {
+    button, .button-link {
       border: none;
-      border-radius: 12px;
-      padding: 10px 14px;
+      border-radius: 13px;
+      padding: 11px 15px;
+      font-weight: 800;
       cursor: pointer;
-      font-weight: 700;
-      font-size: 0.9rem;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      transition: 0.2s ease;
-    }
-
-    .primary {
-      background: var(--primary);
-      color: white;
-    }
-
-    .primary:hover {
-      background: var(--primary-dark);
-    }
-
-    .secondary {
-      background: #e2e8f0;
-      color: #0f172a;
-    }
-
-    .secondary:hover {
-      background: #cbd5e1;
-    }
-
-    .danger {
-      background: var(--danger);
-      color: white;
-    }
-
-    .danger:hover {
-      background: var(--danger-dark);
-    }
-
-    .success {
-      background: var(--success);
-      color: white;
-    }
-
-    .toolbar {
-      display: flex;
-      gap: 12px;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
-    }
-
-    .toolbar input {
-      max-width: 360px;
-    }
-
-    .table-wrap {
-      overflow-x: auto;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 980px;
-      background: white;
-    }
-
-    th, td {
-      text-align: left;
-      padding: 12px;
-      border-bottom: 1px solid var(--border);
-      vertical-align: top;
+      gap: 7px;
+      transition: 0.18s ease;
       font-size: 0.92rem;
     }
 
-    th {
-      background: #f1f5f9;
-      color: #334155;
-      font-size: 0.82rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
+    button:disabled {
+      opacity: 0.62;
+      cursor: not-allowed;
     }
 
-    tr:hover td {
-      background: #f8fafc;
+    .primary { background: var(--primary); color: white; }
+    .primary:hover:not(:disabled) { background: var(--primary-dark); transform: translateY(-1px); }
+    .secondary { background: #e2e8f0; color: #0f172a; }
+    .secondary:hover:not(:disabled) { background: #cbd5e1; }
+    .danger { background: var(--danger); color: white; }
+    .danger:hover:not(:disabled) { background: #991b1b; }
+    .success { background: var(--success); color: white; }
+    .success:hover:not(:disabled) { background: #166534; }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 16px;
     }
 
-    .pill {
-      display: inline-block;
-      background: #dbeafe;
-      color: #1e40af;
-      padding: 5px 9px;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      margin: 2px 0;
+    .records-list {
+      display: grid;
+      gap: 14px;
     }
 
-    .muted {
-      color: var(--muted);
-      font-size: 0.88rem;
+    .record-card {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      background: linear-gradient(180deg, #ffffff, #fbfdff);
     }
 
-    .small-actions {
+    .record-top {
       display: flex;
+      justify-content: space-between;
+      gap: 16px;
       flex-wrap: wrap;
-      gap: 7px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 14px;
+      margin-bottom: 14px;
     }
 
-    .small-actions button, .small-actions .btn {
+    .record-name {
+      font-size: 1.12rem;
+      font-weight: 900;
+      color: #0f172a;
+      margin: 0 0 4px;
+    }
+
+    .record-meta {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .info-item {
+      background: var(--soft);
+      border: 1px solid #e8eef7;
+      border-radius: 14px;
+      padding: 12px;
+      min-width: 0;
+    }
+
+    .info-label {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.045em;
+      font-size: 0.72rem;
+      font-weight: 900;
+      margin-bottom: 5px;
+    }
+
+    .info-value {
+      font-weight: 700;
+      word-break: break-word;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 7px 11px;
+      background: var(--primary-light);
+      color: #1e40af;
+      font-weight: 900;
+      font-size: 0.78rem;
+    }
+
+    .badge.green { background: #dcfce7; color: #166534; }
+    .badge.orange { background: #ffedd5; color: #9a3412; }
+
+    .document-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .document-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 10px 12px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 13px;
+    }
+
+    .mini-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .mini-actions button, .mini-actions .button-link {
       padding: 8px 10px;
       font-size: 0.78rem;
       border-radius: 10px;
     }
 
-    .empty {
+    .empty-state {
+      padding: 34px 18px;
       text-align: center;
-      padding: 32px 16px;
+      border: 1px dashed #cbd5e1;
+      border-radius: 18px;
       color: var(--muted);
+      background: #fbfdff;
     }
 
-    .notice {
-      background: #fff7ed;
-      border: 1px solid #fed7aa;
-      color: #9a3412;
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      background: #0f172a;
+      color: white;
+      padding: 13px 16px;
       border-radius: 14px;
-      padding: 12px 14px;
-      font-size: 0.9rem;
-      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(12px);
+      transition: 0.22s ease;
+      z-index: 50;
+      max-width: 360px;
+      line-height: 1.35;
     }
 
-    .storage-tools {
-      margin-top: 20px;
-      border-top: 1px solid var(--border);
-      padding-top: 16px;
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
     }
 
-    @media (max-width: 950px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
+    .progress {
+      height: 9px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 12px;
+      display: none;
+    }
 
-      .row {
-        grid-template-columns: 1fr;
-      }
+    .progress span {
+      display: block;
+      height: 100%;
+      width: 45%;
+      background: var(--primary);
+      border-radius: 999px;
+      animation: loading 1s infinite ease-in-out;
+    }
 
-      .toolbar input {
-        max-width: none;
-      }
+    @keyframes loading {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(240%); }
+    }
+
+    @media (max-width: 850px) {
+      .form-grid, .info-grid, .toolbar { grid-template-columns: 1fr; }
+      .header-inner, .record-top { align-items: flex-start; }
+      .status-pill { white-space: normal; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Equivalency Application Database</h1>
-    <p>Manual input, PDF document storage, database table, edit/delete controls, and Word reply-letter generator.</p>
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="logo">EA</div>
+        <div>
+          <h1>Equivalency Application Management System</h1>
+          <p class="subtitle">Professional database for applicant information, uploaded PDF documents, Google Drive filing, email routing, and reply-letter generation.</p>
+        </div>
+      </div>
+      <div class="status-pill" id="connectionStatus">Local Only - Add Web App URL</div>
+    </div>
   </header>
 
   <main>
-    <div class="notice">
-      <strong>Important:</strong> This version works without a server and can run on GitHub Pages. Data and uploaded PDFs are saved only in the browser/device where you use this website. For shared office use, you will need a backend database such as Firebase, Supabase, or Google Sheets API.
-    </div>
+    <section class="card">
+      <div class="section-title">
+        <div>
+          <h2>Google Drive and Email Setup</h2>
+          <p class="help-text">Paste your Google Apps Script Web App URL below. This allows the website to save the applicant record and uploaded PDFs to Google Drive, then email the assigned task manager.</p>
+        </div>
+      </div>
 
-    <div class="grid">
-      <section class="card">
-        <h2 id="formTitle">Add New Application</h2>
-        <form id="applicationForm">
-          <input type="hidden" id="recordId" />
+      <div class="setup-box">
+        <strong>Required:</strong> Deploy the included <strong>Code.gs</strong> file as a Google Apps Script Web App, then paste the deployment URL here.
+      </div>
 
-          <div class="row">
-            <div class="field">
-              <label for="firstName">First Name</label>
-              <input id="firstName" required placeholder="Juan" />
-            </div>
+      <div class="form-grid" style="margin-top:16px;">
+        <div class="full">
+          <label for="scriptUrl">Google Apps Script Web App URL</label>
+          <input id="scriptUrl" placeholder="https://script.google.com/macros/s/AKfycb.../exec" />
+          <p class="field-note">This URL is saved only in your browser. You can update it anytime.</p>
+        </div>
+      </div>
 
-            <div class="field">
-              <label for="lastName">Last Name</label>
-              <input id="lastName" required placeholder="Dela Cruz" />
-            </div>
+      <div class="actions">
+        <button class="primary" id="saveScriptUrlBtn">Save Web App URL</button>
+        <button class="secondary" id="testConnectionBtn">Test Connection</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-title">
+        <div>
+          <h2 id="formTitle">Add New Application</h2>
+          <p class="help-text">Fill out the applicant details from top to bottom, upload PDF documents, choose the task manager, then submit.</p>
+        </div>
+        <span class="badge" id="modeBadge">New Record</span>
+      </div>
+
+      <form id="applicationForm">
+        <input type="hidden" id="recordId" />
+
+        <div class="form-grid">
+          <div>
+            <label for="firstName">First Name</label>
+            <input id="firstName" required placeholder="Enter first name" />
           </div>
 
-          <div class="field">
+          <div>
+            <label for="lastName">Last Name</label>
+            <input id="lastName" required placeholder="Enter last name" />
+          </div>
+
+          <div class="full">
             <label for="institution">Institution</label>
-            <input id="institution" required placeholder="Name of school / institution" />
+            <input id="institution" required placeholder="Enter institution name" />
           </div>
 
-          <div class="row">
-            <div class="field">
-              <label for="dateReceive">Date Received</label>
-              <input id="dateReceive" type="date" required />
-            </div>
-
-            <div class="field">
-              <label for="email">Email</label>
-              <input id="email" type="email" required placeholder="example@email.com" />
-            </div>
+          <div>
+            <label for="dateReceive">Date Received</label>
+            <input id="dateReceive" type="date" required />
           </div>
 
-          <div class="field">
+          <div>
+            <label for="email">Applicant Email</label>
+            <input id="email" type="email" required placeholder="applicant@email.com" />
+          </div>
+
+          <div class="full">
             <label for="degree">Degree</label>
-            <input id="degree" required placeholder="Bachelor of Science in..." />
+            <input id="degree" required placeholder="Example: Bachelor of Science in Nursing" />
           </div>
 
-          <div class="field">
+          <div>
             <label for="degreeCountry">Degree Obtained in the Country</label>
-            <input id="degreeCountry" required placeholder="Philippines / USA / Canada / etc." />
+            <input id="degreeCountry" required placeholder="Example: Philippines, USA, Canada" />
           </div>
 
-          <div class="field">
+          <div>
+            <label for="taskManager">Task Manager</label>
+            <select id="taskManager" required>
+              <option value="">Select task manager</option>
+              <option value="Siegried">Siegried - smaghanoy@ched.gov.ph</option>
+              <option value="Ralph">Ralph - rlking@ched.gov.ph</option>
+            </select>
+          </div>
+
+          <div class="full">
             <label for="notes">Notes / Remarks</label>
-            <textarea id="notes" placeholder="Optional remarks"></textarea>
+            <textarea id="notes" placeholder="Optional notes or remarks"></textarea>
           </div>
 
-          <div class="field">
+          <div class="full">
             <label for="documents">Upload Documents / PDF Files</label>
             <input id="documents" type="file" accept="application/pdf" multiple />
-            <p class="muted">You can upload one or more PDF files. When editing, choose new files only if you want to add more documents.</p>
-          </div>
-
-          <div class="actions">
-            <button type="submit" class="primary" id="saveBtn">Save Application</button>
-            <button type="button" class="secondary" id="resetBtn">Clear</button>
-          </div>
-        </form>
-
-        <div class="storage-tools">
-          <h2>Backup Tools</h2>
-          <p class="muted">Export saves applicant data only. PDFs are stored in this browser database.</p>
-          <div class="actions">
-            <button class="secondary" id="exportJsonBtn">Export JSON</button>
-            <button class="danger" id="clearAllBtn">Delete All Records</button>
+            <p class="field-note">Upload one or more PDF files. When editing, choosing new PDFs will add them to existing documents.</p>
           </div>
         </div>
-      </section>
 
-      <section class="card">
-        <div class="toolbar">
+        <div class="progress" id="progressBar"><span></span></div>
+
+        <div class="actions">
+          <button type="submit" class="primary" id="saveBtn">Submit Application</button>
+          <button type="button" class="secondary" id="resetBtn">Clear Form</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card">
+      <div class="section-title">
+        <div>
           <h2>Application Database</h2>
-          <input id="searchInput" placeholder="Search name, institution, email, degree..." />
+          <p class="help-text">All information appears below in card format to avoid side scrolling. Use search and filter to find records quickly.</p>
         </div>
+      </div>
 
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Institution</th>
-                <th>Date Received</th>
-                <th>Email</th>
-                <th>Degree</th>
-                <th>Country</th>
-                <th>PDF Files</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="recordsBody"></tbody>
-          </table>
-        </div>
-      </section>
-    </div>
+      <div class="toolbar">
+        <input id="searchInput" placeholder="Search name, institution, email, degree, country..." />
+        <select id="managerFilter">
+          <option value="">All task managers</option>
+          <option value="Siegried">Siegried</option>
+          <option value="Ralph">Ralph</option>
+        </select>
+        <button class="secondary" id="exportJsonBtn">Export List</button>
+      </div>
+
+      <div id="recordsList" class="records-list"></div>
+
+      <div class="actions">
+        <button class="danger" id="clearAllBtn">Delete All Local Records</button>
+      </div>
+    </section>
   </main>
 
+  <div class="toast" id="toast"></div>
+
   <script>
-    const DB_NAME = 'equivalencyApplicationDB';
+    const DB_NAME = 'equivalencyApplicationDB_v2';
     const DB_VERSION = 1;
     const STORE_NAME = 'applications';
+    const SCRIPT_URL_KEY = 'equivalency_apps_script_url';
+
+    const TASK_MANAGER_EMAILS = {
+      Siegried: 'smaghanoy@ched.gov.ph',
+      Ralph: 'rlking@ched.gov.ph'
+    };
 
     let db;
     let allRecords = [];
 
-    const form = document.getElementById('applicationForm');
-    const formTitle = document.getElementById('formTitle');
-    const saveBtn = document.getElementById('saveBtn');
-    const resetBtn = document.getElementById('resetBtn');
-    const searchInput = document.getElementById('searchInput');
-    const recordsBody = document.getElementById('recordsBody');
-    const exportJsonBtn = document.getElementById('exportJsonBtn');
-    const clearAllBtn = document.getElementById('clearAllBtn');
+    const $ = id => document.getElementById(id);
+
+    const form = $('applicationForm');
+    const formTitle = $('formTitle');
+    const modeBadge = $('modeBadge');
+    const saveBtn = $('saveBtn');
+    const resetBtn = $('resetBtn');
+    const searchInput = $('searchInput');
+    const managerFilter = $('managerFilter');
+    const recordsList = $('recordsList');
+    const exportJsonBtn = $('exportJsonBtn');
+    const clearAllBtn = $('clearAllBtn');
+    const scriptUrl = $('scriptUrl');
+    const saveScriptUrlBtn = $('saveScriptUrlBtn');
+    const testConnectionBtn = $('testConnectionBtn');
+    const progressBar = $('progressBar');
+    const toast = $('toast');
+    const connectionStatus = $('connectionStatus');
 
     const fields = {
-      recordId: document.getElementById('recordId'),
-      firstName: document.getElementById('firstName'),
-      lastName: document.getElementById('lastName'),
-      institution: document.getElementById('institution'),
-      dateReceive: document.getElementById('dateReceive'),
-      email: document.getElementById('email'),
-      degree: document.getElementById('degree'),
-      degreeCountry: document.getElementById('degreeCountry'),
-      notes: document.getElementById('notes'),
-      documents: document.getElementById('documents')
+      recordId: $('recordId'),
+      firstName: $('firstName'),
+      lastName: $('lastName'),
+      institution: $('institution'),
+      dateReceive: $('dateReceive'),
+      email: $('email'),
+      degree: $('degree'),
+      degreeCountry: $('degreeCountry'),
+      taskManager: $('taskManager'),
+      notes: $('notes'),
+      documents: $('documents')
     };
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3600);
+    }
+
+    function setLoading(isLoading) {
+      saveBtn.disabled = isLoading;
+      progressBar.style.display = isLoading ? 'block' : 'none';
+      saveBtn.textContent = isLoading ? 'Submitting...' : (fields.recordId.value ? 'Update Application' : 'Submit Application');
+    }
+
+    function updateConnectionStatus() {
+      const url = localStorage.getItem(SCRIPT_URL_KEY);
+      if (url) {
+        connectionStatus.textContent = 'Google Drive Connected';
+        connectionStatus.style.background = 'rgba(22, 163, 74, 0.22)';
+      } else {
+        connectionStatus.textContent = 'Local Only - Add Web App URL';
+        connectionStatus.style.background = 'rgba(245, 158, 11, 0.22)';
+      }
+    }
 
     function openDatabase() {
       return new Promise((resolve, reject) => {
@@ -476,7 +671,12 @@
     function filesToObjects(fileList) {
       const files = Array.from(fileList || []);
       return Promise.all(files.map(file => {
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
+          if (file.type !== 'application/pdf') {
+            reject(new Error(`${file.name} is not a PDF file.`));
+            return;
+          }
+
           const reader = new FileReader();
           reader.onload = () => {
             resolve({
@@ -485,9 +685,11 @@
               type: file.type,
               size: file.size,
               dataUrl: reader.result,
+              base64: String(reader.result).split(',')[1],
               uploadedAt: new Date().toISOString()
             });
           };
+          reader.onerror = () => reject(reader.error);
           reader.readAsDataURL(file);
         });
       }));
@@ -527,9 +729,7 @@
         alert('Please allow pop-ups to view the PDF.');
         return;
       }
-      win.document.write(`
-        <iframe src="${dataUrl}" style="width:100%;height:100vh;border:0;"></iframe>
-      `);
+      win.document.write(`<iframe src="${dataUrl}" style="width:100%;height:100vh;border:0;"></iframe>`);
     }
 
     function buildReplyLetterHtml(record) {
@@ -540,6 +740,7 @@
       });
 
       const fullName = `${record.firstName} ${record.lastName}`.trim();
+      const managerEmail = TASK_MANAGER_EMAILS[record.taskManager] || '';
 
       return `
         <!DOCTYPE html>
@@ -585,14 +786,17 @@
           </p>
 
           <p>
-            Please be informed that your documents will be reviewed in accordance with the applicable policies,
+            Your application has been assigned to <strong>${escapeHtml(record.taskManager)}</strong>
+            ${managerEmail ? `(${escapeHtml(managerEmail)})` : ''} for appropriate action.
+          </p>
+
+          <p>
+            Please be informed that your documents will be reviewed in accordance with applicable policies,
             guidelines, and procedures. Should additional documents or clarification be required, our office will
             contact you through the email address you provided.
           </p>
 
-          <p>
-            Thank you.
-          </p>
+          <p>Thank you.</p>
 
           <div class="signature">
             <p>
@@ -624,14 +828,50 @@
       URL.revokeObjectURL(url);
     }
 
+    async function sendToGoogleDrive(record) {
+      const webAppUrl = localStorage.getItem(SCRIPT_URL_KEY);
+      if (!webAppUrl) {
+        return { success: false, skipped: true, message: 'No Google Apps Script URL saved.' };
+      }
+
+      const payload = {
+        action: 'saveApplication',
+        record: {
+          ...record,
+          taskManagerEmail: TASK_MANAGER_EMAILS[record.taskManager] || '',
+          replyLetterHtml: buildReplyLetterHtml(record),
+          documents: (record.documents || []).map(doc => ({
+            name: doc.name,
+            type: doc.type,
+            size: doc.size,
+            base64: doc.base64 || String(doc.dataUrl).split(',')[1]
+          }))
+        }
+      };
+
+      const response = await fetch(webAppUrl, {
+        method: 'POST',
+        mode: 'cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+      if (!result.success) {
+        throw new Error(result.message || 'Google Drive upload failed.');
+      }
+      return result;
+    }
+
     function renderRecords(records = allRecords) {
-      recordsBody.innerHTML = '';
+      recordsList.innerHTML = '';
 
       if (!records.length) {
-        recordsBody.innerHTML = `
-          <tr>
-            <td colspan="8" class="empty">No records found.</td>
-          </tr>
+        recordsList.innerHTML = `
+          <div class="empty-state">
+            <strong>No records found.</strong><br>
+            Add a new application above to start your database.
+          </div>
         `;
         return;
       }
@@ -640,64 +880,115 @@
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
         .forEach(record => {
           const fullName = `${record.firstName} ${record.lastName}`.trim();
-          const pdfList = (record.documents || []).map(doc => `
-            <div style="margin-bottom:7px;">
-              <span class="pill">PDF</span>
-              <div>${escapeHtml(doc.name)}</div>
-              <div class="small-actions" style="margin-top:5px;">
+          const managerEmail = TASK_MANAGER_EMAILS[record.taskManager] || '';
+          const googleStatus = record.googleDriveFolderUrl
+            ? `<a class="button-link success" href="${record.googleDriveFolderUrl}" target="_blank" rel="noopener">Open Drive Folder</a>`
+            : `<span class="badge orange">Local Only</span>`;
+
+          const documentList = (record.documents || []).map(doc => `
+            <div class="document-row">
+              <div>
+                <strong>${escapeHtml(doc.name)}</strong><br>
+                <span class="muted">${Math.round((doc.size || 0) / 1024)} KB</span>
+              </div>
+              <div class="mini-actions">
                 <button class="secondary" onclick="viewPdf('${doc.dataUrl}')">View</button>
                 <button class="secondary" onclick="downloadDataUrl('${doc.dataUrl}', '${escapeHtml(doc.name)}')">Download</button>
               </div>
             </div>
-          `).join('') || '<span class="muted">No PDF uploaded</span>';
+          `).join('') || '<p class="muted">No PDF uploaded.</p>';
 
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td><strong>${escapeHtml(fullName)}</strong></td>
-            <td>${escapeHtml(record.institution)}</td>
-            <td>${formatDate(record.dateReceive)}</td>
-            <td>${escapeHtml(record.email)}</td>
-            <td>${escapeHtml(record.degree)}</td>
-            <td>${escapeHtml(record.degreeCountry)}</td>
-            <td>${pdfList}</td>
-            <td>
-              <div class="small-actions">
-                <button class="primary" onclick="editApplication('${record.id}')">Edit</button>
-                <button class="success" onclick="downloadReplyLetter('${record.id}')">Word Letter</button>
-                <button class="danger" onclick="removeApplication('${record.id}')">Delete</button>
+          const card = document.createElement('article');
+          card.className = 'record-card';
+          card.innerHTML = `
+            <div class="record-top">
+              <div>
+                <p class="record-name">${escapeHtml(fullName)}</p>
+                <div class="record-meta">${escapeHtml(record.institution)} • Received ${formatDate(record.dateReceive)}</div>
               </div>
-            </td>
+              <div class="mini-actions">
+                <span class="badge green">${escapeHtml(record.taskManager || 'No Manager')}</span>
+                ${googleStatus}
+              </div>
+            </div>
+
+            <div class="info-grid">
+              <div class="info-item">
+                <div class="info-label">Applicant Email</div>
+                <div class="info-value">${escapeHtml(record.email)}</div>
+              </div>
+              <div class="info-item">
+                <div class="info-label">Degree</div>
+                <div class="info-value">${escapeHtml(record.degree)}</div>
+              </div>
+              <div class="info-item">
+                <div class="info-label">Country</div>
+                <div class="info-value">${escapeHtml(record.degreeCountry)}</div>
+              </div>
+              <div class="info-item">
+                <div class="info-label">Task Manager</div>
+                <div class="info-value">${escapeHtml(record.taskManager || '')}</div>
+              </div>
+              <div class="info-item">
+                <div class="info-label">Manager Email</div>
+                <div class="info-value">${escapeHtml(managerEmail)}</div>
+              </div>
+              <div class="info-item">
+                <div class="info-label">Last Updated</div>
+                <div class="info-value">${new Date(record.updatedAt).toLocaleString('en-PH')}</div>
+              </div>
+            </div>
+
+            ${record.notes ? `<div class="info-item" style="margin-bottom:14px;"><div class="info-label">Notes</div><div class="info-value">${escapeHtml(record.notes)}</div></div>` : ''}
+
+            <div>
+              <div class="info-label">Uploaded PDF Documents</div>
+              <div class="document-list">${documentList}</div>
+            </div>
+
+            <div class="actions">
+              <button class="primary" onclick="editApplication('${record.id}')">Edit</button>
+              <button class="success" onclick="downloadReplyLetter('${record.id}')">Download Word Reply Letter</button>
+              <button class="secondary" onclick="resendToDrive('${record.id}')">Send Again to Google Drive</button>
+              <button class="danger" onclick="removeApplication('${record.id}')">Delete</button>
+            </div>
           `;
-          recordsBody.appendChild(row);
+
+          recordsList.appendChild(card);
         });
     }
 
     async function refreshRecords() {
       allRecords = await getAllRecords();
-      applySearch();
+      applyFilters();
     }
 
-    function applySearch() {
+    function applyFilters() {
       const term = searchInput.value.toLowerCase().trim();
-      if (!term) {
-        renderRecords(allRecords);
-        return;
+      const manager = managerFilter.value;
+
+      let filtered = allRecords;
+
+      if (manager) {
+        filtered = filtered.filter(record => record.taskManager === manager);
       }
 
-      const filtered = allRecords.filter(record => {
-        const searchable = [
-          record.firstName,
-          record.lastName,
-          record.institution,
-          record.email,
-          record.degree,
-          record.degreeCountry,
-          record.dateReceive,
-          record.notes
-        ].join(' ').toLowerCase();
+      if (term) {
+        filtered = filtered.filter(record => {
+          const searchable = [
+            record.firstName,
+            record.lastName,
+            record.institution,
+            record.email,
+            record.degree,
+            record.degreeCountry,
+            record.taskManager,
+            record.notes
+          ].join(' ').toLowerCase();
 
-        return searchable.includes(term);
-      });
+          return searchable.includes(term);
+        });
+      }
 
       renderRecords(filtered);
     }
@@ -706,7 +997,9 @@
       form.reset();
       fields.recordId.value = '';
       formTitle.textContent = 'Add New Application';
-      saveBtn.textContent = 'Save Application';
+      modeBadge.textContent = 'New Record';
+      modeBadge.className = 'badge';
+      saveBtn.textContent = 'Submit Application';
     }
 
     window.editApplication = function(id) {
@@ -721,12 +1014,15 @@
       fields.email.value = record.email || '';
       fields.degree.value = record.degree || '';
       fields.degreeCountry.value = record.degreeCountry || '';
+      fields.taskManager.value = record.taskManager || '';
       fields.notes.value = record.notes || '';
       fields.documents.value = '';
 
       formTitle.textContent = 'Edit Application';
+      modeBadge.textContent = 'Edit Mode';
+      modeBadge.className = 'badge orange';
       saveBtn.textContent = 'Update Application';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: form.offsetTop - 110, behavior: 'smooth' });
     };
 
     window.removeApplication = async function(id) {
@@ -734,51 +1030,156 @@
       if (!record) return;
 
       const fullName = `${record.firstName} ${record.lastName}`.trim();
-      if (!confirm(`Delete the record of ${fullName}? This cannot be undone.`)) return;
+      if (!confirm(`Delete the local record of ${fullName}? This will not delete files already sent to Google Drive.`)) return;
 
       await deleteRecord(id);
       await refreshRecords();
+      showToast('Local record deleted.');
+    };
+
+    window.resendToDrive = async function(id) {
+      const record = allRecords.find(item => item.id === id);
+      if (!record) return;
+
+      try {
+        setLoading(true);
+        const result = await sendToGoogleDrive(record);
+        if (result.success) {
+          record.googleDriveFolderUrl = result.folderUrl || record.googleDriveFolderUrl;
+          record.googleDriveFileUrls = result.fileUrls || record.googleDriveFileUrls || [];
+          record.emailSentTo = result.emailSentTo || record.emailSentTo;
+          record.updatedAt = new Date().toISOString();
+          await saveRecord(record);
+          await refreshRecords();
+          showToast('Record sent again to Google Drive and email notification sent.');
+        }
+      } catch (error) {
+        console.error(error);
+        alert(error.message || 'Failed to send to Google Drive.');
+      } finally {
+        setLoading(false);
+      }
     };
 
     form.addEventListener('submit', async event => {
       event.preventDefault();
+      setLoading(true);
 
-      const existingId = fields.recordId.value;
-      const existingRecord = allRecords.find(item => item.id === existingId);
-      const newDocuments = await filesToObjects(fields.documents.files);
+      try {
+        const existingId = fields.recordId.value;
+        const existingRecord = allRecords.find(item => item.id === existingId);
+        const newDocuments = await filesToObjects(fields.documents.files);
 
-      const record = {
-        id: existingId || crypto.randomUUID(),
-        firstName: fields.firstName.value.trim(),
-        lastName: fields.lastName.value.trim(),
-        institution: fields.institution.value.trim(),
-        dateReceive: fields.dateReceive.value,
-        email: fields.email.value.trim(),
-        degree: fields.degree.value.trim(),
-        degreeCountry: fields.degreeCountry.value.trim(),
-        notes: fields.notes.value.trim(),
-        documents: [
-          ...(existingRecord?.documents || []),
-          ...newDocuments
-        ],
-        createdAt: existingRecord?.createdAt || new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      };
+        const record = {
+          id: existingId || crypto.randomUUID(),
+          firstName: fields.firstName.value.trim(),
+          lastName: fields.lastName.value.trim(),
+          institution: fields.institution.value.trim(),
+          dateReceive: fields.dateReceive.value,
+          email: fields.email.value.trim(),
+          degree: fields.degree.value.trim(),
+          degreeCountry: fields.degreeCountry.value.trim(),
+          taskManager: fields.taskManager.value,
+          taskManagerEmail: TASK_MANAGER_EMAILS[fields.taskManager.value],
+          notes: fields.notes.value.trim(),
+          documents: [
+            ...(existingRecord?.documents || []),
+            ...newDocuments
+          ],
+          googleDriveFolderUrl: existingRecord?.googleDriveFolderUrl || '',
+          googleDriveFileUrls: existingRecord?.googleDriveFileUrls || [],
+          emailSentTo: existingRecord?.emailSentTo || '',
+          createdAt: existingRecord?.createdAt || new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        };
 
-      await saveRecord(record);
-      resetForm();
-      await refreshRecords();
-      alert(existingId ? 'Application updated successfully.' : 'Application saved successfully.');
+        await saveRecord(record);
+
+        try {
+          const driveResult = await sendToGoogleDrive(record);
+          if (driveResult.success) {
+            record.googleDriveFolderUrl = driveResult.folderUrl || '';
+            record.googleDriveFileUrls = driveResult.fileUrls || [];
+            record.emailSentTo = driveResult.emailSentTo || '';
+            record.updatedAt = new Date().toISOString();
+            await saveRecord(record);
+            showToast('Application saved locally, uploaded to Google Drive, and emailed to task manager.');
+          } else if (driveResult.skipped) {
+            showToast('Application saved locally. Add Apps Script URL to send to Google Drive.');
+          }
+        } catch (driveError) {
+          console.error(driveError);
+          showToast('Saved locally, but Google Drive/email failed. Check Apps Script URL and permissions.');
+        }
+
+        resetForm();
+        await refreshRecords();
+      } catch (error) {
+        console.error(error);
+        alert(error.message || 'Failed to save application.');
+      } finally {
+        setLoading(false);
+      }
     });
 
     resetBtn.addEventListener('click', resetForm);
-    searchInput.addEventListener('input', applySearch);
+    searchInput.addEventListener('input', applyFilters);
+    managerFilter.addEventListener('change', applyFilters);
+
+    saveScriptUrlBtn.addEventListener('click', () => {
+      const value = scriptUrl.value.trim();
+      if (!value) {
+        alert('Please paste your Google Apps Script Web App URL.');
+        return;
+      }
+      localStorage.setItem(SCRIPT_URL_KEY, value);
+      updateConnectionStatus();
+      showToast('Google Apps Script URL saved.');
+    });
+
+    testConnectionBtn.addEventListener('click', async () => {
+      const url = localStorage.getItem(SCRIPT_URL_KEY) || scriptUrl.value.trim();
+      if (!url) {
+        alert('Please save your Google Apps Script Web App URL first.');
+        return;
+      }
+
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          mode: 'cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'testConnection' })
+        });
+        const result = await response.json();
+        if (result.success) {
+          showToast('Connection successful. Google Apps Script is ready.');
+        } else {
+          alert(result.message || 'Connection test failed.');
+        }
+      } catch (error) {
+        console.error(error);
+        alert('Connection failed. Check the Web App URL and deployment access.');
+      }
+    });
 
     exportJsonBtn.addEventListener('click', () => {
       const exportData = allRecords.map(record => ({
-        ...record,
+        id: record.id,
+        firstName: record.firstName,
+        lastName: record.lastName,
+        institution: record.institution,
+        dateReceive: record.dateReceive,
+        email: record.email,
+        degree: record.degree,
+        degreeCountry: record.degreeCountry,
+        taskManager: record.taskManager,
+        taskManagerEmail: TASK_MANAGER_EMAILS[record.taskManager],
+        notes: record.notes,
+        googleDriveFolderUrl: record.googleDriveFolderUrl,
+        createdAt: record.createdAt,
+        updatedAt: record.updatedAt,
         documents: (record.documents || []).map(doc => ({
-          id: doc.id,
           name: doc.name,
           type: doc.type,
           size: doc.size,
@@ -798,11 +1199,15 @@
     });
 
     clearAllBtn.addEventListener('click', async () => {
-      if (!confirm('Delete all records and uploaded PDFs from this browser?')) return;
+      if (!confirm('Delete all local records and uploaded PDFs from this browser? This will not delete files already sent to Google Drive.')) return;
       await clearRecords();
       resetForm();
       await refreshRecords();
+      showToast('All local records deleted.');
     });
+
+    scriptUrl.value = localStorage.getItem(SCRIPT_URL_KEY) || '';
+    updateConnectionStatus();
 
     openDatabase()
       .then(refreshRecords)
