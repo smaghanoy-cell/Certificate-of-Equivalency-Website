@@ -4,13 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Equivalency Application Management System</title>
+
   <style>
     :root {
       --primary: #1d4ed8;
-      --primary-light: #dbeafe;
       --primary-dark: #1e3a8a;
       --success: #15803d;
       --danger: #b91c1c;
+      --warning: #d97706;
       --bg: #f3f6fb;
       --card: #ffffff;
       --text: #0f172a;
@@ -21,9 +22,9 @@
       --radius: 20px;
     }
 
-    * { box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -34,7 +35,7 @@
       color: var(--text);
     }
 
-    .app-header {
+    header {
       background: linear-gradient(135deg, #0f172a, #1d4ed8);
       color: white;
       padding: 34px 18px 42px;
@@ -119,7 +120,8 @@
       color: #0f172a;
     }
 
-    .help-text, .muted {
+    .help-text,
+    .muted {
       color: var(--muted);
       font-size: 0.92rem;
       line-height: 1.45;
@@ -132,9 +134,12 @@
       border-radius: 16px;
       padding: 14px 16px;
       line-height: 1.5;
+      margin-bottom: 16px;
     }
 
-    .setup-box strong { color: #172554; }
+    .setup-box strong {
+      color: #172554;
+    }
 
     .form-grid {
       display: grid;
@@ -142,7 +147,9 @@
       gap: 16px;
     }
 
-    .form-grid .full { grid-column: 1 / -1; }
+    .full {
+      grid-column: 1 / -1;
+    }
 
     label {
       display: block;
@@ -152,7 +159,9 @@
       margin-bottom: 7px;
     }
 
-    input, select, textarea {
+    input,
+    select,
+    textarea {
       width: 100%;
       border: 1px solid #cbd5e1;
       border-radius: 13px;
@@ -164,7 +173,9 @@
       transition: 0.18s ease;
     }
 
-    input:focus, select:focus, textarea:focus {
+    input:focus,
+    select:focus,
+    textarea:focus {
       border-color: var(--primary);
       box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
     }
@@ -188,7 +199,8 @@
       margin-top: 20px;
     }
 
-    button, .button-link {
+    button,
+    .button-link {
       border: none;
       border-radius: 13px;
       padding: 11px 15px;
@@ -208,14 +220,42 @@
       cursor: not-allowed;
     }
 
-    .primary { background: var(--primary); color: white; }
-    .primary:hover:not(:disabled) { background: var(--primary-dark); transform: translateY(-1px); }
-    .secondary { background: #e2e8f0; color: #0f172a; }
-    .secondary:hover:not(:disabled) { background: #cbd5e1; }
-    .danger { background: var(--danger); color: white; }
-    .danger:hover:not(:disabled) { background: #991b1b; }
-    .success { background: var(--success); color: white; }
-    .success:hover:not(:disabled) { background: #166534; }
+    .primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .primary:hover:not(:disabled) {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .secondary {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .secondary:hover:not(:disabled) {
+      background: #cbd5e1;
+    }
+
+    .danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .danger:hover:not(:disabled) {
+      background: #991b1b;
+    }
+
+    .success {
+      background: var(--success);
+      color: white;
+    }
+
+    .success:hover:not(:disabled) {
+      background: #166534;
+    }
 
     .toolbar {
       display: grid;
@@ -294,14 +334,21 @@
       gap: 6px;
       border-radius: 999px;
       padding: 7px 11px;
-      background: var(--primary-light);
+      background: #dbeafe;
       color: #1e40af;
       font-weight: 900;
       font-size: 0.78rem;
     }
 
-    .badge.green { background: #dcfce7; color: #166534; }
-    .badge.orange { background: #ffedd5; color: #9a3412; }
+    .badge.green {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .badge.orange {
+      background: #ffedd5;
+      color: #9a3412;
+    }
 
     .document-list {
       display: grid;
@@ -327,7 +374,8 @@
       flex-wrap: wrap;
     }
 
-    .mini-actions button, .mini-actions .button-link {
+    .mini-actions button,
+    .mini-actions .button-link {
       padding: 8px 10px;
       font-size: 0.78rem;
       border-radius: 10px;
@@ -384,25 +432,42 @@
     }
 
     @keyframes loading {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(240%); }
+      0% {
+        transform: translateX(-100%);
+      }
+
+      100% {
+        transform: translateX(240%);
+      }
     }
 
     @media (max-width: 850px) {
-      .form-grid, .info-grid, .toolbar { grid-template-columns: 1fr; }
-      .header-inner, .record-top { align-items: flex-start; }
-      .status-pill { white-space: normal; }
+      .form-grid,
+      .info-grid,
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .header-inner,
+      .record-top {
+        align-items: flex-start;
+      }
+
+      .status-pill {
+        white-space: normal;
+      }
     }
   </style>
 </head>
+
 <body>
-  <header class="app-header">
+  <header>
     <div class="header-inner">
       <div class="brand">
         <div class="logo">EA</div>
         <div>
           <h1>Equivalency Application Management System</h1>
-          <p class="subtitle">Professional database for applicant information, uploaded PDF documents, Google Drive filing, email routing, and reply-letter generation.</p>
+          <p class="subtitle">Applicant database, PDF upload, Google Drive filing, email routing, and Word reply-letter generation.</p>
         </div>
       </div>
       <div class="status-pill" id="connectionStatus">Local Only - Add Web App URL</div>
@@ -414,19 +479,19 @@
       <div class="section-title">
         <div>
           <h2>Google Drive and Email Setup</h2>
-          <p class="help-text">Paste your Google Apps Script Web App URL below. This allows the website to save the applicant record and uploaded PDFs to Google Drive, then email the assigned task manager.</p>
+          <p class="help-text">Paste your Google Apps Script Web App URL here. This connects the website to Google Drive and email.</p>
         </div>
       </div>
 
       <div class="setup-box">
-        <strong>Required:</strong> Deploy the included <strong>Code.gs</strong> file as a Google Apps Script Web App, then paste the deployment URL here.
+        <strong>Important:</strong> Because Google Apps Script blocks normal browser checking, the test button will only send a request. The real test is submitting one sample application and checking Google Drive.
       </div>
 
-      <div class="form-grid" style="margin-top:16px;">
+      <div class="form-grid">
         <div class="full">
           <label for="scriptUrl">Google Apps Script Web App URL</label>
           <input id="scriptUrl" placeholder="https://script.google.com/macros/s/AKfycb.../exec" />
-          <p class="field-note">This URL is saved only in your browser. You can update it anytime.</p>
+          <p class="field-note">Paste your Apps Script URL here, then click Save Web App URL.</p>
         </div>
       </div>
 
@@ -440,7 +505,7 @@
       <div class="section-title">
         <div>
           <h2 id="formTitle">Add New Application</h2>
-          <p class="help-text">Fill out the applicant details from top to bottom, upload PDF documents, choose the task manager, then submit.</p>
+          <p class="help-text">Fill out the applicant details, upload PDF documents, choose a task manager, then submit.</p>
         </div>
         <span class="badge" id="modeBadge">New Record</span>
       </div>
@@ -505,7 +570,9 @@
           </div>
         </div>
 
-        <div class="progress" id="progressBar"><span></span></div>
+        <div class="progress" id="progressBar">
+          <span></span>
+        </div>
 
         <div class="actions">
           <button type="submit" class="primary" id="saveBtn">Submit Application</button>
@@ -518,7 +585,7 @@
       <div class="section-title">
         <div>
           <h2>Application Database</h2>
-          <p class="help-text">All information appears below in card format to avoid side scrolling. Use search and filter to find records quickly.</p>
+          <p class="help-text">Records are shown as cards to avoid side scrolling.</p>
         </div>
       </div>
 
@@ -543,7 +610,7 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    const DB_NAME = 'equivalencyApplicationDB_v2';
+    const DB_NAME = 'equivalencyApplicationDB_v3';
     const DB_VERSION = 1;
     const STORE_NAME = 'applications';
     const SCRIPT_URL_KEY = 'equivalency_apps_script_url';
@@ -592,7 +659,7 @@
     function showToast(message) {
       toast.textContent = message;
       toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3600);
+      setTimeout(() => toast.classList.remove('show'), 4500);
     }
 
     function setLoading(isLoading) {
@@ -603,8 +670,9 @@
 
     function updateConnectionStatus() {
       const url = localStorage.getItem(SCRIPT_URL_KEY);
+
       if (url) {
-        connectionStatus.textContent = 'Google Drive Connected';
+        connectionStatus.textContent = 'Google Apps Script URL Saved';
         connectionStatus.style.background = 'rgba(22, 163, 74, 0.22)';
       } else {
         connectionStatus.textContent = 'Local Only - Add Web App URL';
@@ -618,6 +686,7 @@
 
         request.onupgradeneeded = event => {
           const database = event.target.result;
+
           if (!database.objectStoreNames.contains(STORE_NAME)) {
             database.createObjectStore(STORE_NAME, { keyPath: 'id' });
           }
@@ -670,6 +739,7 @@
 
     function filesToObjects(fileList) {
       const files = Array.from(fileList || []);
+
       return Promise.all(files.map(file => {
         return new Promise((resolve, reject) => {
           if (file.type !== 'application/pdf') {
@@ -678,6 +748,7 @@
           }
 
           const reader = new FileReader();
+
           reader.onload = () => {
             resolve({
               id: crypto.randomUUID(),
@@ -689,6 +760,7 @@
               uploadedAt: new Date().toISOString()
             });
           };
+
           reader.onerror = () => reject(reader.error);
           reader.readAsDataURL(file);
         });
@@ -697,7 +769,9 @@
 
     function formatDate(dateValue) {
       if (!dateValue) return '';
+
       const date = new Date(dateValue + 'T00:00:00');
+
       return date.toLocaleDateString('en-PH', {
         year: 'numeric',
         month: 'long',
@@ -714,6 +788,10 @@
         .replaceAll("'", '&#039;');
     }
 
+    function safeJson(value) {
+      return escapeHtml(JSON.stringify(value));
+    }
+
     function downloadDataUrl(dataUrl, fileName) {
       const link = document.createElement('a');
       link.href = dataUrl;
@@ -725,10 +803,12 @@
 
     function viewPdf(dataUrl) {
       const win = window.open();
+
       if (!win) {
         alert('Please allow pop-ups to view the PDF.');
         return;
       }
+
       win.document.write(`<iframe src="${dataUrl}" style="width:100%;height:100vh;border:0;"></iframe>`);
     }
 
@@ -812,6 +892,7 @@
 
     function downloadReplyLetter(recordId) {
       const record = allRecords.find(item => item.id === recordId);
+
       if (!record) return;
 
       const html = buildReplyLetterHtml(record);
@@ -825,13 +906,19 @@
       document.body.appendChild(link);
       link.click();
       link.remove();
+
       URL.revokeObjectURL(url);
     }
 
     async function sendToGoogleDrive(record) {
       const webAppUrl = localStorage.getItem(SCRIPT_URL_KEY);
+
       if (!webAppUrl) {
-        return { success: false, skipped: true, message: 'No Google Apps Script URL saved.' };
+        return {
+          success: false,
+          skipped: true,
+          message: 'No Google Apps Script URL saved.'
+        };
       }
 
       const payload = {
@@ -849,18 +936,46 @@
         }
       };
 
-      const response = await fetch(webAppUrl, {
+      await fetch(webAppUrl, {
         method: 'POST',
-        mode: 'cors',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8'
+        },
         body: JSON.stringify(payload)
       });
 
-      const result = await response.json();
-      if (!result.success) {
-        throw new Error(result.message || 'Google Drive upload failed.');
+      return {
+        success: true,
+        message: 'Request sent to Google Apps Script.'
+      };
+    }
+
+    async function testConnection() {
+      const url = localStorage.getItem(SCRIPT_URL_KEY) || scriptUrl.value.trim();
+
+      if (!url) {
+        alert('Please paste and save your Google Apps Script Web App URL first.');
+        return;
       }
-      return result;
+
+      try {
+        await fetch(url, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
+          body: JSON.stringify({
+            action: 'testConnection'
+          })
+        });
+
+        showToast('Connection request sent. Now submit one test application and check Google Drive.');
+      } catch (error) {
+        console.error(error);
+        alert('Connection request failed. Check if the Web App URL is correct.');
+      }
     }
 
     function renderRecords(records = allRecords) {
@@ -881,9 +996,6 @@
         .forEach(record => {
           const fullName = `${record.firstName} ${record.lastName}`.trim();
           const managerEmail = TASK_MANAGER_EMAILS[record.taskManager] || '';
-          const googleStatus = record.googleDriveFolderUrl
-            ? `<a class="button-link success" href="${record.googleDriveFolderUrl}" target="_blank" rel="noopener">Open Drive Folder</a>`
-            : `<span class="badge orange">Local Only</span>`;
 
           const documentList = (record.documents || []).map(doc => `
             <div class="document-row">
@@ -900,6 +1012,7 @@
 
           const card = document.createElement('article');
           card.className = 'record-card';
+
           card.innerHTML = `
             <div class="record-top">
               <div>
@@ -908,7 +1021,7 @@
               </div>
               <div class="mini-actions">
                 <span class="badge green">${escapeHtml(record.taskManager || 'No Manager')}</span>
-                ${googleStatus}
+                <span class="badge orange">${record.sentToGoogleDrive ? 'Sent to Google Drive' : 'Local Only'}</span>
               </div>
             </div>
 
@@ -917,22 +1030,27 @@
                 <div class="info-label">Applicant Email</div>
                 <div class="info-value">${escapeHtml(record.email)}</div>
               </div>
+
               <div class="info-item">
                 <div class="info-label">Degree</div>
                 <div class="info-value">${escapeHtml(record.degree)}</div>
               </div>
+
               <div class="info-item">
                 <div class="info-label">Country</div>
                 <div class="info-value">${escapeHtml(record.degreeCountry)}</div>
               </div>
+
               <div class="info-item">
                 <div class="info-label">Task Manager</div>
                 <div class="info-value">${escapeHtml(record.taskManager || '')}</div>
               </div>
+
               <div class="info-item">
                 <div class="info-label">Manager Email</div>
                 <div class="info-value">${escapeHtml(managerEmail)}</div>
               </div>
+
               <div class="info-item">
                 <div class="info-label">Last Updated</div>
                 <div class="info-value">${new Date(record.updatedAt).toLocaleString('en-PH')}</div>
@@ -1004,6 +1122,7 @@
 
     window.editApplication = function(id) {
       const record = allRecords.find(item => item.id === id);
+
       if (!record) return;
 
       fields.recordId.value = record.id;
@@ -1022,37 +1141,45 @@
       modeBadge.textContent = 'Edit Mode';
       modeBadge.className = 'badge orange';
       saveBtn.textContent = 'Update Application';
-      window.scrollTo({ top: form.offsetTop - 110, behavior: 'smooth' });
+
+      window.scrollTo({
+        top: form.offsetTop - 110,
+        behavior: 'smooth'
+      });
     };
 
     window.removeApplication = async function(id) {
       const record = allRecords.find(item => item.id === id);
+
       if (!record) return;
 
       const fullName = `${record.firstName} ${record.lastName}`.trim();
+
       if (!confirm(`Delete the local record of ${fullName}? This will not delete files already sent to Google Drive.`)) return;
 
       await deleteRecord(id);
       await refreshRecords();
+
       showToast('Local record deleted.');
     };
 
     window.resendToDrive = async function(id) {
       const record = allRecords.find(item => item.id === id);
+
       if (!record) return;
 
       try {
         setLoading(true);
-        const result = await sendToGoogleDrive(record);
-        if (result.success) {
-          record.googleDriveFolderUrl = result.folderUrl || record.googleDriveFolderUrl;
-          record.googleDriveFileUrls = result.fileUrls || record.googleDriveFileUrls || [];
-          record.emailSentTo = result.emailSentTo || record.emailSentTo;
-          record.updatedAt = new Date().toISOString();
-          await saveRecord(record);
-          await refreshRecords();
-          showToast('Record sent again to Google Drive and email notification sent.');
-        }
+
+        await sendToGoogleDrive(record);
+
+        record.sentToGoogleDrive = true;
+        record.updatedAt = new Date().toISOString();
+
+        await saveRecord(record);
+        await refreshRecords();
+
+        showToast('Request sent to Google Drive. Check your Google Drive folder.');
       } catch (error) {
         console.error(error);
         alert(error.message || 'Failed to send to Google Drive.');
@@ -1063,6 +1190,7 @@
 
     form.addEventListener('submit', async event => {
       event.preventDefault();
+
       setLoading(true);
 
       try {
@@ -1086,30 +1214,23 @@
             ...(existingRecord?.documents || []),
             ...newDocuments
           ],
-          googleDriveFolderUrl: existingRecord?.googleDriveFolderUrl || '',
-          googleDriveFileUrls: existingRecord?.googleDriveFileUrls || [],
-          emailSentTo: existingRecord?.emailSentTo || '',
+          sentToGoogleDrive: existingRecord?.sentToGoogleDrive || false,
           createdAt: existingRecord?.createdAt || new Date().toISOString(),
           updatedAt: new Date().toISOString()
         };
 
         await saveRecord(record);
 
-        try {
-          const driveResult = await sendToGoogleDrive(record);
-          if (driveResult.success) {
-            record.googleDriveFolderUrl = driveResult.folderUrl || '';
-            record.googleDriveFileUrls = driveResult.fileUrls || [];
-            record.emailSentTo = driveResult.emailSentTo || '';
-            record.updatedAt = new Date().toISOString();
-            await saveRecord(record);
-            showToast('Application saved locally, uploaded to Google Drive, and emailed to task manager.');
-          } else if (driveResult.skipped) {
-            showToast('Application saved locally. Add Apps Script URL to send to Google Drive.');
-          }
-        } catch (driveError) {
-          console.error(driveError);
-          showToast('Saved locally, but Google Drive/email failed. Check Apps Script URL and permissions.');
+        const driveResult = await sendToGoogleDrive(record);
+
+        if (driveResult.success && !driveResult.skipped) {
+          record.sentToGoogleDrive = true;
+          record.updatedAt = new Date().toISOString();
+          await saveRecord(record);
+
+          showToast('Application saved and request sent to Google Drive. Check your Google Drive folder.');
+        } else {
+          showToast('Application saved locally. Add Apps Script URL to send to Google Drive.');
         }
 
         resetForm();
@@ -1128,40 +1249,19 @@
 
     saveScriptUrlBtn.addEventListener('click', () => {
       const value = scriptUrl.value.trim();
+
       if (!value) {
         alert('Please paste your Google Apps Script Web App URL.');
         return;
       }
+
       localStorage.setItem(SCRIPT_URL_KEY, value);
       updateConnectionStatus();
+
       showToast('Google Apps Script URL saved.');
     });
 
-    testConnectionBtn.addEventListener('click', async () => {
-      const url = localStorage.getItem(SCRIPT_URL_KEY) || scriptUrl.value.trim();
-      if (!url) {
-        alert('Please save your Google Apps Script Web App URL first.');
-        return;
-      }
-
-      try {
-        const response = await fetch(url, {
-          method: 'POST',
-          mode: 'cors',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ action: 'testConnection' })
-        });
-        const result = await response.json();
-        if (result.success) {
-          showToast('Connection successful. Google Apps Script is ready.');
-        } else {
-          alert(result.message || 'Connection test failed.');
-        }
-      } catch (error) {
-        console.error(error);
-        alert('Connection failed. Check the Web App URL and deployment access.');
-      }
-    });
+    testConnectionBtn.addEventListener('click', testConnection);
 
     exportJsonBtn.addEventListener('click', () => {
       const exportData = allRecords.map(record => ({
@@ -1176,7 +1276,7 @@
         taskManager: record.taskManager,
         taskManagerEmail: TASK_MANAGER_EMAILS[record.taskManager],
         notes: record.notes,
-        googleDriveFolderUrl: record.googleDriveFolderUrl,
+        sentToGoogleDrive: record.sentToGoogleDrive,
         createdAt: record.createdAt,
         updatedAt: record.updatedAt,
         documents: (record.documents || []).map(doc => ({
@@ -1187,22 +1287,30 @@
         }))
       }));
 
-      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], {
+        type: 'application/json'
+      });
+
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
+
       link.href = url;
       link.download = `equivalency_database_export_${new Date().toISOString().slice(0, 10)}.json`;
+
       document.body.appendChild(link);
       link.click();
       link.remove();
+
       URL.revokeObjectURL(url);
     });
 
     clearAllBtn.addEventListener('click', async () => {
       if (!confirm('Delete all local records and uploaded PDFs from this browser? This will not delete files already sent to Google Drive.')) return;
+
       await clearRecords();
       resetForm();
       await refreshRecords();
+
       showToast('All local records deleted.');
     });
 
