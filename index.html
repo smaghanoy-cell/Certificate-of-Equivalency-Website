@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Equivalency Application Database</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --danger: #dc2626;
+      --danger-dark: #b91c1c;
+      --success: #16a34a;
+      --warning: #f59e0b;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      color: white;
+      padding: 32px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.5rem, 3vw, 2.4rem);
+    }
+
+    header p {
+      margin: 0;
+      opacity: 0.9;
+    }
+
+    main {
+      width: min(1200px, 94%);
+      margin: 28px auto 50px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+
+    .card h2 {
+      margin: 0 0 16px;
+      font-size: 1.25rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 7px;
+      color: #334155;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      outline: none;
+      background: white;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .field {
+      margin-bottom: 14px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    button, .btn {
+      border: none;
+      border-radius: 12px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: 0.2s ease;
+    }
+
+    .primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .secondary {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .secondary:hover {
+      background: #cbd5e1;
+    }
+
+    .danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .danger:hover {
+      background: var(--danger-dark);
+    }
+
+    .success {
+      background: var(--success);
+      color: white;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .toolbar input {
+      max-width: 360px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 980px;
+      background: white;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      font-size: 0.92rem;
+    }
+
+    th {
+      background: #f1f5f9;
+      color: #334155;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    tr:hover td {
+      background: #f8fafc;
+    }
+
+    .pill {
+      display: inline-block;
+      background: #dbeafe;
+      color: #1e40af;
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin: 2px 0;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .small-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .small-actions button, .small-actions .btn {
+      padding: 8px 10px;
+      font-size: 0.78rem;
+      border-radius: 10px;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 32px 16px;
+      color: var(--muted);
+    }
+
+    .notice {
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      color: #9a3412;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+    }
+
+    .storage-tools {
+      margin-top: 20px;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+    }
+
+    @media (max-width: 950px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .row {
+        grid-template-columns: 1fr;
+      }
+
+      .toolbar input {
+        max-width: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Equivalency Application Database</h1>
+    <p>Manual input, PDF document storage, database table, edit/delete controls, and Word reply-letter generator.</p>
+  </header>
+
+  <main>
+    <div class="notice">
+      <strong>Important:</strong> This version works without a server and can run on GitHub Pages. Data and uploaded PDFs are saved only in the browser/device where you use this website. For shared office use, you will need a backend database such as Firebase, Supabase, or Google Sheets API.
+    </div>
+
+    <div class="grid">
+      <section class="card">
+        <h2 id="formTitle">Add New Application</h2>
+        <form id="applicationForm">
+          <input type="hidden" id="recordId" />
+
+          <div class="row">
+            <div class="field">
+              <label for="firstName">First Name</label>
+              <input id="firstName" required placeholder="Juan" />
+            </div>
+
+            <div class="field">
+              <label for="lastName">Last Name</label>
+              <input id="lastName" required placeholder="Dela Cruz" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="institution">Institution</label>
+            <input id="institution" required placeholder="Name of school / institution" />
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label for="dateReceive">Date Received</label>
+              <input id="dateReceive" type="date" required />
+            </div>
+
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" type="email" required placeholder="example@email.com" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="degree">Degree</label>
+            <input id="degree" required placeholder="Bachelor of Science in..." />
+          </div>
+
+          <div class="field">
+            <label for="degreeCountry">Degree Obtained in the Country</label>
+            <input id="degreeCountry" required placeholder="Philippines / USA / Canada / etc." />
+          </div>
+
+          <div class="field">
+            <label for="notes">Notes / Remarks</label>
+            <textarea id="notes" placeholder="Optional remarks"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="documents">Upload Documents / PDF Files</label>
+            <input id="documents" type="file" accept="application/pdf" multiple />
+            <p class="muted">You can upload one or more PDF files. When editing, choose new files only if you want to add more documents.</p>
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="primary" id="saveBtn">Save Application</button>
+            <button type="button" class="secondary" id="resetBtn">Clear</button>
+          </div>
+        </form>
+
+        <div class="storage-tools">
+          <h2>Backup Tools</h2>
+          <p class="muted">Export saves applicant data only. PDFs are stored in this browser database.</p>
+          <div class="actions">
+            <button class="secondary" id="exportJsonBtn">Export JSON</button>
+            <button class="danger" id="clearAllBtn">Delete All Records</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="toolbar">
+          <h2>Application Database</h2>
+          <input id="searchInput" placeholder="Search name, institution, email, degree..." />
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Institution</th>
+                <th>Date Received</th>
+                <th>Email</th>
+                <th>Degree</th>
+                <th>Country</th>
+                <th>PDF Files</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="recordsBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const DB_NAME = 'equivalencyApplicationDB';
+    const DB_VERSION = 1;
+    const STORE_NAME = 'applications';
+
+    let db;
+    let allRecords = [];
+
+    const form = document.getElementById('applicationForm');
+    const formTitle = document.getElementById('formTitle');
+    const saveBtn = document.getElementById('saveBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const searchInput = document.getElementById('searchInput');
+    const recordsBody = document.getElementById('recordsBody');
+    const exportJsonBtn = document.getElementById('exportJsonBtn');
+    const clearAllBtn = document.getElementById('clearAllBtn');
+
+    const fields = {
+      recordId: document.getElementById('recordId'),
+      firstName: document.getElementById('firstName'),
+      lastName: document.getElementById('lastName'),
+      institution: document.getElementById('institution'),
+      dateReceive: document.getElementById('dateReceive'),
+      email: document.getElementById('email'),
+      degree: document.getElementById('degree'),
+      degreeCountry: document.getElementById('degreeCountry'),
+      notes: document.getElementById('notes'),
+      documents: document.getElementById('documents')
+    };
+
+    function openDatabase() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+        request.onupgradeneeded = event => {
+          const database = event.target.result;
+          if (!database.objectStoreNames.contains(STORE_NAME)) {
+            database.createObjectStore(STORE_NAME, { keyPath: 'id' });
+          }
+        };
+
+        request.onsuccess = event => {
+          db = event.target.result;
+          resolve(db);
+        };
+
+        request.onerror = event => reject(event.target.error);
+      });
+    }
+
+    function transactionStore(mode = 'readonly') {
+      return db.transaction(STORE_NAME, mode).objectStore(STORE_NAME);
+    }
+
+    function getAllRecords() {
+      return new Promise((resolve, reject) => {
+        const request = transactionStore().getAll();
+        request.onsuccess = () => resolve(request.result || []);
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    function saveRecord(record) {
+      return new Promise((resolve, reject) => {
+        const request = transactionStore('readwrite').put(record);
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    function deleteRecord(id) {
+      return new Promise((resolve, reject) => {
+        const request = transactionStore('readwrite').delete(id);
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    function clearRecords() {
+      return new Promise((resolve, reject) => {
+        const request = transactionStore('readwrite').clear();
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    function filesToObjects(fileList) {
+      const files = Array.from(fileList || []);
+      return Promise.all(files.map(file => {
+        return new Promise(resolve => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            resolve({
+              id: crypto.randomUUID(),
+              name: file.name,
+              type: file.type,
+              size: file.size,
+              dataUrl: reader.result,
+              uploadedAt: new Date().toISOString()
+            });
+          };
+          reader.readAsDataURL(file);
+        });
+      }));
+    }
+
+    function formatDate(dateValue) {
+      if (!dateValue) return '';
+      const date = new Date(dateValue + 'T00:00:00');
+      return date.toLocaleDateString('en-PH', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    }
+
+    function escapeHtml(value) {
+      return String(value || '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function downloadDataUrl(dataUrl, fileName) {
+      const link = document.createElement('a');
+      link.href = dataUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    }
+
+    function viewPdf(dataUrl) {
+      const win = window.open();
+      if (!win) {
+        alert('Please allow pop-ups to view the PDF.');
+        return;
+      }
+      win.document.write(`
+        <iframe src="${dataUrl}" style="width:100%;height:100vh;border:0;"></iframe>
+      `);
+    }
+
+    function buildReplyLetterHtml(record) {
+      const today = new Date().toLocaleDateString('en-PH', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+
+      const fullName = `${record.firstName} ${record.lastName}`.trim();
+
+      return `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <title>Reply Letter - ${escapeHtml(fullName)}</title>
+          <style>
+            body {
+              font-family: Arial, Helvetica, sans-serif;
+              font-size: 12pt;
+              line-height: 1.5;
+              color: #000;
+              margin: 72px;
+            }
+            .date { text-align: right; margin-bottom: 36px; }
+            .subject { font-weight: bold; margin: 28px 0; }
+            .signature { margin-top: 48px; }
+          </style>
+        </head>
+        <body>
+          <div class="date">${today}</div>
+
+          <p>
+            <strong>${escapeHtml(fullName)}</strong><br>
+            ${escapeHtml(record.institution)}<br>
+            ${escapeHtml(record.email)}
+          </p>
+
+          <p>Dear ${escapeHtml(record.firstName)}:</p>
+
+          <p class="subject">Subject: Acknowledgment of Equivalency Application</p>
+
+          <p>
+            This is to acknowledge receipt of your application and submitted documents for evaluation.
+            Our office received your application on <strong>${formatDate(record.dateReceive)}</strong>.
+          </p>
+
+          <p>
+            Based on the information provided, your application concerns the degree
+            <strong>${escapeHtml(record.degree)}</strong>, obtained in
+            <strong>${escapeHtml(record.degreeCountry)}</strong>.
+          </p>
+
+          <p>
+            Please be informed that your documents will be reviewed in accordance with the applicable policies,
+            guidelines, and procedures. Should additional documents or clarification be required, our office will
+            contact you through the email address you provided.
+          </p>
+
+          <p>
+            Thank you.
+          </p>
+
+          <div class="signature">
+            <p>
+              Very truly yours,<br><br><br>
+              <strong>Authorized Officer</strong><br>
+              Office / Division
+            </p>
+          </div>
+        </body>
+        </html>
+      `;
+    }
+
+    function downloadReplyLetter(recordId) {
+      const record = allRecords.find(item => item.id === recordId);
+      if (!record) return;
+
+      const html = buildReplyLetterHtml(record);
+      const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
+      const url = URL.createObjectURL(blob);
+      const fullName = `${record.firstName}_${record.lastName}`.replace(/\s+/g, '_');
+
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `Reply_Letter_${fullName}.doc`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function renderRecords(records = allRecords) {
+      recordsBody.innerHTML = '';
+
+      if (!records.length) {
+        recordsBody.innerHTML = `
+          <tr>
+            <td colspan="8" class="empty">No records found.</td>
+          </tr>
+        `;
+        return;
+      }
+
+      records
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        .forEach(record => {
+          const fullName = `${record.firstName} ${record.lastName}`.trim();
+          const pdfList = (record.documents || []).map(doc => `
+            <div style="margin-bottom:7px;">
+              <span class="pill">PDF</span>
+              <div>${escapeHtml(doc.name)}</div>
+              <div class="small-actions" style="margin-top:5px;">
+                <button class="secondary" onclick="viewPdf('${doc.dataUrl}')">View</button>
+                <button class="secondary" onclick="downloadDataUrl('${doc.dataUrl}', '${escapeHtml(doc.name)}')">Download</button>
+              </div>
+            </div>
+          `).join('') || '<span class="muted">No PDF uploaded</span>';
+
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td><strong>${escapeHtml(fullName)}</strong></td>
+            <td>${escapeHtml(record.institution)}</td>
+            <td>${formatDate(record.dateReceive)}</td>
+            <td>${escapeHtml(record.email)}</td>
+            <td>${escapeHtml(record.degree)}</td>
+            <td>${escapeHtml(record.degreeCountry)}</td>
+            <td>${pdfList}</td>
+            <td>
+              <div class="small-actions">
+                <button class="primary" onclick="editApplication('${record.id}')">Edit</button>
+                <button class="success" onclick="downloadReplyLetter('${record.id}')">Word Letter</button>
+                <button class="danger" onclick="removeApplication('${record.id}')">Delete</button>
+              </div>
+            </td>
+          `;
+          recordsBody.appendChild(row);
+        });
+    }
+
+    async function refreshRecords() {
+      allRecords = await getAllRecords();
+      applySearch();
+    }
+
+    function applySearch() {
+      const term = searchInput.value.toLowerCase().trim();
+      if (!term) {
+        renderRecords(allRecords);
+        return;
+      }
+
+      const filtered = allRecords.filter(record => {
+        const searchable = [
+          record.firstName,
+          record.lastName,
+          record.institution,
+          record.email,
+          record.degree,
+          record.degreeCountry,
+          record.dateReceive,
+          record.notes
+        ].join(' ').toLowerCase();
+
+        return searchable.includes(term);
+      });
+
+      renderRecords(filtered);
+    }
+
+    function resetForm() {
+      form.reset();
+      fields.recordId.value = '';
+      formTitle.textContent = 'Add New Application';
+      saveBtn.textContent = 'Save Application';
+    }
+
+    window.editApplication = function(id) {
+      const record = allRecords.find(item => item.id === id);
+      if (!record) return;
+
+      fields.recordId.value = record.id;
+      fields.firstName.value = record.firstName || '';
+      fields.lastName.value = record.lastName || '';
+      fields.institution.value = record.institution || '';
+      fields.dateReceive.value = record.dateReceive || '';
+      fields.email.value = record.email || '';
+      fields.degree.value = record.degree || '';
+      fields.degreeCountry.value = record.degreeCountry || '';
+      fields.notes.value = record.notes || '';
+      fields.documents.value = '';
+
+      formTitle.textContent = 'Edit Application';
+      saveBtn.textContent = 'Update Application';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.removeApplication = async function(id) {
+      const record = allRecords.find(item => item.id === id);
+      if (!record) return;
+
+      const fullName = `${record.firstName} ${record.lastName}`.trim();
+      if (!confirm(`Delete the record of ${fullName}? This cannot be undone.`)) return;
+
+      await deleteRecord(id);
+      await refreshRecords();
+    };
+
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+
+      const existingId = fields.recordId.value;
+      const existingRecord = allRecords.find(item => item.id === existingId);
+      const newDocuments = await filesToObjects(fields.documents.files);
+
+      const record = {
+        id: existingId || crypto.randomUUID(),
+        firstName: fields.firstName.value.trim(),
+        lastName: fields.lastName.value.trim(),
+        institution: fields.institution.value.trim(),
+        dateReceive: fields.dateReceive.value,
+        email: fields.email.value.trim(),
+        degree: fields.degree.value.trim(),
+        degreeCountry: fields.degreeCountry.value.trim(),
+        notes: fields.notes.value.trim(),
+        documents: [
+          ...(existingRecord?.documents || []),
+          ...newDocuments
+        ],
+        createdAt: existingRecord?.createdAt || new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+
+      await saveRecord(record);
+      resetForm();
+      await refreshRecords();
+      alert(existingId ? 'Application updated successfully.' : 'Application saved successfully.');
+    });
+
+    resetBtn.addEventListener('click', resetForm);
+    searchInput.addEventListener('input', applySearch);
+
+    exportJsonBtn.addEventListener('click', () => {
+      const exportData = allRecords.map(record => ({
+        ...record,
+        documents: (record.documents || []).map(doc => ({
+          id: doc.id,
+          name: doc.name,
+          type: doc.type,
+          size: doc.size,
+          uploadedAt: doc.uploadedAt
+        }))
+      }));
+
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `equivalency_database_export_${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    clearAllBtn.addEventListener('click', async () => {
+      if (!confirm('Delete all records and uploaded PDFs from this browser?')) return;
+      await clearRecords();
+      resetForm();
+      await refreshRecords();
+    });
+
+    openDatabase()
+      .then(refreshRecords)
+      .catch(error => {
+        console.error(error);
+        alert('Database failed to open. Please use a modern browser such as Chrome or Edge.');
+      });
+  </script>
+</body>
+</html>
