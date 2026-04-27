@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Certificate of Equivalency Application</title>
 
   <style>
@@ -33,9 +32,7 @@
       --shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -50,7 +47,6 @@
       color: white;
       padding: 32px 20px;
       text-align: center;
-      position: relative;
     }
 
     header h1 {
@@ -120,11 +116,6 @@
       color: var(--text);
       font-size: 14px;
       outline: none;
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 90px;
     }
 
     input:focus,
@@ -219,19 +210,14 @@
       border: 1px solid rgba(220, 38, 38, 0.3);
     }
 
-    .page {
-      display: none;
-    }
-
-    .page.active {
-      display: block;
-    }
+    .page { display: none; }
+    .page.active { display: block; }
 
     .summary-boxes {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 14px;
-      margin-top: 10px;
+      margin-top: 14px;
     }
 
     @media (max-width: 900px) {
@@ -299,7 +285,7 @@
       font-size: 11px;
       text-align: center;
       color: var(--muted);
-      opacity: 0.65;
+      opacity: 0.75;
     }
 
     #topBtn {
@@ -323,7 +309,7 @@
 <body>
   <header>
     <h1>Certificate of Equivalency Application</h1>
-    <p>Submission of documents and monitoring of application summary</p>
+    <p>Submission of documents and application summary</p>
 
     <div class="top-actions">
       <button class="small-btn" onclick="showPage('submissionPage')">Submit Documents</button>
@@ -333,7 +319,7 @@
   </header>
 
   <main>
-    <!-- PAGE 1: SUBMISSION ONLY -->
+    <!-- PAGE 1 -->
     <section id="submissionPage" class="page active">
       <div class="card">
         <h2>Submission of Documents</h2>
@@ -351,7 +337,6 @@
               <label>First Name</label>
               <input type="text" id="firstName" name="firstName" required />
             </div>
-
             <div>
               <label>Last Name</label>
               <input type="text" id="lastName" name="lastName" required />
@@ -366,15 +351,11 @@
               <label>Email Address</label>
               <input type="email" id="email" name="email" required />
             </div>
-
             <div>
               <label>Contact Number</label>
               <input type="text" id="contactNumber" name="contactNumber" required />
             </div>
           </div>
-
-          <label>Complete Address</label>
-          <textarea id="address" name="address" required></textarea>
 
           <label>Country</label>
           <select id="country" name="country" required>
@@ -416,14 +397,13 @@
           <label>Send Documents To</label>
           <select id="sendTo" name="sendTo" required>
             <option value="">Select recipient</option>
-            <option value="Siegried|smaghanoy@ched.gov.ph">Siegried - smaghanoy@ched.gov.ph</option>
+            <option value="Siegried|smaghanoy@ched.gov">Siegried - smaghanoy@ched.gov</option>
             <option value="Ralph Lauren|rlking@ched.gov.ph">Ralph Lauren - rlking@ched.gov.ph</option>
           </select>
 
           <div id="requirementsContainer" class="requirements"></div>
 
           <button type="submit" class="submit-btn" id="submitBtn">Submit Application</button>
-
           <div id="statusBox" class="status"></div>
         </form>
 
@@ -433,12 +413,12 @@
       </div>
     </section>
 
-    <!-- PAGE 2: SUMMARY ONLY -->
+    <!-- PAGE 2 -->
     <section id="summaryPage" class="page">
       <div class="card">
         <h2>Application Summary</h2>
 
-        <button class="submit-btn" style="max-width: 220px; margin-top: 0;" onclick="loadSummary()">
+        <button class="submit-btn" style="max-width:220px;margin-top:0;" onclick="loadSummary()">
           Refresh Summary
         </button>
 
@@ -469,7 +449,7 @@
           <canvas id="summaryChart" width="700" height="320"></canvas>
         </div>
 
-        <h2 style="margin-top: 24px;">Recent Submissions</h2>
+        <h2 style="margin-top:24px;">Recent Submissions</h2>
         <div id="recentList" class="recent-list">
           <div class="recent-item">No submission loaded yet.</div>
         </div>
@@ -493,7 +473,6 @@
         "Duly signed request letter addressed to Dr. Jimmy G. Catanes, CESE, Director IV, Office of Programs and Standards Development, CHED, including complete name, address, contact information, and specific purpose.",
         "Information as to the mode of delivery of the earned degree and mode of acquiring the degree. If through scholarship, submit relevant documents."
       ],
-
       "Local Degree": [
         "Copy of the Diploma and Transcript of Records (TOR).",
         "Course descriptions of all the subjects/courses taken and learning outcomes.",
@@ -540,14 +519,12 @@
 
     function populateCountries() {
       const countrySelect = document.getElementById("country");
-
       countryNames.forEach(country => {
         const option = document.createElement("option");
         option.value = country;
         option.textContent = country;
         countrySelect.appendChild(option);
       });
-
       countrySelect.value = "Philippines";
     }
 
@@ -565,18 +542,11 @@
       requirements[type].forEach((req, index) => {
         const div = document.createElement("div");
         div.className = "req-item";
-
         div.innerHTML = `
           <p><strong>Requirement ${index + 1}:</strong> ${req}</p>
-          <input 
-            type="file" 
-            name="requirement_${index + 1}" 
-            id="requirement_${index + 1}" 
-            accept="application/pdf"
-          />
+          <input type="file" name="requirement_${index + 1}" id="requirement_${index + 1}" accept="application/pdf" />
           <small>PDF file only. Optional upload.</small>
         `;
-
         container.appendChild(div);
       });
     }
@@ -584,7 +554,7 @@
     function setupFormSubmit() {
       const form = document.getElementById("applicationForm");
 
-      form.addEventListener("submit", async function(e) {
+      form.addEventListener("submit", async function (e) {
         e.preventDefault();
 
         const submitBtn = document.getElementById("submitBtn");
@@ -606,26 +576,32 @@
             }
           });
 
-          const resultText = await response.text();
+          const rawText = await response.text();
 
           let result;
           try {
-            result = JSON.parse(resultText);
-          } catch (error) {
-            throw new Error("Invalid response from Google Apps Script.");
+            result = JSON.parse(rawText);
+          } catch (err) {
+            result = {
+              success: false,
+              message: rawText || "Invalid response from Google Apps Script."
+            };
           }
 
-          if (!result.success) {
+          const normalizedSuccess =
+            result.success === true ||
+            /saved successfully|submitted successfully|application saved successfully/i.test(String(result.message || ""));
+
+          if (!normalizedSuccess) {
             throw new Error(result.message || "Submission failed.");
           }
 
           statusBox.className = "status success";
-          statusBox.textContent = "Application submitted successfully. Data was saved to Google Spreadsheet.";
+          statusBox.textContent = "Application submitted successfully.";
 
           form.reset();
           document.getElementById("requirementsContainer").innerHTML = "";
           document.getElementById("country").value = "Philippines";
-
         } catch (error) {
           statusBox.className = "status error";
           statusBox.textContent = "Submission failed: " + error.message;
@@ -676,14 +652,13 @@
         institution: document.getElementById("institution").value.trim(),
         email: document.getElementById("email").value.trim(),
         contactNumber: document.getElementById("contactNumber").value.trim(),
-        address: document.getElementById("address").value.trim(),
         country: document.getElementById("country").value,
         purpose: document.getElementById("purpose").value,
         otherPurpose: document.getElementById("otherPurpose").value.trim(),
         modeOfDelivery: document.getElementById("modeOfDelivery").value,
         modeOfAcquiring: document.getElementById("modeOfAcquiring").value,
-        sendToName: sendToParts[0],
-        sendToEmail: sendToParts[1],
+        sendToName: sendToParts[0] || "",
+        sendToEmail: sendToParts[1] || "",
         files: files
       };
     }
@@ -691,20 +666,16 @@
     function fileToBase64(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
-
         reader.onload = () => {
           const base64 = reader.result.split(",")[1];
           resolve(base64);
         };
-
         reader.onerror = reject;
         reader.readAsDataURL(file);
       });
     }
 
     async function loadSummary() {
-      showPage("summaryPage");
-
       try {
         const response = await fetch(GOOGLE_APPS_SCRIPT_URL + "?action=summary");
         const result = await response.json();
@@ -720,7 +691,6 @@
 
         drawChart(result.summary.foreign, result.summary.local, result.summary.withPdf);
         renderRecentList(result.recent);
-
       } catch (error) {
         document.getElementById("recentList").innerHTML = `
           <div class="recent-item">Unable to load summary: ${error.message}</div>
@@ -740,7 +710,6 @@
       recent.forEach(item => {
         const div = document.createElement("div");
         div.className = "recent-item";
-
         div.innerHTML = `
           <strong>${item.firstName} ${item.lastName}</strong>
           ${item.applicationType} • ${item.institution || "No institution"}<br>
@@ -748,7 +717,6 @@
           Sent To: ${item.sendToName || ""} ${item.sendToEmail ? "(" + item.sendToEmail + ")" : ""}<br>
           PDF Uploaded: ${item.fileCount}
         `;
-
         recentList.appendChild(div);
       });
     }
@@ -756,7 +724,6 @@
     function drawChart(foreign, local, withPdf) {
       const canvas = document.getElementById("summaryChart");
       const ctx = canvas.getContext("2d");
-
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       const values = [foreign, local, withPdf];
@@ -771,7 +738,7 @@
 
       ctx.font = "16px Arial";
       ctx.fillStyle = getComputedStyle(document.body).getPropertyValue("--text");
-      ctx.fillText("Application Summary Graph", 240, 30);
+      ctx.fillText("Application Summary Graph", 230, 30);
 
       values.forEach((value, index) => {
         const x = 90 + index * (barWidth + gap);
@@ -787,20 +754,14 @@
     }
 
     function showPage(pageId) {
-      document.querySelectorAll(".page").forEach(page => {
-        page.classList.remove("active");
-      });
-
+      document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
       document.getElementById(pageId).classList.add("active");
 
       if (pageId === "summaryPage") {
         loadSummary();
       }
 
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     function toggleDarkMode() {
@@ -810,7 +771,7 @@
 
     const topBtn = document.getElementById("topBtn");
 
-    window.onscroll = function() {
+    window.onscroll = function () {
       if (document.body.scrollTop > 220 || document.documentElement.scrollTop > 220) {
         topBtn.style.display = "block";
       } else {
@@ -819,10 +780,7 @@
     };
 
     function topFunction() {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   </script>
 </body>
