@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Certificate of Equivalency Application</title>
 
   <style>
@@ -32,7 +33,9 @@
       --shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -80,7 +83,7 @@
     }
 
     main {
-      width: min(1050px, 94%);
+      width: min(1100px, 94%);
       margin: 28px auto 60px;
     }
 
@@ -116,6 +119,11 @@
       color: var(--text);
       font-size: 14px;
       outline: none;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
     }
 
     input:focus,
@@ -188,6 +196,17 @@
       cursor: not-allowed;
     }
 
+    .secondary-btn {
+      margin-top: 10px;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
     .status {
       margin-top: 14px;
       padding: 12px;
@@ -210,8 +229,13 @@
       border: 1px solid rgba(220, 38, 38, 0.3);
     }
 
-    .page { display: none; }
-    .page.active { display: block; }
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
 
     .summary-boxes {
       display: grid;
@@ -260,13 +284,15 @@
       max-height: 320px;
     }
 
-    .recent-list {
+    .recent-list,
+    .search-results {
       margin-top: 18px;
       display: grid;
       gap: 10px;
     }
 
-    .recent-item {
+    .recent-item,
+    .result-item {
       padding: 12px;
       border-radius: 12px;
       border: 1px solid var(--border);
@@ -274,7 +300,8 @@
       font-size: 14px;
     }
 
-    .recent-item strong {
+    .recent-item strong,
+    .result-item strong {
       display: block;
       color: var(--accent);
       margin-bottom: 4px;
@@ -309,61 +336,68 @@
 <body>
   <header>
     <h1>Certificate of Equivalency Application</h1>
-    <p>Submission of documents and application summary</p>
+    <p>Submission of documents, task assignment, editing, and application summary</p>
 
     <div class="top-actions">
       <button class="small-btn" onclick="showPage('submissionPage')">Submit Documents</button>
+      <button class="small-btn" onclick="showPage('editPage')">Edit Application</button>
       <button class="small-btn" onclick="showPage('summaryPage')">Application Summary</button>
       <button class="small-btn" onclick="toggleDarkMode()">Night Mode</button>
     </div>
   </header>
 
   <main>
-    <!-- PAGE 1 -->
     <section id="submissionPage" class="page active">
       <div class="card">
         <h2>Submission of Documents</h2>
 
         <form id="applicationForm">
           <label>Application Type</label>
-          <select id="applicationType" name="applicationType" required>
+          <select id="applicationType" required>
             <option value="">Select application type</option>
             <option value="Foreign Degree">Foreign Degree</option>
             <option value="Local Degree">Local Degree</option>
           </select>
 
+          <label>Submission Month</label>
+          <select id="submissionMonth" required>
+            <option value="">Select month</option>
+          </select>
+
           <div class="two-col">
             <div>
               <label>First Name</label>
-              <input type="text" id="firstName" name="firstName" required />
+              <input type="text" id="firstName" required />
             </div>
+
             <div>
               <label>Last Name</label>
-              <input type="text" id="lastName" name="lastName" required />
+              <input type="text" id="lastName" required />
             </div>
           </div>
 
           <label>Institution</label>
-          <input type="text" id="institution" name="institution" placeholder="Name of school / university / institution" required />
+          <input type="text" id="institution" placeholder="Name of school / university / institution" required />
 
           <div class="two-col">
             <div>
               <label>Email Address</label>
-              <input type="email" id="email" name="email" required />
+              <input type="email" id="email" required />
             </div>
+
             <div>
               <label>Contact Number</label>
-              <input type="text" id="contactNumber" name="contactNumber" required />
+              <input type="text" id="contactNumber" required />
             </div>
           </div>
 
           <label>Country</label>
-          <select id="country" name="country" required>
+          <select id="country" required>
             <option value="">Select country</option>
           </select>
 
           <label>Specific Purpose for Certificate of Equivalency</label>
-          <select id="purpose" name="purpose" required>
+          <select id="purpose" required>
             <option value="">Select purpose</option>
             <option value="Public Employment">Public Employment</option>
             <option value="Private Employment">Private Employment</option>
@@ -375,10 +409,10 @@
           </select>
 
           <label>If Other Purpose, please specify</label>
-          <input type="text" id="otherPurpose" name="otherPurpose" />
+          <input type="text" id="otherPurpose" />
 
           <label>Mode of Delivery of Earned Degree</label>
-          <select id="modeOfDelivery" name="modeOfDelivery" required>
+          <select id="modeOfDelivery" required>
             <option value="">Select mode of delivery</option>
             <option value="Face-to-face">Face-to-face</option>
             <option value="Online">Online</option>
@@ -388,32 +422,138 @@
           </select>
 
           <label>Mode of Acquiring the Degree</label>
-          <select id="modeOfAcquiring" name="modeOfAcquiring" required>
+          <select id="modeOfAcquiring" required>
             <option value="">Select mode of acquiring</option>
             <option value="Personal Expense">Personal Expense</option>
             <option value="Scholarship">Scholarship</option>
           </select>
 
-          <label>Send Documents To</label>
-          <select id="sendTo" name="sendTo" required>
-            <option value="">Select recipient</option>
-            <option value="Siegried|smaghanoy@ched.gov">Siegried - smaghanoy@ched.gov</option>
-            <option value="Ralph Lauren|rlking@ched.gov.ph">Ralph Lauren - rlking@ched.gov.ph</option>
+          <label>Task Manager</label>
+          <select id="taskManager" required>
+            <option value="">Select task manager</option>
+            <option value="Siegried|smaghanoy@ched.gov.ph">Siegried</option>
+            <option value="Ralph King|rlking@ched.gov.ph">Ralph King</option>
           </select>
 
           <div id="requirementsContainer" class="requirements"></div>
 
           <button type="submit" class="submit-btn" id="submitBtn">Submit Application</button>
+
           <div id="statusBox" class="status"></div>
         </form>
 
         <div class="footer-note">
-          PDF upload is optional. You may submit the form even without uploading PDF files.
+          PDF upload is optional. If applicant folder name already exists, the system will add date and time.
         </div>
       </div>
     </section>
 
-    <!-- PAGE 2 -->
+    <section id="editPage" class="page">
+      <div class="card">
+        <h2>Edit Existing Application</h2>
+
+        <label>Search by Record ID or Applicant Name</label>
+        <input type="text" id="editSearchInput" placeholder="Example: CE-20260427-001 or Dela Cruz" />
+
+        <button class="submit-btn" style="max-width: 220px;" onclick="searchApplications()">Search</button>
+
+        <div id="editSearchStatus" class="status"></div>
+        <div id="searchResults" class="search-results"></div>
+      </div>
+
+      <div class="card" style="margin-top:20px; display:none;" id="editFormCard">
+        <h2>Edit Record</h2>
+
+        <form id="editForm">
+          <label>Record ID</label>
+          <input type="text" id="editRecordId" readonly />
+
+          <label>Application Type</label>
+          <select id="editApplicationType" required>
+            <option value="">Select application type</option>
+            <option value="Foreign Degree">Foreign Degree</option>
+            <option value="Local Degree">Local Degree</option>
+          </select>
+
+          <label>Submission Month</label>
+          <select id="editSubmissionMonth" required></select>
+
+          <div class="two-col">
+            <div>
+              <label>First Name</label>
+              <input type="text" id="editFirstName" required />
+            </div>
+
+            <div>
+              <label>Last Name</label>
+              <input type="text" id="editLastName" required />
+            </div>
+          </div>
+
+          <label>Institution</label>
+          <input type="text" id="editInstitution" required />
+
+          <div class="two-col">
+            <div>
+              <label>Email Address</label>
+              <input type="email" id="editEmail" required />
+            </div>
+
+            <div>
+              <label>Contact Number</label>
+              <input type="text" id="editContactNumber" required />
+            </div>
+          </div>
+
+          <label>Country</label>
+          <select id="editCountry" required></select>
+
+          <label>Purpose</label>
+          <select id="editPurpose" required>
+            <option value="">Select purpose</option>
+            <option value="Public Employment">Public Employment</option>
+            <option value="Private Employment">Private Employment</option>
+            <option value="Board Examination Purposes">Board Examination Purposes</option>
+            <option value="Further Studies">Further Studies</option>
+            <option value="Promotion">Promotion</option>
+            <option value="Scholarship">Scholarship</option>
+            <option value="Other">Other</option>
+          </select>
+
+          <label>If Other Purpose, please specify</label>
+          <input type="text" id="editOtherPurpose" />
+
+          <label>Mode of Delivery</label>
+          <select id="editModeOfDelivery" required>
+            <option value="">Select mode of delivery</option>
+            <option value="Face-to-face">Face-to-face</option>
+            <option value="Online">Online</option>
+            <option value="Blended">Blended</option>
+            <option value="Distance Education">Distance Education</option>
+            <option value="Other">Other</option>
+          </select>
+
+          <label>Mode of Acquiring Degree</label>
+          <select id="editModeOfAcquiring" required>
+            <option value="">Select mode of acquiring</option>
+            <option value="Personal Expense">Personal Expense</option>
+            <option value="Scholarship">Scholarship</option>
+          </select>
+
+          <label>Task Manager</label>
+          <select id="editTaskManager" required>
+            <option value="">Select task manager</option>
+            <option value="Siegried|smaghanoy@ched.gov.ph">Siegried</option>
+            <option value="Ralph King|rlking@ched.gov.ph">Ralph King</option>
+          </select>
+
+          <button type="submit" class="submit-btn" id="updateBtn">Update Record</button>
+
+          <div id="editStatusBox" class="status"></div>
+        </form>
+      </div>
+    </section>
+
     <section id="summaryPage" class="page">
       <div class="card">
         <h2>Application Summary</h2>
@@ -462,6 +602,11 @@
   <script>
     const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyAn5jhh6NnuzkHkF5LGs6oPA-hM3iXXIAP9yCA-rBN8GY8KL3CwB-V-9qlDa8feFd4ag/exec";
 
+    const months = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+
     const requirements = {
       "Foreign Degree": [
         "Copy of the foreign Diploma and Transcript of Records (TOR) duly authenticated by Apostille, Ministry of Education, or relevant Embassy in the Philippines if accepted for processing.",
@@ -470,16 +615,17 @@
         "Copy of thesis/paper/project submitted for the completion of the degree.",
         "Copy of the School Prospectus, curriculum, and program outcomes.",
         "Proof of Filipino citizenship.",
-        "Duly signed request letter addressed to Dr. Jimmy G. Catanes, CESE, Director IV, Office of Programs and Standards Development, CHED, including complete name, address, contact information, and specific purpose.",
+        "Duly signed request letter addressed to Dr. Jimmy G. Catanes, CESE, Director IV, Office of Programs and Standards Development, CHED, including complete name, contact information, and specific purpose.",
         "Information as to the mode of delivery of the earned degree and mode of acquiring the degree. If through scholarship, submit relevant documents."
       ],
+
       "Local Degree": [
         "Copy of the Diploma and Transcript of Records (TOR).",
         "Course descriptions of all the subjects/courses taken and learning outcomes.",
         "Information as to the length of study of the degree, equivalent credits earned in terms of the unit credit system in the Philippines, and hours requirement for each subject/course.",
         "Copy of thesis/paper/project submitted for the completion of the degree.",
         "Copy of the School Prospectus, curriculum, and program outcomes.",
-        "Duly signed request letter addressed to Dr. Jimmy G. Catanes, CESE, Director IV, Office of Programs and Standards Development, CHED, including complete name, address, contact information, and specific purpose.",
+        "Duly signed request letter addressed to Dr. Jimmy G. Catanes, CESE, Director IV, Office of Programs and Standards Development, CHED, including complete name, contact information, and specific purpose.",
         "Information as to the mode of delivery of the earned degree and mode of acquiring the degree. If through scholarship, submit relevant documents."
       ]
     };
@@ -508,24 +654,55 @@
     ];
 
     document.addEventListener("DOMContentLoaded", () => {
+      populateMonths();
       populateCountries();
       setupApplicationTypeListener();
       setupFormSubmit();
+      setupEditFormSubmit();
 
       if (localStorage.getItem("coeDarkMode") === "yes") {
         document.body.classList.add("dark");
       }
     });
 
-    function populateCountries() {
-      const countrySelect = document.getElementById("country");
-      countryNames.forEach(country => {
-        const option = document.createElement("option");
-        option.value = country;
-        option.textContent = country;
-        countrySelect.appendChild(option);
+    function populateMonths() {
+      const monthSelects = [
+        document.getElementById("submissionMonth"),
+        document.getElementById("editSubmissionMonth")
+      ];
+
+      const currentMonth = months[new Date().getMonth()];
+
+      monthSelects.forEach(select => {
+        select.innerHTML = `<option value="">Select month</option>`;
+        months.forEach(month => {
+          const option = document.createElement("option");
+          option.value = month;
+          option.textContent = month;
+          select.appendChild(option);
+        });
+        select.value = currentMonth;
       });
-      countrySelect.value = "Philippines";
+    }
+
+    function populateCountries() {
+      const countrySelects = [
+        document.getElementById("country"),
+        document.getElementById("editCountry")
+      ];
+
+      countrySelects.forEach(select => {
+        select.innerHTML = `<option value="">Select country</option>`;
+
+        countryNames.forEach(country => {
+          const option = document.createElement("option");
+          option.value = country;
+          option.textContent = country;
+          select.appendChild(option);
+        });
+
+        select.value = "Philippines";
+      });
     }
 
     function setupApplicationTypeListener() {
@@ -542,11 +719,13 @@
       requirements[type].forEach((req, index) => {
         const div = document.createElement("div");
         div.className = "req-item";
+
         div.innerHTML = `
           <p><strong>Requirement ${index + 1}:</strong> ${req}</p>
-          <input type="file" name="requirement_${index + 1}" id="requirement_${index + 1}" accept="application/pdf" />
+          <input type="file" id="requirement_${index + 1}" accept="application/pdf" />
           <small>PDF file only. Optional upload.</small>
         `;
+
         container.appendChild(div);
       });
     }
@@ -554,7 +733,7 @@
     function setupFormSubmit() {
       const form = document.getElementById("applicationForm");
 
-      form.addEventListener("submit", async function (e) {
+      form.addEventListener("submit", async function(e) {
         e.preventDefault();
 
         const submitBtn = document.getElementById("submitBtn");
@@ -566,42 +745,22 @@
         statusBox.textContent = "";
 
         try {
-          const payload = await buildPayload();
+          const payload = await buildSubmissionPayload();
 
-          const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
-            method: "POST",
-            body: JSON.stringify(payload),
-            headers: {
-              "Content-Type": "text/plain;charset=utf-8"
-            }
-          });
+          const result = await postToAppsScript(payload);
 
-          const rawText = await response.text();
-
-          let result;
-          try {
-            result = JSON.parse(rawText);
-          } catch (err) {
-            result = {
-              success: false,
-              message: rawText || "Invalid response from Google Apps Script."
-            };
-          }
-
-          const normalizedSuccess =
-            result.success === true ||
-            /saved successfully|submitted successfully|application saved successfully/i.test(String(result.message || ""));
-
-          if (!normalizedSuccess) {
+          if (!result.success) {
             throw new Error(result.message || "Submission failed.");
           }
 
           statusBox.className = "status success";
-          statusBox.textContent = "Application submitted successfully.";
+          statusBox.textContent = `Application submitted successfully. Record ID: ${result.recordId}`;
 
           form.reset();
           document.getElementById("requirementsContainer").innerHTML = "";
           document.getElementById("country").value = "Philippines";
+          document.getElementById("submissionMonth").value = months[new Date().getMonth()];
+
         } catch (error) {
           statusBox.className = "status error";
           statusBox.textContent = "Submission failed: " + error.message;
@@ -612,7 +771,7 @@
       });
     }
 
-    async function buildPayload() {
+    async function buildSubmissionPayload() {
       const type = document.getElementById("applicationType").value;
       const reqList = requirements[type] || [];
       const files = [];
@@ -641,12 +800,14 @@
         });
       }
 
-      const sendToValue = document.getElementById("sendTo").value;
-      const sendToParts = sendToValue.split("|");
+      const taskManagerValue = document.getElementById("taskManager").value;
+      const taskManagerParts = taskManagerValue.split("|");
 
       return {
+        action: "submit",
         timestamp: new Date().toISOString(),
-        applicationType: type,
+        applicationType: document.getElementById("applicationType").value,
+        submissionMonth: document.getElementById("submissionMonth").value,
         firstName: document.getElementById("firstName").value.trim(),
         lastName: document.getElementById("lastName").value.trim(),
         institution: document.getElementById("institution").value.trim(),
@@ -657,8 +818,8 @@
         otherPurpose: document.getElementById("otherPurpose").value.trim(),
         modeOfDelivery: document.getElementById("modeOfDelivery").value,
         modeOfAcquiring: document.getElementById("modeOfAcquiring").value,
-        sendToName: sendToParts[0] || "",
-        sendToEmail: sendToParts[1] || "",
+        taskManagerName: taskManagerParts[0] || "",
+        taskManagerEmail: taskManagerParts[1] || "",
         files: files
       };
     }
@@ -666,12 +827,160 @@
     function fileToBase64(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
+
         reader.onload = () => {
           const base64 = reader.result.split(",")[1];
           resolve(base64);
         };
+
         reader.onerror = reject;
         reader.readAsDataURL(file);
+      });
+    }
+
+    async function postToAppsScript(payload) {
+      const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        }
+      });
+
+      const rawText = await response.text();
+
+      try {
+        return JSON.parse(rawText);
+      } catch (error) {
+        throw new Error(rawText || "Invalid response from Google Apps Script.");
+      }
+    }
+
+    async function searchApplications() {
+      const query = document.getElementById("editSearchInput").value.trim();
+      const status = document.getElementById("editSearchStatus");
+      const resultsContainer = document.getElementById("searchResults");
+
+      status.className = "status";
+      status.textContent = "";
+      resultsContainer.innerHTML = "";
+
+      if (!query) {
+        status.className = "status error";
+        status.textContent = "Please enter Record ID or applicant name.";
+        return;
+      }
+
+      try {
+        const response = await fetch(GOOGLE_APPS_SCRIPT_URL + "?action=search&query=" + encodeURIComponent(query));
+        const result = await response.json();
+
+        if (!result.success) {
+          throw new Error(result.message || "Search failed.");
+        }
+
+        if (!result.records || result.records.length === 0) {
+          resultsContainer.innerHTML = `<div class="result-item">No matching record found.</div>`;
+          return;
+        }
+
+        result.records.forEach(record => {
+          const div = document.createElement("div");
+          div.className = "result-item";
+
+          div.innerHTML = `
+            <strong>${record.recordId} - ${record.lastName}, ${record.firstName}</strong>
+            ${record.applicationType} • ${record.institution}<br>
+            Month: ${record.submissionMonth}<br>
+            Task Manager: ${record.taskManagerName}<br>
+            <button class="secondary-btn" onclick='loadRecordForEditing(${JSON.stringify(record)})'>Edit This Record</button>
+          `;
+
+          resultsContainer.appendChild(div);
+        });
+
+      } catch (error) {
+        status.className = "status error";
+        status.textContent = "Search failed: " + error.message;
+      }
+    }
+
+    function loadRecordForEditing(record) {
+      document.getElementById("editFormCard").style.display = "block";
+
+      document.getElementById("editRecordId").value = record.recordId || "";
+      document.getElementById("editApplicationType").value = record.applicationType || "";
+      document.getElementById("editSubmissionMonth").value = record.submissionMonth || months[new Date().getMonth()];
+      document.getElementById("editFirstName").value = record.firstName || "";
+      document.getElementById("editLastName").value = record.lastName || "";
+      document.getElementById("editInstitution").value = record.institution || "";
+      document.getElementById("editEmail").value = record.email || "";
+      document.getElementById("editContactNumber").value = record.contactNumber || "";
+      document.getElementById("editCountry").value = record.country || "Philippines";
+      document.getElementById("editPurpose").value = record.purpose || "";
+      document.getElementById("editOtherPurpose").value = record.otherPurpose || "";
+      document.getElementById("editModeOfDelivery").value = record.modeOfDelivery || "";
+      document.getElementById("editModeOfAcquiring").value = record.modeOfAcquiring || "";
+
+      const taskValue = `${record.taskManagerName}|${record.taskManagerEmail}`;
+      document.getElementById("editTaskManager").value = taskValue;
+
+      document.getElementById("editFormCard").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function setupEditFormSubmit() {
+      const form = document.getElementById("editForm");
+
+      form.addEventListener("submit", async function(e) {
+        e.preventDefault();
+
+        const updateBtn = document.getElementById("updateBtn");
+        const statusBox = document.getElementById("editStatusBox");
+
+        updateBtn.disabled = true;
+        updateBtn.textContent = "Updating...";
+        statusBox.className = "status";
+        statusBox.textContent = "";
+
+        try {
+          const taskManagerValue = document.getElementById("editTaskManager").value;
+          const taskManagerParts = taskManagerValue.split("|");
+
+          const payload = {
+            action: "update",
+            recordId: document.getElementById("editRecordId").value,
+            applicationType: document.getElementById("editApplicationType").value,
+            submissionMonth: document.getElementById("editSubmissionMonth").value,
+            firstName: document.getElementById("editFirstName").value.trim(),
+            lastName: document.getElementById("editLastName").value.trim(),
+            institution: document.getElementById("editInstitution").value.trim(),
+            email: document.getElementById("editEmail").value.trim(),
+            contactNumber: document.getElementById("editContactNumber").value.trim(),
+            country: document.getElementById("editCountry").value,
+            purpose: document.getElementById("editPurpose").value,
+            otherPurpose: document.getElementById("editOtherPurpose").value.trim(),
+            modeOfDelivery: document.getElementById("editModeOfDelivery").value,
+            modeOfAcquiring: document.getElementById("editModeOfAcquiring").value,
+            taskManagerName: taskManagerParts[0] || "",
+            taskManagerEmail: taskManagerParts[1] || ""
+          };
+
+          const result = await postToAppsScript(payload);
+
+          if (!result.success) {
+            throw new Error(result.message || "Update failed.");
+          }
+
+          statusBox.className = "status success";
+          statusBox.textContent = "Record updated successfully.";
+
+        } catch (error) {
+          statusBox.className = "status error";
+          statusBox.textContent = "Update failed: " + error.message;
+        } finally {
+          updateBtn.disabled = false;
+          updateBtn.textContent = "Update Record";
+        }
       });
     }
 
@@ -691,6 +1000,7 @@
 
         drawChart(result.summary.foreign, result.summary.local, result.summary.withPdf);
         renderRecentList(result.recent);
+
       } catch (error) {
         document.getElementById("recentList").innerHTML = `
           <div class="recent-item">Unable to load summary: ${error.message}</div>
@@ -710,13 +1020,16 @@
       recent.forEach(item => {
         const div = document.createElement("div");
         div.className = "recent-item";
+
         div.innerHTML = `
-          <strong>${item.firstName} ${item.lastName}</strong>
+          <strong>${item.recordId} - ${item.firstName} ${item.lastName}</strong>
           ${item.applicationType} • ${item.institution || "No institution"}<br>
+          Month: ${item.submissionMonth}<br>
           Country: ${item.country}<br>
-          Sent To: ${item.sendToName || ""} ${item.sendToEmail ? "(" + item.sendToEmail + ")" : ""}<br>
+          Task Manager: ${item.taskManagerName || ""}<br>
           PDF Uploaded: ${item.fileCount}
         `;
+
         recentList.appendChild(div);
       });
     }
@@ -724,6 +1037,7 @@
     function drawChart(foreign, local, withPdf) {
       const canvas = document.getElementById("summaryChart");
       const ctx = canvas.getContext("2d");
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       const values = [foreign, local, withPdf];
@@ -754,7 +1068,10 @@
     }
 
     function showPage(pageId) {
-      document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
+      document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+      });
+
       document.getElementById(pageId).classList.add("active");
 
       if (pageId === "summaryPage") {
@@ -771,7 +1088,7 @@
 
     const topBtn = document.getElementById("topBtn");
 
-    window.onscroll = function () {
+    window.onscroll = function() {
       if (document.body.scrollTop > 220 || document.documentElement.scrollTop > 220) {
         topBtn.style.display = "block";
       } else {
