@@ -56,7 +56,6 @@
     header h1 {
       margin: 0;
       font-size: 30px;
-      letter-spacing: 0.3px;
     }
 
     header p {
@@ -66,18 +65,17 @@
     }
 
     .top-actions {
-      position: absolute;
-      top: 16px;
-      right: 16px;
+      margin-top: 18px;
       display: flex;
-      gap: 8px;
+      justify-content: center;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
     .small-btn {
       border: none;
       border-radius: 999px;
-      padding: 8px 14px;
+      padding: 9px 15px;
       cursor: pointer;
       background: white;
       color: #0f172a;
@@ -86,44 +84,20 @@
     }
 
     main {
-      width: min(1200px, 94%);
+      width: min(1050px, 94%);
       margin: 28px auto 60px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1.3fr 0.7fr;
-      gap: 22px;
-      align-items: start;
-    }
-
-    @media (max-width: 900px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      header h1 {
-        font-size: 24px;
-      }
-
-      .top-actions {
-        position: static;
-        justify-content: center;
-        margin-top: 18px;
-      }
     }
 
     .card {
       background: var(--card);
       border-radius: 18px;
-      padding: 22px;
+      padding: 24px;
       box-shadow: var(--shadow);
       border: 1px solid var(--border);
     }
 
     .card h2 {
       margin-top: 0;
-      font-size: 22px;
       color: var(--primary);
     }
 
@@ -169,6 +143,10 @@
     @media (max-width: 700px) {
       .two-col {
         grid-template-columns: 1fr;
+      }
+
+      header h1 {
+        font-size: 24px;
       }
     }
 
@@ -241,23 +219,43 @@
       border: 1px solid rgba(220, 38, 38, 0.3);
     }
 
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
     .summary-boxes {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
       margin-top: 10px;
+    }
+
+    @media (max-width: 900px) {
+      .summary-boxes {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .summary-boxes {
+        grid-template-columns: 1fr;
+      }
     }
 
     .summary-box {
       background: rgba(15, 118, 110, 0.08);
       border-radius: 14px;
-      padding: 16px;
+      padding: 18px;
       text-align: center;
       border: 1px solid var(--border);
     }
 
     .summary-box strong {
-      font-size: 28px;
+      font-size: 30px;
       display: block;
       color: var(--primary);
     }
@@ -267,13 +265,13 @@
       color: var(--muted);
     }
 
-    .chart-wrap {
+    .chart-card {
       margin-top: 20px;
     }
 
     canvas {
       width: 100%;
-      max-height: 280px;
+      max-height: 320px;
     }
 
     .recent-list {
@@ -293,6 +291,7 @@
     .recent-item strong {
       display: block;
       color: var(--accent);
+      margin-bottom: 4px;
     }
 
     .footer-note {
@@ -309,7 +308,6 @@
       right: 22px;
       z-index: 99;
       border: none;
-      outline: none;
       background: var(--primary);
       color: white;
       cursor: pointer;
@@ -319,28 +317,26 @@
       display: none;
       box-shadow: var(--shadow);
     }
-
-    #topBtn:hover {
-      background: var(--primary-dark);
-    }
   </style>
 </head>
 
 <body>
   <header>
-    <div class="top-actions">
-      <button class="small-btn" onclick="toggleDarkMode()">Night Mode</button>
-      <button class="small-btn" onclick="scrollToDashboard()">View Summary</button>
-    </div>
-
     <h1>Certificate of Equivalency Application</h1>
-    <p>Upload PDF requirements, submit application details, and monitor summary graph.</p>
+    <p>Submission of documents and monitoring of application summary</p>
+
+    <div class="top-actions">
+      <button class="small-btn" onclick="showPage('submissionPage')">Submit Documents</button>
+      <button class="small-btn" onclick="showPage('summaryPage')">Application Summary</button>
+      <button class="small-btn" onclick="toggleDarkMode()">Night Mode</button>
+    </div>
   </header>
 
   <main>
-    <div class="grid">
-      <section class="card">
-        <h2>Application Form</h2>
+    <!-- PAGE 1: SUBMISSION ONLY -->
+    <section id="submissionPage" class="page active">
+      <div class="card">
+        <h2>Submission of Documents</h2>
 
         <form id="applicationForm">
           <label>Application Type</label>
@@ -361,6 +357,9 @@
               <input type="text" id="lastName" name="lastName" required />
             </div>
           </div>
+
+          <label>Institution</label>
+          <input type="text" id="institution" name="institution" placeholder="Name of school / university / institution" required />
 
           <div class="two-col">
             <div>
@@ -414,6 +413,13 @@
             <option value="Scholarship">Scholarship</option>
           </select>
 
+          <label>Send Documents To</label>
+          <select id="sendTo" name="sendTo" required>
+            <option value="">Select recipient</option>
+            <option value="Siegried|smaghanoy@ched.gov.ph">Siegried - smaghanoy@ched.gov.ph</option>
+            <option value="Ralph Lauren|rlking@ched.gov.ph">Ralph Lauren - rlking@ched.gov.ph</option>
+          </select>
+
           <div id="requirementsContainer" class="requirements"></div>
 
           <button type="submit" class="submit-btn" id="submitBtn">Submit Application</button>
@@ -422,12 +428,19 @@
         </form>
 
         <div class="footer-note">
-          System ready
+          PDF upload is optional. You may submit the form even without uploading PDF files.
         </div>
-      </section>
+      </div>
+    </section>
 
-      <aside class="card" id="dashboard">
+    <!-- PAGE 2: SUMMARY ONLY -->
+    <section id="summaryPage" class="page">
+      <div class="card">
         <h2>Application Summary</h2>
+
+        <button class="submit-btn" style="max-width: 220px; margin-top: 0;" onclick="loadSummary()">
+          Refresh Summary
+        </button>
 
         <div class="summary-boxes">
           <div class="summary-box">
@@ -446,21 +459,22 @@
           </div>
 
           <div class="summary-box">
-            <strong id="completeCount">0</strong>
-            <span>Complete Uploads</span>
+            <strong id="withPdfCount">0</strong>
+            <span>With PDF Uploads</span>
           </div>
         </div>
 
-        <div class="chart-wrap">
-          <canvas id="summaryChart" width="400" height="280"></canvas>
+        <div class="card chart-card">
+          <h2>Graph Summary</h2>
+          <canvas id="summaryChart" width="700" height="320"></canvas>
         </div>
 
         <h2 style="margin-top: 24px;">Recent Submissions</h2>
         <div id="recentList" class="recent-list">
-          <div class="recent-item">No submission yet.</div>
+          <div class="recent-item">No submission loaded yet.</div>
         </div>
-      </aside>
-    </div>
+      </div>
+    </section>
   </main>
 
   <button onclick="topFunction()" id="topBtn" title="Go to top">↑</button>
@@ -514,13 +528,14 @@
       "Vatican City","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"
     ];
 
-    let submissions = JSON.parse(localStorage.getItem("coeSubmissions")) || [];
-
     document.addEventListener("DOMContentLoaded", () => {
       populateCountries();
-      renderDashboard();
       setupApplicationTypeListener();
       setupFormSubmit();
+
+      if (localStorage.getItem("coeDarkMode") === "yes") {
+        document.body.classList.add("dark");
+      }
     });
 
     function populateCountries() {
@@ -557,10 +572,9 @@
             type="file" 
             name="requirement_${index + 1}" 
             id="requirement_${index + 1}" 
-            accept="application/pdf" 
-            required
+            accept="application/pdf"
           />
-          <small>PDF file only</small>
+          <small>PDF file only. Optional upload.</small>
         `;
 
         container.appendChild(div);
@@ -593,22 +607,20 @@
           });
 
           const resultText = await response.text();
-          let result;
 
+          let result;
           try {
             result = JSON.parse(resultText);
-          } catch {
-            result = { success: true, message: "Application submitted." };
+          } catch (error) {
+            throw new Error("Invalid response from Google Apps Script.");
           }
 
           if (!result.success) {
             throw new Error(result.message || "Submission failed.");
           }
 
-          saveLocalSubmission(payload);
-
           statusBox.className = "status success";
-          statusBox.textContent = "Application submitted successfully. Files were sent to Google Apps Script.";
+          statusBox.textContent = "Application submitted successfully. Data was saved to Google Spreadsheet.";
 
           form.reset();
           document.getElementById("requirementsContainer").innerHTML = "";
@@ -631,11 +643,12 @@
 
       for (let i = 0; i < reqList.length; i++) {
         const input = document.getElementById(`requirement_${i + 1}`);
-        const file = input.files[0];
 
-        if (!file) {
-          throw new Error(`Requirement ${i + 1} is missing.`);
+        if (!input || !input.files || input.files.length === 0) {
+          continue;
         }
+
+        const file = input.files[0];
 
         if (file.type !== "application/pdf") {
           throw new Error(`Requirement ${i + 1} must be a PDF file.`);
@@ -652,11 +665,15 @@
         });
       }
 
+      const sendToValue = document.getElementById("sendTo").value;
+      const sendToParts = sendToValue.split("|");
+
       return {
         timestamp: new Date().toISOString(),
         applicationType: type,
         firstName: document.getElementById("firstName").value.trim(),
         lastName: document.getElementById("lastName").value.trim(),
+        institution: document.getElementById("institution").value.trim(),
         email: document.getElementById("email").value.trim(),
         contactNumber: document.getElementById("contactNumber").value.trim(),
         address: document.getElementById("address").value.trim(),
@@ -665,6 +682,8 @@
         otherPurpose: document.getElementById("otherPurpose").value.trim(),
         modeOfDelivery: document.getElementById("modeOfDelivery").value,
         modeOfAcquiring: document.getElementById("modeOfAcquiring").value,
+        sendToName: sendToParts[0],
+        sendToEmail: sendToParts[1],
         files: files
       };
     }
@@ -683,104 +702,110 @@
       });
     }
 
-    function saveLocalSubmission(payload) {
-      submissions.unshift({
-        timestamp: payload.timestamp,
-        applicationType: payload.applicationType,
-        firstName: payload.firstName,
-        lastName: payload.lastName,
-        country: payload.country,
-        filesCount: payload.files.length
-      });
+    async function loadSummary() {
+      showPage("summaryPage");
 
-      localStorage.setItem("coeSubmissions", JSON.stringify(submissions));
-      renderDashboard();
+      try {
+        const response = await fetch(GOOGLE_APPS_SCRIPT_URL + "?action=summary");
+        const result = await response.json();
+
+        if (!result.success) {
+          throw new Error(result.message || "Cannot load summary.");
+        }
+
+        document.getElementById("totalCount").textContent = result.summary.total;
+        document.getElementById("foreignCount").textContent = result.summary.foreign;
+        document.getElementById("localCount").textContent = result.summary.local;
+        document.getElementById("withPdfCount").textContent = result.summary.withPdf;
+
+        drawChart(result.summary.foreign, result.summary.local, result.summary.withPdf);
+        renderRecentList(result.recent);
+
+      } catch (error) {
+        document.getElementById("recentList").innerHTML = `
+          <div class="recent-item">Unable to load summary: ${error.message}</div>
+        `;
+      }
     }
 
-    function renderDashboard() {
-      const total = submissions.length;
-      const foreign = submissions.filter(s => s.applicationType === "Foreign Degree").length;
-      const local = submissions.filter(s => s.applicationType === "Local Degree").length;
-      const complete = submissions.filter(s => s.filesCount > 0).length;
-
-      document.getElementById("totalCount").textContent = total;
-      document.getElementById("foreignCount").textContent = foreign;
-      document.getElementById("localCount").textContent = local;
-      document.getElementById("completeCount").textContent = complete;
-
-      renderRecentList();
-      drawChart(foreign, local);
-    }
-
-    function renderRecentList() {
+    function renderRecentList(recent) {
       const recentList = document.getElementById("recentList");
       recentList.innerHTML = "";
 
-      if (submissions.length === 0) {
+      if (!recent || recent.length === 0) {
         recentList.innerHTML = `<div class="recent-item">No submission yet.</div>`;
         return;
       }
 
-      submissions.slice(0, 5).forEach(item => {
+      recent.forEach(item => {
         const div = document.createElement("div");
         div.className = "recent-item";
 
         div.innerHTML = `
           <strong>${item.firstName} ${item.lastName}</strong>
-          ${item.applicationType} • ${item.country}<br>
-          Uploaded Requirements: ${item.filesCount}
+          ${item.applicationType} • ${item.institution || "No institution"}<br>
+          Country: ${item.country}<br>
+          Sent To: ${item.sendToName || ""} ${item.sendToEmail ? "(" + item.sendToEmail + ")" : ""}<br>
+          PDF Uploaded: ${item.fileCount}
         `;
 
         recentList.appendChild(div);
       });
     }
 
-    function drawChart(foreign, local) {
+    function drawChart(foreign, local, withPdf) {
       const canvas = document.getElementById("summaryChart");
       const ctx = canvas.getContext("2d");
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      const max = Math.max(foreign, local, 1);
-      const barWidth = 90;
-      const gap = 80;
-      const baseY = 230;
-      const maxHeight = 170;
+      const values = [foreign, local, withPdf];
+      const labels = ["Foreign Degree", "Local Degree", "With PDF"];
+      const colors = ["#0f766e", "#d97706", "#2563eb"];
 
-      const foreignHeight = (foreign / max) * maxHeight;
-      const localHeight = (local / max) * maxHeight;
+      const max = Math.max(...values, 1);
+      const barWidth = 110;
+      const gap = 85;
+      const baseY = 260;
+      const maxHeight = 180;
 
-      ctx.font = "14px Arial";
+      ctx.font = "16px Arial";
       ctx.fillStyle = getComputedStyle(document.body).getPropertyValue("--text");
+      ctx.fillText("Application Summary Graph", 240, 30);
 
-      ctx.fillText("Application Type Summary", 95, 28);
+      values.forEach((value, index) => {
+        const x = 90 + index * (barWidth + gap);
+        const height = (value / max) * maxHeight;
 
-      ctx.fillStyle = "#0f766e";
-      ctx.fillRect(90, baseY - foreignHeight, barWidth, foreignHeight);
+        ctx.fillStyle = colors[index];
+        ctx.fillRect(x, baseY - height, barWidth, height);
 
-      ctx.fillStyle = "#d97706";
-      ctx.fillRect(90 + barWidth + gap, baseY - localHeight, barWidth, localHeight);
+        ctx.fillStyle = getComputedStyle(document.body).getPropertyValue("--text");
+        ctx.fillText(value, x + 45, baseY - height - 10);
+        ctx.fillText(labels[index], x - 5, baseY + 25);
+      });
+    }
 
-      ctx.fillStyle = getComputedStyle(document.body).getPropertyValue("--text");
-      ctx.fillText("Foreign", 105, 255);
-      ctx.fillText("Local", 285, 255);
+    function showPage(pageId) {
+      document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+      });
 
-      ctx.fillText(foreign, 125, baseY - foreignHeight - 10);
-      ctx.fillText(local, 315, baseY - localHeight - 10);
+      document.getElementById(pageId).classList.add("active");
+
+      if (pageId === "summaryPage") {
+        loadSummary();
+      }
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
     }
 
     function toggleDarkMode() {
       document.body.classList.toggle("dark");
       localStorage.setItem("coeDarkMode", document.body.classList.contains("dark") ? "yes" : "no");
-      renderDashboard();
-    }
-
-    if (localStorage.getItem("coeDarkMode") === "yes") {
-      document.body.classList.add("dark");
-    }
-
-    function scrollToDashboard() {
-      document.getElementById("dashboard").scrollIntoView({ behavior: "smooth" });
     }
 
     const topBtn = document.getElementById("topBtn");
