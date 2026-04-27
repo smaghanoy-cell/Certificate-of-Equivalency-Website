@@ -12,24 +12,25 @@
       --card: #ffffff;
       --text: #1f2937;
       --muted: #6b7280;
-      --primary: #0f3b57;
-      --secondary: #0f766e;
-      --gold: #c89b3c;
-      --border: #d1d5db;
-      --success: #16a34a;
-      --warning: #d97706;
+      --primary: #0f766e;
+      --primary-dark: #115e59;
+      --accent: #d97706;
       --danger: #dc2626;
+      --success: #16a34a;
+      --border: #d1d5db;
+      --shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
     }
 
-    body.night {
+    body.dark {
       --bg: #0f172a;
       --card: #1e293b;
       --text: #f8fafc;
       --muted: #cbd5e1;
-      --primary: #38bdf8;
-      --secondary: #2dd4bf;
-      --gold: #facc15;
+      --primary: #14b8a6;
+      --primary-dark: #0d9488;
+      --accent: #f59e0b;
       --border: #334155;
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
     }
 
     * {
@@ -41,614 +42,762 @@
       font-family: Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
+      transition: 0.3s ease;
     }
 
     header {
-      background: linear-gradient(135deg, #0f3b57, #0f766e);
+      background: linear-gradient(135deg, #0f172a, #0f766e);
       color: white;
-      padding: 22px;
+      padding: 32px 20px;
       text-align: center;
+      position: relative;
     }
 
     header h1 {
       margin: 0;
-      font-size: 28px;
+      font-size: 30px;
+      letter-spacing: 0.3px;
     }
 
     header p {
-      margin: 8px 0 0;
-      opacity: 0.9;
-    }
-
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: var(--card);
-      border-bottom: 1px solid var(--border);
-      padding: 12px;
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    nav button {
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      background: var(--primary);
-      color: white;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    nav button:hover {
-      opacity: 0.9;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 25px auto;
-      padding: 0 15px;
-    }
-
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 22px;
-      margin-bottom: 22px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-
-    h2 {
-      margin-top: 0;
-      color: var(--primary);
-    }
-
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 14px;
-      margin-bottom: 6px;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 11px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background: var(--card);
-      color: var(--text);
+      margin-top: 10px;
+      color: #e5e7eb;
       font-size: 15px;
     }
 
-    textarea {
-      min-height: 80px;
-      resize: vertical;
+    .top-actions {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .small-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 8px 14px;
+      cursor: pointer;
+      background: white;
+      color: #0f172a;
+      font-weight: bold;
+      font-size: 13px;
+    }
+
+    main {
+      width: min(1200px, 94%);
+      margin: 28px auto 60px;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 22px;
+      align-items: start;
     }
 
-    .documents {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .documents label {
-      margin: 0;
-      font-weight: normal;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      border: 1px solid var(--border);
-      padding: 10px;
-      border-radius: 8px;
-    }
-
-    .documents input {
-      width: auto;
-    }
-
-    .status-box {
-      margin-top: 15px;
-      padding: 14px;
-      border-radius: 10px;
-      background: rgba(15, 118, 110, 0.12);
-      border-left: 5px solid var(--secondary);
-      font-weight: bold;
-    }
-
-    .actions {
-      margin-top: 20px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      border: none;
-      padding: 12px 18px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .btn-primary {
-      background: var(--secondary);
-      color: white;
-    }
-
-    .btn-gold {
-      background: var(--gold);
-      color: #111827;
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--primary);
-      border: 1px solid var(--primary);
-    }
-
-    .connection {
-      padding: 10px 14px;
-      border-radius: 8px;
-      display: inline-block;
-      margin-top: 12px;
-      font-weight: bold;
-    }
-
-    .connected {
-      background: rgba(22, 163, 74, 0.15);
-      color: var(--success);
-    }
-
-    .failed {
-      background: rgba(220, 38, 38, 0.15);
-      color: var(--danger);
-    }
-
-    .checking {
-      background: rgba(217, 119, 6, 0.15);
-      color: var(--warning);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 15px;
-      font-size: 14px;
-    }
-
-    th, td {
-      border: 1px solid var(--border);
-      padding: 9px;
-      text-align: left;
-    }
-
-    th {
-      background: var(--primary);
-      color: white;
-    }
-
-    .team-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-    }
-
-    .team-member {
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 15px;
-      background: rgba(15, 118, 110, 0.08);
-    }
-
-    .team-member h3 {
-      margin: 0 0 6px;
-    }
-
-    #topBtn {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      background: var(--gold);
-      color: #111827;
-      border: none;
-      padding: 13px 16px;
-      border-radius: 50px;
-      cursor: pointer;
-      font-weight: bold;
-      display: none;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-    }
-
-    .hide {
-      display: none;
-    }
-
-    @media (max-width: 750px) {
-      .grid,
-      .documents,
-      .team-grid {
+    @media (max-width: 900px) {
+      .grid {
         grid-template-columns: 1fr;
       }
 
       header h1 {
-        font-size: 23px;
+        font-size: 24px;
       }
+
+      .top-actions {
+        position: static;
+        justify-content: center;
+        margin-top: 18px;
+      }
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      font-size: 22px;
+      color: var(--primary);
+    }
+
+    label {
+      display: block;
+      margin-top: 14px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      margin-top: 7px;
+      padding: 11px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15);
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 700px) {
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .requirements {
+      margin-top: 18px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .req-item {
+      border: 1px solid var(--border);
+      padding: 14px;
+      border-radius: 14px;
+      background: rgba(15, 118, 110, 0.04);
+    }
+
+    .req-item p {
+      margin: 0 0 9px;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .req-item small {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+    }
+
+    .submit-btn {
+      margin-top: 22px;
+      width: 100%;
+      padding: 14px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .submit-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    .status {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 12px;
+      display: none;
+      font-size: 14px;
+    }
+
+    .status.success {
+      display: block;
+      background: rgba(22, 163, 74, 0.12);
+      color: var(--success);
+      border: 1px solid rgba(22, 163, 74, 0.3);
+    }
+
+    .status.error {
+      display: block;
+      background: rgba(220, 38, 38, 0.12);
+      color: var(--danger);
+      border: 1px solid rgba(220, 38, 38, 0.3);
+    }
+
+    .summary-boxes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .summary-box {
+      background: rgba(15, 118, 110, 0.08);
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+
+    .summary-box strong {
+      font-size: 28px;
+      display: block;
+      color: var(--primary);
+    }
+
+    .summary-box span {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .chart-wrap {
+      margin-top: 20px;
+    }
+
+    canvas {
+      width: 100%;
+      max-height: 280px;
+    }
+
+    .recent-list {
+      margin-top: 18px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .recent-item {
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(217, 119, 6, 0.06);
+      font-size: 14px;
+    }
+
+    .recent-item strong {
+      display: block;
+      color: var(--accent);
+    }
+
+    .footer-note {
+      margin-top: 20px;
+      font-size: 11px;
+      text-align: center;
+      color: var(--muted);
+      opacity: 0.65;
+    }
+
+    #topBtn {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      z-index: 99;
+      border: none;
+      outline: none;
+      background: var(--primary);
+      color: white;
+      cursor: pointer;
+      padding: 12px 15px;
+      border-radius: 999px;
+      font-size: 18px;
+      display: none;
+      box-shadow: var(--shadow);
+    }
+
+    #topBtn:hover {
+      background: var(--primary-dark);
     }
   </style>
 </head>
 
 <body>
   <header>
+    <div class="top-actions">
+      <button class="small-btn" onclick="toggleDarkMode()">Night Mode</button>
+      <button class="small-btn" onclick="scrollToDashboard()">View Summary</button>
+    </div>
+
     <h1>Certificate of Equivalency Application</h1>
-    <p>Online Application Monitoring System</p>
+    <p>Upload PDF requirements, submit application details, and monitor summary graph.</p>
   </header>
 
-  <nav>
-    <button onclick="showSection('application')">Application</button>
-    <button onclick="showSection('team')">Meet Our Team</button>
-    <button onclick="showSection('database'); loadDatabase();">Database</button>
-    <button onclick="toggleNightMode()">Night Mode</button>
-  </nav>
+  <main>
+    <div class="grid">
+      <section class="card">
+        <h2>Application Form</h2>
 
-  <div class="container">
+        <form id="applicationForm">
+          <label>Application Type</label>
+          <select id="applicationType" name="applicationType" required>
+            <option value="">Select application type</option>
+            <option value="Foreign Degree">Foreign Degree</option>
+            <option value="Local Degree">Local Degree</option>
+          </select>
 
-    <section id="application" class="card">
-      <h2>Application Form</h2>
+          <div class="two-col">
+            <div>
+              <label>First Name</label>
+              <input type="text" id="firstName" name="firstName" required />
+            </div>
 
-      <div id="connectionStatus" class="connection checking">
-        Checking connection...
-      </div>
-
-      <form id="applicationForm">
-        <div class="grid">
-          <div>
-            <label>Full Name</label>
-            <input type="text" name="fullName" required />
+            <div>
+              <label>Last Name</label>
+              <input type="text" id="lastName" name="lastName" required />
+            </div>
           </div>
 
-          <div>
-            <label>Email Address</label>
-            <input type="email" name="email" required />
+          <div class="two-col">
+            <div>
+              <label>Email Address</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+
+            <div>
+              <label>Contact Number</label>
+              <input type="text" id="contactNumber" name="contactNumber" required />
+            </div>
           </div>
 
-          <div>
-            <label>Contact Number</label>
-            <input type="text" name="contactNumber" required />
+          <label>Complete Address</label>
+          <textarea id="address" name="address" required></textarea>
+
+          <label>Country</label>
+          <select id="country" name="country" required>
+            <option value="">Select country</option>
+          </select>
+
+          <label>Specific Purpose for Certificate of Equivalency</label>
+          <select id="purpose" name="purpose" required>
+            <option value="">Select purpose</option>
+            <option value="Public Employment">Public Employment</option>
+            <option value="Private Employment">Private Employment</option>
+            <option value="Board Examination Purposes">Board Examination Purposes</option>
+            <option value="Further Studies">Further Studies</option>
+            <option value="Promotion">Promotion</option>
+            <option value="Scholarship">Scholarship</option>
+            <option value="Other">Other</option>
+          </select>
+
+          <label>If Other Purpose, please specify</label>
+          <input type="text" id="otherPurpose" name="otherPurpose" />
+
+          <label>Mode of Delivery of Earned Degree</label>
+          <select id="modeOfDelivery" name="modeOfDelivery" required>
+            <option value="">Select mode of delivery</option>
+            <option value="Face-to-face">Face-to-face</option>
+            <option value="Online">Online</option>
+            <option value="Blended">Blended</option>
+            <option value="Distance Education">Distance Education</option>
+            <option value="Other">Other</option>
+          </select>
+
+          <label>Mode of Acquiring the Degree</label>
+          <select id="modeOfAcquiring" name="modeOfAcquiring" required>
+            <option value="">Select mode of acquiring</option>
+            <option value="Personal Expense">Personal Expense</option>
+            <option value="Scholarship">Scholarship</option>
+          </select>
+
+          <div id="requirementsContainer" class="requirements"></div>
+
+          <button type="submit" class="submit-btn" id="submitBtn">Submit Application</button>
+
+          <div id="statusBox" class="status"></div>
+        </form>
+
+        <div class="footer-note">
+          System ready
+        </div>
+      </section>
+
+      <aside class="card" id="dashboard">
+        <h2>Application Summary</h2>
+
+        <div class="summary-boxes">
+          <div class="summary-box">
+            <strong id="totalCount">0</strong>
+            <span>Total Submitted</span>
           </div>
 
-          <div>
-            <label>Region</label>
-            <input type="text" name="region" placeholder="Example: NCR, Region IV-A" required />
+          <div class="summary-box">
+            <strong id="foreignCount">0</strong>
+            <span>Foreign Degree</span>
           </div>
 
-          <div>
-            <label>Higher Education Institution</label>
-            <input type="text" name="heiName" required />
+          <div class="summary-box">
+            <strong id="localCount">0</strong>
+            <span>Local Degree</span>
           </div>
 
-          <div>
-            <label>Program / Degree</label>
-            <input type="text" name="program" required />
-          </div>
-
-          <div>
-            <label>Purpose of Certificate of Equivalency</label>
-            <select name="purpose" required>
-              <option value="">Select purpose</option>
-              <option>For Employment Purposes</option>
-              <option>For Board Examination</option>
-              <option>For Promotion</option>
-              <option>For Further Studies</option>
-              <option>For Migration / Abroad Requirement</option>
-              <option>For Personal File</option>
-              <option>Others</option>
-            </select>
-          </div>
-
-          <div>
-            <label>Task Manager</label>
-            <select name="taskManager" required>
-              <option value="">Select task manager</option>
-              <option>Siegried</option>
-              <option>Ralph</option>
-            </select>
+          <div class="summary-box">
+            <strong id="completeCount">0</strong>
+            <span>Complete Uploads</span>
           </div>
         </div>
 
-        <label>Documents Submitted</label>
-        <div class="documents">
-          <label><input type="checkbox" name="documents" value="Application Letter" onchange="updateAutoStatus()"> Application Letter</label>
-          <label><input type="checkbox" name="documents" value="Transcript of Records" onchange="updateAutoStatus()"> Transcript of Records</label>
-          <label><input type="checkbox" name="documents" value="Diploma" onchange="updateAutoStatus()"> Diploma</label>
-          <label><input type="checkbox" name="documents" value="Certificate of Graduation" onchange="updateAutoStatus()"> Certificate of Graduation</label>
-          <label><input type="checkbox" name="documents" value="Government ID" onchange="updateAutoStatus()"> Government ID</label>
-          <label><input type="checkbox" name="documents" value="Proof of Accreditation" onchange="updateAutoStatus()"> Proof of Accreditation</label>
+        <div class="chart-wrap">
+          <canvas id="summaryChart" width="400" height="280"></canvas>
         </div>
 
-        <label>Application Status</label>
-        <select name="status" id="statusSelect" required>
-          <option>Incomplete Documents</option>
-          <option>Documents Complete</option>
-          <option>Waiting for IAS Verification</option>
-          <option>Waiting for Evaluation</option>
-          <option>For Approval</option>
-          <option>Approved</option>
-          <option>Released</option>
-        </select>
-
-        <div class="status-box" id="autoStatusBox">
-          Auto-check: Please complete the required documents.
+        <h2 style="margin-top: 24px;">Recent Submissions</h2>
+        <div id="recentList" class="recent-list">
+          <div class="recent-item">No submission yet.</div>
         </div>
+      </aside>
+    </div>
+  </main>
 
-        <label>Remarks</label>
-        <textarea name="remarks" placeholder="Add notes or remarks here..."></textarea>
-
-        <div class="actions">
-          <button type="submit" class="btn btn-primary">Submit Application</button>
-          <button type="reset" class="btn btn-outline" onclick="setTimeout(updateAutoStatus, 100)">Clear Form</button>
-          <button type="button" class="btn btn-gold" onclick="testConnection()">Test Connection</button>
-        </div>
-      </form>
-    </section>
-
-    <section id="team" class="card hide">
-      <h2>Meet Our Team</h2>
-
-      <div class="team-grid">
-        <div class="team-member">
-          <h3>Siegried</h3>
-          <p>Task Manager for application review, coordination, and processing updates.</p>
-        </div>
-
-        <div class="team-member">
-          <h3>Ralph</h3>
-          <p>Task Manager for document monitoring, database checking, and evaluation support.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="database" class="card hide">
-      <h2>Database</h2>
-      <p>This table is based on the submitted application data.</p>
-
-      <button class="btn btn-primary" onclick="loadDatabase()">Refresh Database</button>
-
-      <div style="overflow-x:auto;">
-        <table>
-          <thead>
-            <tr>
-              <th>Date Submitted</th>
-              <th>Name</th>
-              <th>Region</th>
-              <th>HEI</th>
-              <th>Program</th>
-              <th>Purpose</th>
-              <th>Task Manager</th>
-              <th>Status</th>
-              <th>Documents</th>
-              <th>Remarks</th>
-            </tr>
-          </thead>
-          <tbody id="databaseBody">
-            <tr>
-              <td colspan="10">Click refresh to load database.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-  </div>
-
-  <button id="topBtn" onclick="scrollToTop()">Top</button>
+  <button onclick="topFunction()" id="topBtn" title="Go to top">↑</button>
 
   <script>
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyAn5jhh6NnuzkHkF5LGs6oPA-hM3iXXIAP9yCA-rBN8GY8KL3CwB-V-9qlDa8feFd4ag/exec";
+    const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyAn5jhh6NnuzkHkF5LGs6oPA-hM3iXXIAP9yCA-rBN8GY8KL3CwB-V-9qlDa8feFd4ag/exec";
 
-    localStorage.setItem("googleAppsScriptWebAppUrl", WEB_APP_URL);
+    const requirements = {
+      "Foreign Degree": [
+        "Copy of the foreign Diploma and Transcript of Records (TOR) duly authenticated by Apostille, Ministry of Education, or relevant Embassy in the Philippines if accepted for processing.",
+        "Course descriptions of all the subjects/courses taken and learning outcomes.",
+        "Information as to the length of study of the degree, equivalent credits earned in terms of the unit credit system in the Philippines, and hours requirement for each subject/course.",
+        "Copy of thesis/paper/project submitted for the completion of the degree.",
+        "Copy of the School Prospectus, curriculum, and program outcomes.",
+        "Proof of Filipino citizenship.",
+        "Duly signed request letter addressed to Dr. Jimmy G. Catanes, CESE, Director IV, Office of Programs and Standards Development, CHED, including complete name, address, contact information, and specific purpose.",
+        "Information as to the mode of delivery of the earned degree and mode of acquiring the degree. If through scholarship, submit relevant documents."
+      ],
 
-    const REQUIRED_DOCS = [
-      "Application Letter",
-      "Transcript of Records",
-      "Diploma",
-      "Certificate of Graduation",
-      "Government ID",
-      "Proof of Accreditation"
+      "Local Degree": [
+        "Copy of the Diploma and Transcript of Records (TOR).",
+        "Course descriptions of all the subjects/courses taken and learning outcomes.",
+        "Information as to the length of study of the degree, equivalent credits earned in terms of the unit credit system in the Philippines, and hours requirement for each subject/course.",
+        "Copy of thesis/paper/project submitted for the completion of the degree.",
+        "Copy of the School Prospectus, curriculum, and program outcomes.",
+        "Duly signed request letter addressed to Dr. Jimmy G. Catanes, CESE, Director IV, Office of Programs and Standards Development, CHED, including complete name, address, contact information, and specific purpose.",
+        "Information as to the mode of delivery of the earned degree and mode of acquiring the degree. If through scholarship, submit relevant documents."
+      ]
+    };
+
+    const countryNames = [
+      "Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Australia","Austria",
+      "Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan",
+      "Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria","Burkina Faso","Burundi","Cabo Verde","Cambodia",
+      "Cameroon","Canada","Central African Republic","Chad","Chile","China","Colombia","Comoros","Congo","Costa Rica",
+      "Côte d’Ivoire","Croatia","Cuba","Cyprus","Czechia","Democratic Republic of the Congo","Denmark","Djibouti","Dominica","Dominican Republic",
+      "Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Eswatini","Ethiopia","Fiji","Finland",
+      "France","Gabon","Gambia","Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea",
+      "Guinea-Bissau","Guyana","Haiti","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq",
+      "Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kiribati","Kuwait",
+      "Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg",
+      "Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico",
+      "Micronesia","Moldova","Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar","Namibia","Nauru",
+      "Nepal","Netherlands","New Zealand","Nicaragua","Niger","Nigeria","North Korea","North Macedonia","Norway","Oman",
+      "Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal",
+      "Qatar","Romania","Russia","Rwanda","Saint Kitts and Nevis","Saint Lucia","Saint Vincent and the Grenadines","Samoa","San Marino","Sao Tome and Principe",
+      "Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia",
+      "South Africa","South Korea","South Sudan","Spain","Sri Lanka","Sudan","Suriname","Sweden","Switzerland","Syria",
+      "Taiwan","Tajikistan","Tanzania","Thailand","Timor-Leste","Togo","Tonga","Trinidad and Tobago","Tunisia","Turkey",
+      "Turkmenistan","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","Uruguay","Uzbekistan","Vanuatu",
+      "Vatican City","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"
     ];
 
+    let submissions = JSON.parse(localStorage.getItem("coeSubmissions")) || [];
+
     document.addEventListener("DOMContentLoaded", () => {
-      loadNightMode();
-      testConnection();
-      updateAutoStatus();
+      populateCountries();
+      renderDashboard();
+      setupApplicationTypeListener();
+      setupFormSubmit();
     });
 
-    document.getElementById("applicationForm").addEventListener("submit", async function(e) {
-      e.preventDefault();
+    function populateCountries() {
+      const countrySelect = document.getElementById("country");
 
-      const form = e.target;
-      const formData = new FormData(form);
+      countryNames.forEach(country => {
+        const option = document.createElement("option");
+        option.value = country;
+        option.textContent = country;
+        countrySelect.appendChild(option);
+      });
 
-      const selectedDocs = Array.from(document.querySelectorAll("input[name='documents']:checked"))
-        .map(cb => cb.value)
-        .join(", ");
-
-      formData.set("documents", selectedDocs);
-      formData.set("action", "save");
-
-      try {
-        await fetch(WEB_APP_URL, {
-          method: "POST",
-          mode: "no-cors",
-          body: formData
-        });
-
-        alert("Application submitted successfully.");
-        form.reset();
-        updateAutoStatus();
-        loadDatabase();
-
-      } catch (error) {
-        alert("Submission failed. Please check your Apps Script deployment.");
-        console.error(error);
-      }
-    });
-
-    function showSection(sectionId) {
-      document.getElementById("application").classList.add("hide");
-      document.getElementById("team").classList.add("hide");
-      document.getElementById("database").classList.add("hide");
-
-      document.getElementById(sectionId).classList.remove("hide");
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      countrySelect.value = "Philippines";
     }
 
-    function toggleNightMode() {
-      document.body.classList.toggle("night");
-      localStorage.setItem("nightMode", document.body.classList.contains("night") ? "on" : "off");
+    function setupApplicationTypeListener() {
+      document.getElementById("applicationType").addEventListener("change", renderRequirements);
     }
 
-    function loadNightMode() {
-      if (localStorage.getItem("nightMode") === "on") {
-        document.body.classList.add("night");
-      }
+    function renderRequirements() {
+      const type = document.getElementById("applicationType").value;
+      const container = document.getElementById("requirementsContainer");
+      container.innerHTML = "";
+
+      if (!type || !requirements[type]) return;
+
+      requirements[type].forEach((req, index) => {
+        const div = document.createElement("div");
+        div.className = "req-item";
+
+        div.innerHTML = `
+          <p><strong>Requirement ${index + 1}:</strong> ${req}</p>
+          <input 
+            type="file" 
+            name="requirement_${index + 1}" 
+            id="requirement_${index + 1}" 
+            accept="application/pdf" 
+            required
+          />
+          <small>PDF file only</small>
+        `;
+
+        container.appendChild(div);
+      });
     }
 
-    function updateAutoStatus() {
-      const checkedDocs = Array.from(document.querySelectorAll("input[name='documents']:checked"))
-        .map(cb => cb.value);
+    function setupFormSubmit() {
+      const form = document.getElementById("applicationForm");
 
-      const complete = REQUIRED_DOCS.every(doc => checkedDocs.includes(doc));
+      form.addEventListener("submit", async function(e) {
+        e.preventDefault();
 
-      const statusSelect = document.getElementById("statusSelect");
-      const autoStatusBox = document.getElementById("autoStatusBox");
+        const submitBtn = document.getElementById("submitBtn");
+        const statusBox = document.getElementById("statusBox");
 
-      if (complete) {
-        statusSelect.value = "Documents Complete";
-        autoStatusBox.innerHTML = "Auto-check: Documents are complete. Ready for IAS Verification.";
-      } else {
-        statusSelect.value = "Incomplete Documents";
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Submitting...";
+        statusBox.className = "status";
+        statusBox.textContent = "";
 
-        const missing = REQUIRED_DOCS.filter(doc => !checkedDocs.includes(doc));
-        autoStatusBox.innerHTML = "Auto-check: Missing document/s: " + missing.join(", ");
-      }
+        try {
+          const payload = await buildPayload();
+
+          const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+            method: "POST",
+            body: JSON.stringify(payload),
+            headers: {
+              "Content-Type": "text/plain;charset=utf-8"
+            }
+          });
+
+          const resultText = await response.text();
+          let result;
+
+          try {
+            result = JSON.parse(resultText);
+          } catch {
+            result = { success: true, message: "Application submitted." };
+          }
+
+          if (!result.success) {
+            throw new Error(result.message || "Submission failed.");
+          }
+
+          saveLocalSubmission(payload);
+
+          statusBox.className = "status success";
+          statusBox.textContent = "Application submitted successfully. Files were sent to Google Apps Script.";
+
+          form.reset();
+          document.getElementById("requirementsContainer").innerHTML = "";
+          document.getElementById("country").value = "Philippines";
+
+        } catch (error) {
+          statusBox.className = "status error";
+          statusBox.textContent = "Submission failed: " + error.message;
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Submit Application";
+        }
+      });
     }
 
-    function testConnection() {
-      const status = document.getElementById("connectionStatus");
-      status.className = "connection checking";
-      status.textContent = "Checking connection...";
+    async function buildPayload() {
+      const type = document.getElementById("applicationType").value;
+      const reqList = requirements[type] || [];
+      const files = [];
 
-      const callbackName = "connectionCallback_" + Date.now();
+      for (let i = 0; i < reqList.length; i++) {
+        const input = document.getElementById(`requirement_${i + 1}`);
+        const file = input.files[0];
 
-      window[callbackName] = function(response) {
-        if (response && response.status === "success") {
-          status.className = "connection connected";
-          status.textContent = "Connected to Google Apps Script";
-        } else {
-          status.className = "connection failed";
-          status.textContent = "Connection failed";
+        if (!file) {
+          throw new Error(`Requirement ${i + 1} is missing.`);
         }
 
-        delete window[callbackName];
-        script.remove();
-      };
-
-      const script = document.createElement("script");
-      script.src = WEB_APP_URL + "?action=ping&callback=" + callbackName;
-
-      script.onerror = function() {
-        status.className = "connection failed";
-        status.textContent = "Connection failed";
-        delete window[callbackName];
-        script.remove();
-      };
-
-      document.body.appendChild(script);
-    }
-
-    function loadDatabase() {
-      const tbody = document.getElementById("databaseBody");
-      tbody.innerHTML = `<tr><td colspan="10">Loading database...</td></tr>`;
-
-      const callbackName = "databaseCallback_" + Date.now();
-
-      window[callbackName] = function(response) {
-        tbody.innerHTML = "";
-
-        if (!response || response.status !== "success" || !response.data || response.data.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="10">No records found.</td></tr>`;
-          delete window[callbackName];
-          script.remove();
-          return;
+        if (file.type !== "application/pdf") {
+          throw new Error(`Requirement ${i + 1} must be a PDF file.`);
         }
 
-        response.data.forEach(row => {
-          const tr = document.createElement("tr");
+        const base64 = await fileToBase64(file);
 
-          tr.innerHTML = `
-            <td>${escapeHtml(row.dateSubmitted || "")}</td>
-            <td>${escapeHtml(row.fullName || "")}</td>
-            <td>${escapeHtml(row.region || "")}</td>
-            <td>${escapeHtml(row.heiName || "")}</td>
-            <td>${escapeHtml(row.program || "")}</td>
-            <td>${escapeHtml(row.purpose || "")}</td>
-            <td>${escapeHtml(row.taskManager || "")}</td>
-            <td>${escapeHtml(row.status || "")}</td>
-            <td>${escapeHtml(row.documents || "")}</td>
-            <td>${escapeHtml(row.remarks || "")}</td>
-          `;
-
-          tbody.appendChild(tr);
+        files.push({
+          requirementNumber: i + 1,
+          requirementTitle: reqList[i],
+          fileName: file.name,
+          mimeType: file.type,
+          base64: base64
         });
+      }
 
-        delete window[callbackName];
-        script.remove();
+      return {
+        timestamp: new Date().toISOString(),
+        applicationType: type,
+        firstName: document.getElementById("firstName").value.trim(),
+        lastName: document.getElementById("lastName").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        contactNumber: document.getElementById("contactNumber").value.trim(),
+        address: document.getElementById("address").value.trim(),
+        country: document.getElementById("country").value,
+        purpose: document.getElementById("purpose").value,
+        otherPurpose: document.getElementById("otherPurpose").value.trim(),
+        modeOfDelivery: document.getElementById("modeOfDelivery").value,
+        modeOfAcquiring: document.getElementById("modeOfAcquiring").value,
+        files: files
       };
-
-      const script = document.createElement("script");
-      script.src = WEB_APP_URL + "?action=list&callback=" + callbackName;
-
-      script.onerror = function() {
-        tbody.innerHTML = `<tr><td colspan="10">Failed to load database.</td></tr>`;
-        delete window[callbackName];
-        script.remove();
-      };
-
-      document.body.appendChild(script);
     }
 
-    function escapeHtml(text) {
-      return String(text)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.onload = () => {
+          const base64 = reader.result.split(",")[1];
+          resolve(base64);
+        };
+
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
     }
+
+    function saveLocalSubmission(payload) {
+      submissions.unshift({
+        timestamp: payload.timestamp,
+        applicationType: payload.applicationType,
+        firstName: payload.firstName,
+        lastName: payload.lastName,
+        country: payload.country,
+        filesCount: payload.files.length
+      });
+
+      localStorage.setItem("coeSubmissions", JSON.stringify(submissions));
+      renderDashboard();
+    }
+
+    function renderDashboard() {
+      const total = submissions.length;
+      const foreign = submissions.filter(s => s.applicationType === "Foreign Degree").length;
+      const local = submissions.filter(s => s.applicationType === "Local Degree").length;
+      const complete = submissions.filter(s => s.filesCount > 0).length;
+
+      document.getElementById("totalCount").textContent = total;
+      document.getElementById("foreignCount").textContent = foreign;
+      document.getElementById("localCount").textContent = local;
+      document.getElementById("completeCount").textContent = complete;
+
+      renderRecentList();
+      drawChart(foreign, local);
+    }
+
+    function renderRecentList() {
+      const recentList = document.getElementById("recentList");
+      recentList.innerHTML = "";
+
+      if (submissions.length === 0) {
+        recentList.innerHTML = `<div class="recent-item">No submission yet.</div>`;
+        return;
+      }
+
+      submissions.slice(0, 5).forEach(item => {
+        const div = document.createElement("div");
+        div.className = "recent-item";
+
+        div.innerHTML = `
+          <strong>${item.firstName} ${item.lastName}</strong>
+          ${item.applicationType} • ${item.country}<br>
+          Uploaded Requirements: ${item.filesCount}
+        `;
+
+        recentList.appendChild(div);
+      });
+    }
+
+    function drawChart(foreign, local) {
+      const canvas = document.getElementById("summaryChart");
+      const ctx = canvas.getContext("2d");
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const max = Math.max(foreign, local, 1);
+      const barWidth = 90;
+      const gap = 80;
+      const baseY = 230;
+      const maxHeight = 170;
+
+      const foreignHeight = (foreign / max) * maxHeight;
+      const localHeight = (local / max) * maxHeight;
+
+      ctx.font = "14px Arial";
+      ctx.fillStyle = getComputedStyle(document.body).getPropertyValue("--text");
+
+      ctx.fillText("Application Type Summary", 95, 28);
+
+      ctx.fillStyle = "#0f766e";
+      ctx.fillRect(90, baseY - foreignHeight, barWidth, foreignHeight);
+
+      ctx.fillStyle = "#d97706";
+      ctx.fillRect(90 + barWidth + gap, baseY - localHeight, barWidth, localHeight);
+
+      ctx.fillStyle = getComputedStyle(document.body).getPropertyValue("--text");
+      ctx.fillText("Foreign", 105, 255);
+      ctx.fillText("Local", 285, 255);
+
+      ctx.fillText(foreign, 125, baseY - foreignHeight - 10);
+      ctx.fillText(local, 315, baseY - localHeight - 10);
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark");
+      localStorage.setItem("coeDarkMode", document.body.classList.contains("dark") ? "yes" : "no");
+      renderDashboard();
+    }
+
+    if (localStorage.getItem("coeDarkMode") === "yes") {
+      document.body.classList.add("dark");
+    }
+
+    function scrollToDashboard() {
+      document.getElementById("dashboard").scrollIntoView({ behavior: "smooth" });
+    }
+
+    const topBtn = document.getElementById("topBtn");
 
     window.onscroll = function() {
-      const topBtn = document.getElementById("topBtn");
-
-      if (document.body.scrollTop > 250 || document.documentElement.scrollTop > 250) {
+      if (document.body.scrollTop > 220 || document.documentElement.scrollTop > 220) {
         topBtn.style.display = "block";
       } else {
         topBtn.style.display = "none";
       }
     };
 
-    function scrollToTop() {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+    function topFunction() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
     }
   </script>
 </body>
