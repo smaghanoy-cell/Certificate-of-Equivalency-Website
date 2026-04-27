@@ -3,23 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Equivalency Application Management System</title>
+  <title>Certificate of Equivalency Application</title>
 
   <style>
     :root {
-      --primary: #1d4ed8;
-      --primary-dark: #1e3a8a;
-      --success: #15803d;
-      --danger: #b91c1c;
-      --warning: #d97706;
-      --bg: #f3f6fb;
+      --bg: #f4f7fb;
       --card: #ffffff;
-      --text: #0f172a;
-      --muted: #64748b;
-      --border: #dbe3ef;
-      --soft: #f8fafc;
-      --shadow: 0 16px 45px rgba(15, 23, 42, 0.08);
-      --radius: 20px;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #0f3b57;
+      --secondary: #0f766e;
+      --gold: #c89b3c;
+      --border: #d1d5db;
+      --success: #16a34a;
+      --warning: #d97706;
+      --danger: #dc2626;
+    }
+
+    body.night {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --primary: #38bdf8;
+      --secondary: #2dd4bf;
+      --gold: #facc15;
+      --border: #334155;
     }
 
     * {
@@ -28,433 +37,251 @@
 
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(37, 99, 235, 0.12), transparent 32%),
-        linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+      font-family: Arial, sans-serif;
+      background: var(--bg);
       color: var(--text);
     }
 
     header {
-      background: linear-gradient(135deg, #0f172a, #1d4ed8);
+      background: linear-gradient(135deg, #0f3b57, #0f766e);
       color: white;
-      padding: 34px 18px 42px;
+      padding: 22px;
+      text-align: center;
     }
 
-    .header-inner {
-      width: min(1120px, 94%);
-      margin: 0 auto;
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    header p {
+      margin: 8px 0 0;
+      opacity: 0.9;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 12px;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
+      gap: 10px;
+      justify-content: center;
       flex-wrap: wrap;
     }
 
-    .brand {
-      display: flex;
-      gap: 15px;
-      align-items: center;
+    nav button {
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      background: var(--primary);
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
     }
 
-    .logo {
-      width: 58px;
-      height: 58px;
-      border-radius: 18px;
-      background: rgba(255, 255, 255, 0.16);
-      display: grid;
-      place-items: center;
-      font-size: 1.65rem;
-      font-weight: 800;
-      border: 1px solid rgba(255, 255, 255, 0.28);
+    nav button:hover {
+      opacity: 0.9;
     }
 
-    h1 {
-      margin: 0;
-      font-size: clamp(1.45rem, 3vw, 2.3rem);
-      line-height: 1.15;
-    }
-
-    .subtitle {
-      margin: 7px 0 0;
-      opacity: 0.88;
-      max-width: 720px;
-    }
-
-    .status-pill {
-      background: rgba(245, 158, 11, 0.22);
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      padding: 10px 14px;
-      border-radius: 999px;
-      font-weight: 700;
-      font-size: 0.88rem;
-      white-space: nowrap;
-    }
-
-    main {
-      width: min(1120px, 94%);
-      margin: -22px auto 50px;
+    .container {
+      max-width: 1100px;
+      margin: 25px auto;
+      padding: 0 15px;
     }
 
     .card {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: clamp(18px, 3vw, 28px);
-      margin-bottom: 24px;
-    }
-
-    .section-title {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 18px;
+      border-radius: 14px;
+      padding: 22px;
+      margin-bottom: 22px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     }
 
     h2 {
-      margin: 0;
-      font-size: 1.25rem;
-      color: #0f172a;
-    }
-
-    .help-text,
-    .muted {
-      color: var(--muted);
-      font-size: 0.92rem;
-      line-height: 1.45;
-    }
-
-    .setup-box {
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      color: #1e3a8a;
-      border-radius: 16px;
-      padding: 14px 16px;
-      line-height: 1.5;
-      margin-bottom: 16px;
-    }
-
-    .setup-box strong {
-      color: #172554;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    .full {
-      grid-column: 1 / -1;
+      margin-top: 0;
+      color: var(--primary);
     }
 
     label {
+      font-weight: bold;
       display: block;
-      font-weight: 800;
-      color: #334155;
-      font-size: 0.9rem;
-      margin-bottom: 7px;
+      margin-top: 14px;
+      margin-bottom: 6px;
     }
 
-    input,
-    select,
-    textarea {
+    input, select, textarea {
       width: 100%;
-      border: 1px solid #cbd5e1;
-      border-radius: 13px;
-      padding: 12px 13px;
-      font-size: 0.96rem;
-      background: white;
+      padding: 11px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--card);
       color: var(--text);
-      outline: none;
-      transition: 0.18s ease;
-    }
-
-    input:focus,
-    select:focus,
-    textarea:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+      font-size: 15px;
     }
 
     textarea {
-      min-height: 92px;
+      min-height: 80px;
       resize: vertical;
     }
 
-    .field-note {
-      margin: 7px 0 0;
-      color: var(--muted);
-      font-size: 0.82rem;
-    }
-
-    .actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 20px;
-    }
-
-    button,
-    .button-link {
-      border: none;
-      border-radius: 13px;
-      padding: 11px 15px;
-      font-weight: 800;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      transition: 0.18s ease;
-      font-size: 0.92rem;
-    }
-
-    button:disabled {
-      opacity: 0.62;
-      cursor: not-allowed;
-    }
-
-    .primary {
-      background: var(--primary);
-      color: white;
-    }
-
-    .primary:hover:not(:disabled) {
-      background: var(--primary-dark);
-      transform: translateY(-1px);
-    }
-
-    .secondary {
-      background: #e2e8f0;
-      color: #0f172a;
-    }
-
-    .secondary:hover:not(:disabled) {
-      background: #cbd5e1;
-    }
-
-    .danger {
-      background: var(--danger);
-      color: white;
-    }
-
-    .danger:hover:not(:disabled) {
-      background: #991b1b;
-    }
-
-    .success {
-      background: var(--success);
-      color: white;
-    }
-
-    .success:hover:not(:disabled) {
-      background: #166534;
-    }
-
-    .toolbar {
+    .grid {
       display: grid;
-      grid-template-columns: 1fr auto auto;
-      gap: 12px;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-
-    .records-list {
-      display: grid;
+      grid-template-columns: repeat(2, 1fr);
       gap: 14px;
     }
 
-    .record-card {
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 18px;
-      background: linear-gradient(180deg, #ffffff, #fbfdff);
+    .documents {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 10px;
     }
 
-    .record-top {
+    .documents label {
+      margin: 0;
+      font-weight: normal;
       display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 14px;
-      margin-bottom: 14px;
-    }
-
-    .record-name {
-      font-size: 1.12rem;
-      font-weight: 900;
-      color: #0f172a;
-      margin: 0 0 4px;
-    }
-
-    .record-meta {
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
-    .info-item {
-      background: var(--soft);
-      border: 1px solid #e8eef7;
-      border-radius: 14px;
-      padding: 12px;
-      min-width: 0;
-    }
-
-    .info-label {
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.045em;
-      font-size: 0.72rem;
-      font-weight: 900;
-      margin-bottom: 5px;
-    }
-
-    .info-value {
-      font-weight: 700;
-      word-break: break-word;
-    }
-
-    .badge {
-      display: inline-flex;
       align-items: center;
-      gap: 6px;
-      border-radius: 999px;
-      padding: 7px 11px;
-      background: #dbeafe;
-      color: #1e40af;
-      font-weight: 900;
-      font-size: 0.78rem;
-    }
-
-    .badge.green {
-      background: #dcfce7;
-      color: #166534;
-    }
-
-    .badge.orange {
-      background: #ffedd5;
-      color: #9a3412;
-    }
-
-    .document-list {
-      display: grid;
       gap: 8px;
-      margin-top: 8px;
+      border: 1px solid var(--border);
+      padding: 10px;
+      border-radius: 8px;
     }
 
-    .document-row {
+    .documents input {
+      width: auto;
+    }
+
+    .status-box {
+      margin-top: 15px;
+      padding: 14px;
+      border-radius: 10px;
+      background: rgba(15, 118, 110, 0.12);
+      border-left: 5px solid var(--secondary);
+      font-weight: bold;
+    }
+
+    .actions {
+      margin-top: 20px;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
       gap: 10px;
       flex-wrap: wrap;
-      padding: 10px 12px;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 13px;
     }
 
-    .mini-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
+    .btn {
+      border: none;
+      padding: 12px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
     }
 
-    .mini-actions button,
-    .mini-actions .button-link {
-      padding: 8px 10px;
-      font-size: 0.78rem;
-      border-radius: 10px;
+    .btn-primary {
+      background: var(--secondary);
+      color: white;
     }
 
-    .empty-state {
-      padding: 34px 18px;
-      text-align: center;
-      border: 1px dashed #cbd5e1;
-      border-radius: 18px;
-      color: var(--muted);
-      background: #fbfdff;
+    .btn-gold {
+      background: var(--gold);
+      color: #111827;
     }
 
-    .toast {
+    .btn-outline {
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+
+    .connection {
+      padding: 10px 14px;
+      border-radius: 8px;
+      display: inline-block;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+
+    .connected {
+      background: rgba(22, 163, 74, 0.15);
+      color: var(--success);
+    }
+
+    .failed {
+      background: rgba(220, 38, 38, 0.15);
+      color: var(--danger);
+    }
+
+    .checking {
+      background: rgba(217, 119, 6, 0.15);
+      color: var(--warning);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 9px;
+      text-align: left;
+    }
+
+    th {
+      background: var(--primary);
+      color: white;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .team-member {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 15px;
+      background: rgba(15, 118, 110, 0.08);
+    }
+
+    .team-member h3 {
+      margin: 0 0 6px;
+    }
+
+    #topBtn {
       position: fixed;
       right: 18px;
       bottom: 18px;
-      background: #0f172a;
-      color: white;
+      background: var(--gold);
+      color: #111827;
+      border: none;
       padding: 13px 16px;
-      border-radius: 14px;
-      box-shadow: var(--shadow);
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(12px);
-      transition: 0.22s ease;
-      z-index: 50;
-      max-width: 360px;
-      line-height: 1.35;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+      display: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
     }
 
-    .toast.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .progress {
-      height: 9px;
-      background: #e2e8f0;
-      border-radius: 999px;
-      overflow: hidden;
-      margin-top: 12px;
+    .hide {
       display: none;
     }
 
-    .progress span {
-      display: block;
-      height: 100%;
-      width: 45%;
-      background: var(--primary);
-      border-radius: 999px;
-      animation: loading 1s infinite ease-in-out;
-    }
-
-    @keyframes loading {
-      0% {
-        transform: translateX(-100%);
-      }
-
-      100% {
-        transform: translateX(240%);
-      }
-    }
-
-    @media (max-width: 850px) {
-      .form-grid,
-      .info-grid,
-      .toolbar {
+    @media (max-width: 750px) {
+      .grid,
+      .documents,
+      .team-grid {
         grid-template-columns: 1fr;
       }
 
-      .header-inner,
-      .record-top {
-        align-items: flex-start;
-      }
-
-      .status-pill {
-        white-space: normal;
+      header h1 {
+        font-size: 23px;
       }
     }
   </style>
@@ -462,867 +289,363 @@
 
 <body>
   <header>
-    <div class="header-inner">
-      <div class="brand">
-        <div class="logo">EA</div>
-        <div>
-          <h1>Equivalency Application Management System</h1>
-          <p class="subtitle">Applicant database, PDF upload, Google Drive filing, email routing, and Word reply-letter generation.</p>
-        </div>
-      </div>
-      <div class="status-pill" id="connectionStatus">Local Only - Add Web App URL</div>
-    </div>
+    <h1>Certificate of Equivalency Application</h1>
+    <p>Online Application Monitoring System</p>
   </header>
 
-  <main>
-    <section class="card">
-      <div class="section-title">
-        <div>
-          <h2>Google Drive and Email Setup</h2>
-          <p class="help-text">Paste your Google Apps Script Web App URL here. This connects the website to Google Drive and email.</p>
-        </div>
-      </div>
+  <nav>
+    <button onclick="showSection('application')">Application</button>
+    <button onclick="showSection('team')">Meet Our Team</button>
+    <button onclick="showSection('database'); loadDatabase();">Database</button>
+    <button onclick="toggleNightMode()">Night Mode</button>
+  </nav>
 
-      <div class="setup-box">
-        <strong>Important:</strong> Because Google Apps Script blocks normal browser checking, the test button will only send a request. The real test is submitting one sample application and checking Google Drive.
-      </div>
+  <div class="container">
 
-      <div class="form-grid">
-        <div class="full">
-          <label for="scriptUrl">Google Apps Script Web App URL</label>
-          <input id="scriptUrl" placeholder="https://script.google.com/macros/s/AKfycb.../exec" />
-          <p class="field-note">Paste your Apps Script URL here, then click Save Web App URL.</p>
-        </div>
-      </div>
+    <section id="application" class="card">
+      <h2>Application Form</h2>
 
-      <div class="actions">
-        <button class="primary" id="saveScriptUrlBtn">Save Web App URL</button>
-        <button class="secondary" id="testConnectionBtn">Test Connection</button>
-      </div>
-    </section>
-
-    <section class="card">
-      <div class="section-title">
-        <div>
-          <h2 id="formTitle">Add New Application</h2>
-          <p class="help-text">Fill out the applicant details, upload PDF documents, choose a task manager, then submit.</p>
-        </div>
-        <span class="badge" id="modeBadge">New Record</span>
+      <div id="connectionStatus" class="connection checking">
+        Checking connection...
       </div>
 
       <form id="applicationForm">
-        <input type="hidden" id="recordId" />
-
-        <div class="form-grid">
+        <div class="grid">
           <div>
-            <label for="firstName">First Name</label>
-            <input id="firstName" required placeholder="Enter first name" />
+            <label>Full Name</label>
+            <input type="text" name="fullName" required />
           </div>
 
           <div>
-            <label for="lastName">Last Name</label>
-            <input id="lastName" required placeholder="Enter last name" />
-          </div>
-
-          <div class="full">
-            <label for="institution">Institution</label>
-            <input id="institution" required placeholder="Enter institution name" />
+            <label>Email Address</label>
+            <input type="email" name="email" required />
           </div>
 
           <div>
-            <label for="dateReceive">Date Received</label>
-            <input id="dateReceive" type="date" required />
+            <label>Contact Number</label>
+            <input type="text" name="contactNumber" required />
           </div>
 
           <div>
-            <label for="email">Applicant Email</label>
-            <input id="email" type="email" required placeholder="applicant@email.com" />
-          </div>
-
-          <div class="full">
-            <label for="degree">Degree</label>
-            <input id="degree" required placeholder="Example: Bachelor of Science in Nursing" />
+            <label>Region</label>
+            <input type="text" name="region" placeholder="Example: NCR, Region IV-A" required />
           </div>
 
           <div>
-            <label for="degreeCountry">Degree Obtained in the Country</label>
-            <input id="degreeCountry" required placeholder="Example: Philippines, USA, Canada" />
+            <label>Higher Education Institution</label>
+            <input type="text" name="heiName" required />
           </div>
 
           <div>
-            <label for="taskManager">Task Manager</label>
-            <select id="taskManager" required>
-              <option value="">Select task manager</option>
-              <option value="Siegried">Siegried - smaghanoy@ched.gov.ph</option>
-              <option value="Ralph">Ralph - rlking@ched.gov.ph</option>
+            <label>Program / Degree</label>
+            <input type="text" name="program" required />
+          </div>
+
+          <div>
+            <label>Purpose of Certificate of Equivalency</label>
+            <select name="purpose" required>
+              <option value="">Select purpose</option>
+              <option>For Employment Purposes</option>
+              <option>For Board Examination</option>
+              <option>For Promotion</option>
+              <option>For Further Studies</option>
+              <option>For Migration / Abroad Requirement</option>
+              <option>For Personal File</option>
+              <option>Others</option>
             </select>
           </div>
 
-          <div class="full">
-            <label for="notes">Notes / Remarks</label>
-            <textarea id="notes" placeholder="Optional notes or remarks"></textarea>
-          </div>
-
-          <div class="full">
-            <label for="documents">Upload Documents / PDF Files</label>
-            <input id="documents" type="file" accept="application/pdf" multiple />
-            <p class="field-note">Upload one or more PDF files. When editing, choosing new PDFs will add them to existing documents.</p>
+          <div>
+            <label>Task Manager</label>
+            <select name="taskManager" required>
+              <option value="">Select task manager</option>
+              <option>Siegried</option>
+              <option>Ralph</option>
+            </select>
           </div>
         </div>
 
-        <div class="progress" id="progressBar">
-          <span></span>
+        <label>Documents Submitted</label>
+        <div class="documents">
+          <label><input type="checkbox" name="documents" value="Application Letter" onchange="updateAutoStatus()"> Application Letter</label>
+          <label><input type="checkbox" name="documents" value="Transcript of Records" onchange="updateAutoStatus()"> Transcript of Records</label>
+          <label><input type="checkbox" name="documents" value="Diploma" onchange="updateAutoStatus()"> Diploma</label>
+          <label><input type="checkbox" name="documents" value="Certificate of Graduation" onchange="updateAutoStatus()"> Certificate of Graduation</label>
+          <label><input type="checkbox" name="documents" value="Government ID" onchange="updateAutoStatus()"> Government ID</label>
+          <label><input type="checkbox" name="documents" value="Proof of Accreditation" onchange="updateAutoStatus()"> Proof of Accreditation</label>
         </div>
+
+        <label>Application Status</label>
+        <select name="status" id="statusSelect" required>
+          <option>Incomplete Documents</option>
+          <option>Documents Complete</option>
+          <option>Waiting for IAS Verification</option>
+          <option>Waiting for Evaluation</option>
+          <option>For Approval</option>
+          <option>Approved</option>
+          <option>Released</option>
+        </select>
+
+        <div class="status-box" id="autoStatusBox">
+          Auto-check: Please complete the required documents.
+        </div>
+
+        <label>Remarks</label>
+        <textarea name="remarks" placeholder="Add notes or remarks here..."></textarea>
 
         <div class="actions">
-          <button type="submit" class="primary" id="saveBtn">Submit Application</button>
-          <button type="button" class="secondary" id="resetBtn">Clear Form</button>
+          <button type="submit" class="btn btn-primary">Submit Application</button>
+          <button type="reset" class="btn btn-outline" onclick="setTimeout(updateAutoStatus, 100)">Clear Form</button>
+          <button type="button" class="btn btn-gold" onclick="testConnection()">Test Connection</button>
         </div>
       </form>
     </section>
 
-    <section class="card">
-      <div class="section-title">
-        <div>
-          <h2>Application Database</h2>
-          <p class="help-text">Records are shown as cards to avoid side scrolling.</p>
+    <section id="team" class="card hide">
+      <h2>Meet Our Team</h2>
+
+      <div class="team-grid">
+        <div class="team-member">
+          <h3>Siegried</h3>
+          <p>Task Manager for application review, coordination, and processing updates.</p>
+        </div>
+
+        <div class="team-member">
+          <h3>Ralph</h3>
+          <p>Task Manager for document monitoring, database checking, and evaluation support.</p>
         </div>
       </div>
+    </section>
 
-      <div class="toolbar">
-        <input id="searchInput" placeholder="Search name, institution, email, degree, country..." />
-        <select id="managerFilter">
-          <option value="">All task managers</option>
-          <option value="Siegried">Siegried</option>
-          <option value="Ralph">Ralph</option>
-        </select>
-        <button class="secondary" id="exportJsonBtn">Export List</button>
-      </div>
+    <section id="database" class="card hide">
+      <h2>Database</h2>
+      <p>This table is based on the submitted application data.</p>
 
-      <div id="recordsList" class="records-list"></div>
+      <button class="btn btn-primary" onclick="loadDatabase()">Refresh Database</button>
 
-      <div class="actions">
-        <button class="danger" id="clearAllBtn">Delete All Local Records</button>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Date Submitted</th>
+              <th>Name</th>
+              <th>Region</th>
+              <th>HEI</th>
+              <th>Program</th>
+              <th>Purpose</th>
+              <th>Task Manager</th>
+              <th>Status</th>
+              <th>Documents</th>
+              <th>Remarks</th>
+            </tr>
+          </thead>
+          <tbody id="databaseBody">
+            <tr>
+              <td colspan="10">Click refresh to load database.</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
-  </main>
 
-  <div class="toast" id="toast"></div>
+  </div>
+
+  <button id="topBtn" onclick="scrollToTop()">Top</button>
 
   <script>
-    const DB_NAME = 'equivalencyApplicationDB_v3';
-    const DB_VERSION = 1;
-    const STORE_NAME = 'applications';
-    const SCRIPT_URL_KEY = 'equivalency_apps_script_url';
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxL21xd4sHgLhRMxDJarHN1_R_TZMGWEtZfKNN5gJ53_YYQSQBsGaiN0o4YCqkOAHDr/exec";
 
-    const TASK_MANAGER_EMAILS = {
-      Siegried: 'smaghanoy@ched.gov.ph',
-      Ralph: 'rlking@ched.gov.ph'
-    };
+    localStorage.setItem("googleAppsScriptWebAppUrl", WEB_APP_URL);
 
-    let db;
-    let allRecords = [];
+    const REQUIRED_DOCS = [
+      "Application Letter",
+      "Transcript of Records",
+      "Diploma",
+      "Certificate of Graduation",
+      "Government ID",
+      "Proof of Accreditation"
+    ];
 
-    const $ = id => document.getElementById(id);
+    document.addEventListener("DOMContentLoaded", () => {
+      loadNightMode();
+      testConnection();
+      updateAutoStatus();
+    });
 
-    const form = $('applicationForm');
-    const formTitle = $('formTitle');
-    const modeBadge = $('modeBadge');
-    const saveBtn = $('saveBtn');
-    const resetBtn = $('resetBtn');
-    const searchInput = $('searchInput');
-    const managerFilter = $('managerFilter');
-    const recordsList = $('recordsList');
-    const exportJsonBtn = $('exportJsonBtn');
-    const clearAllBtn = $('clearAllBtn');
-    const scriptUrl = $('scriptUrl');
-    const saveScriptUrlBtn = $('saveScriptUrlBtn');
-    const testConnectionBtn = $('testConnectionBtn');
-    const progressBar = $('progressBar');
-    const toast = $('toast');
-    const connectionStatus = $('connectionStatus');
+    document.getElementById("applicationForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
 
-    const fields = {
-      recordId: $('recordId'),
-      firstName: $('firstName'),
-      lastName: $('lastName'),
-      institution: $('institution'),
-      dateReceive: $('dateReceive'),
-      email: $('email'),
-      degree: $('degree'),
-      degreeCountry: $('degreeCountry'),
-      taskManager: $('taskManager'),
-      notes: $('notes'),
-      documents: $('documents')
-    };
+      const form = e.target;
+      const formData = new FormData(form);
 
-    function showToast(message) {
-      toast.textContent = message;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 4500);
-    }
+      const selectedDocs = Array.from(document.querySelectorAll("input[name='documents']:checked"))
+        .map(cb => cb.value)
+        .join(", ");
 
-    function setLoading(isLoading) {
-      saveBtn.disabled = isLoading;
-      progressBar.style.display = isLoading ? 'block' : 'none';
-      saveBtn.textContent = isLoading ? 'Submitting...' : (fields.recordId.value ? 'Update Application' : 'Submit Application');
-    }
-
-    function updateConnectionStatus() {
-      const url = localStorage.getItem(SCRIPT_URL_KEY);
-
-      if (url) {
-        connectionStatus.textContent = 'Google Apps Script URL Saved';
-        connectionStatus.style.background = 'rgba(22, 163, 74, 0.22)';
-      } else {
-        connectionStatus.textContent = 'Local Only - Add Web App URL';
-        connectionStatus.style.background = 'rgba(245, 158, 11, 0.22)';
-      }
-    }
-
-    function openDatabase() {
-      return new Promise((resolve, reject) => {
-        const request = indexedDB.open(DB_NAME, DB_VERSION);
-
-        request.onupgradeneeded = event => {
-          const database = event.target.result;
-
-          if (!database.objectStoreNames.contains(STORE_NAME)) {
-            database.createObjectStore(STORE_NAME, { keyPath: 'id' });
-          }
-        };
-
-        request.onsuccess = event => {
-          db = event.target.result;
-          resolve(db);
-        };
-
-        request.onerror = event => reject(event.target.error);
-      });
-    }
-
-    function transactionStore(mode = 'readonly') {
-      return db.transaction(STORE_NAME, mode).objectStore(STORE_NAME);
-    }
-
-    function getAllRecords() {
-      return new Promise((resolve, reject) => {
-        const request = transactionStore().getAll();
-        request.onsuccess = () => resolve(request.result || []);
-        request.onerror = () => reject(request.error);
-      });
-    }
-
-    function saveRecord(record) {
-      return new Promise((resolve, reject) => {
-        const request = transactionStore('readwrite').put(record);
-        request.onsuccess = () => resolve();
-        request.onerror = () => reject(request.error);
-      });
-    }
-
-    function deleteRecord(id) {
-      return new Promise((resolve, reject) => {
-        const request = transactionStore('readwrite').delete(id);
-        request.onsuccess = () => resolve();
-        request.onerror = () => reject(request.error);
-      });
-    }
-
-    function clearRecords() {
-      return new Promise((resolve, reject) => {
-        const request = transactionStore('readwrite').clear();
-        request.onsuccess = () => resolve();
-        request.onerror = () => reject(request.error);
-      });
-    }
-
-    function filesToObjects(fileList) {
-      const files = Array.from(fileList || []);
-
-      return Promise.all(files.map(file => {
-        return new Promise((resolve, reject) => {
-          if (file.type !== 'application/pdf') {
-            reject(new Error(`${file.name} is not a PDF file.`));
-            return;
-          }
-
-          const reader = new FileReader();
-
-          reader.onload = () => {
-            resolve({
-              id: crypto.randomUUID(),
-              name: file.name,
-              type: file.type,
-              size: file.size,
-              dataUrl: reader.result,
-              base64: String(reader.result).split(',')[1],
-              uploadedAt: new Date().toISOString()
-            });
-          };
-
-          reader.onerror = () => reject(reader.error);
-          reader.readAsDataURL(file);
-        });
-      }));
-    }
-
-    function formatDate(dateValue) {
-      if (!dateValue) return '';
-
-      const date = new Date(dateValue + 'T00:00:00');
-
-      return date.toLocaleDateString('en-PH', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
-    }
-
-    function escapeHtml(value) {
-      return String(value || '')
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#039;');
-    }
-
-    function safeJson(value) {
-      return escapeHtml(JSON.stringify(value));
-    }
-
-    function downloadDataUrl(dataUrl, fileName) {
-      const link = document.createElement('a');
-      link.href = dataUrl;
-      link.download = fileName;
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-    }
-
-    function viewPdf(dataUrl) {
-      const win = window.open();
-
-      if (!win) {
-        alert('Please allow pop-ups to view the PDF.');
-        return;
-      }
-
-      win.document.write(`<iframe src="${dataUrl}" style="width:100%;height:100vh;border:0;"></iframe>`);
-    }
-
-    function buildReplyLetterHtml(record) {
-      const today = new Date().toLocaleDateString('en-PH', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
-
-      const fullName = `${record.firstName} ${record.lastName}`.trim();
-      const managerEmail = TASK_MANAGER_EMAILS[record.taskManager] || '';
-
-      return `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <meta charset="UTF-8">
-          <title>Reply Letter - ${escapeHtml(fullName)}</title>
-          <style>
-            body {
-              font-family: Arial, Helvetica, sans-serif;
-              font-size: 12pt;
-              line-height: 1.5;
-              color: #000;
-              margin: 72px;
-            }
-            .date { text-align: right; margin-bottom: 36px; }
-            .subject { font-weight: bold; margin: 28px 0; }
-            .signature { margin-top: 48px; }
-          </style>
-        </head>
-        <body>
-          <div class="date">${today}</div>
-
-          <p>
-            <strong>${escapeHtml(fullName)}</strong><br>
-            ${escapeHtml(record.institution)}<br>
-            ${escapeHtml(record.email)}
-          </p>
-
-          <p>Dear ${escapeHtml(record.firstName)}:</p>
-
-          <p class="subject">Subject: Acknowledgment of Equivalency Application</p>
-
-          <p>
-            This is to acknowledge receipt of your application and submitted documents for evaluation.
-            Our office received your application on <strong>${formatDate(record.dateReceive)}</strong>.
-          </p>
-
-          <p>
-            Based on the information provided, your application concerns the degree
-            <strong>${escapeHtml(record.degree)}</strong>, obtained in
-            <strong>${escapeHtml(record.degreeCountry)}</strong>.
-          </p>
-
-          <p>
-            Your application has been assigned to <strong>${escapeHtml(record.taskManager)}</strong>
-            ${managerEmail ? `(${escapeHtml(managerEmail)})` : ''} for appropriate action.
-          </p>
-
-          <p>
-            Please be informed that your documents will be reviewed in accordance with applicable policies,
-            guidelines, and procedures. Should additional documents or clarification be required, our office will
-            contact you through the email address you provided.
-          </p>
-
-          <p>Thank you.</p>
-
-          <div class="signature">
-            <p>
-              Very truly yours,<br><br><br>
-              <strong>Authorized Officer</strong><br>
-              Office / Division
-            </p>
-          </div>
-        </body>
-        </html>
-      `;
-    }
-
-    function downloadReplyLetter(recordId) {
-      const record = allRecords.find(item => item.id === recordId);
-
-      if (!record) return;
-
-      const html = buildReplyLetterHtml(record);
-      const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
-      const url = URL.createObjectURL(blob);
-      const fullName = `${record.firstName}_${record.lastName}`.replace(/\s+/g, '_');
-
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `Reply_Letter_${fullName}.doc`;
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-
-      URL.revokeObjectURL(url);
-    }
-
-    async function sendToGoogleDrive(record) {
-      const webAppUrl = localStorage.getItem(SCRIPT_URL_KEY);
-
-      if (!webAppUrl) {
-        return {
-          success: false,
-          skipped: true,
-          message: 'No Google Apps Script URL saved.'
-        };
-      }
-
-      const payload = {
-        action: 'saveApplication',
-        record: {
-          ...record,
-          taskManagerEmail: TASK_MANAGER_EMAILS[record.taskManager] || '',
-          replyLetterHtml: buildReplyLetterHtml(record),
-          documents: (record.documents || []).map(doc => ({
-            name: doc.name,
-            type: doc.type,
-            size: doc.size,
-            base64: doc.base64 || String(doc.dataUrl).split(',')[1]
-          }))
-        }
-      };
-
-      await fetch(webAppUrl, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-          'Content-Type': 'text/plain;charset=utf-8'
-        },
-        body: JSON.stringify(payload)
-      });
-
-      return {
-        success: true,
-        message: 'Request sent to Google Apps Script.'
-      };
-    }
-
-    async function testConnection() {
-      const url = localStorage.getItem(SCRIPT_URL_KEY) || scriptUrl.value.trim();
-
-      if (!url) {
-        alert('Please paste and save your Google Apps Script Web App URL first.');
-        return;
-      }
+      formData.set("documents", selectedDocs);
+      formData.set("action", "save");
 
       try {
-        await fetch(url, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: {
-            'Content-Type': 'text/plain;charset=utf-8'
-          },
-          body: JSON.stringify({
-            action: 'testConnection'
-          })
+        await fetch(WEB_APP_URL, {
+          method: "POST",
+          mode: "no-cors",
+          body: formData
         });
 
-        showToast('Connection request sent. Now submit one test application and check Google Drive.');
+        alert("Application submitted successfully.");
+        form.reset();
+        updateAutoStatus();
+        loadDatabase();
+
       } catch (error) {
+        alert("Submission failed. Please check your Apps Script deployment.");
         console.error(error);
-        alert('Connection request failed. Check if the Web App URL is correct.');
+      }
+    });
+
+    function showSection(sectionId) {
+      document.getElementById("application").classList.add("hide");
+      document.getElementById("team").classList.add("hide");
+      document.getElementById("database").classList.add("hide");
+
+      document.getElementById(sectionId).classList.remove("hide");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function toggleNightMode() {
+      document.body.classList.toggle("night");
+      localStorage.setItem("nightMode", document.body.classList.contains("night") ? "on" : "off");
+    }
+
+    function loadNightMode() {
+      if (localStorage.getItem("nightMode") === "on") {
+        document.body.classList.add("night");
       }
     }
 
-    function renderRecords(records = allRecords) {
-      recordsList.innerHTML = '';
+    function updateAutoStatus() {
+      const checkedDocs = Array.from(document.querySelectorAll("input[name='documents']:checked"))
+        .map(cb => cb.value);
 
-      if (!records.length) {
-        recordsList.innerHTML = `
-          <div class="empty-state">
-            <strong>No records found.</strong><br>
-            Add a new application above to start your database.
-          </div>
-        `;
-        return;
+      const complete = REQUIRED_DOCS.every(doc => checkedDocs.includes(doc));
+
+      const statusSelect = document.getElementById("statusSelect");
+      const autoStatusBox = document.getElementById("autoStatusBox");
+
+      if (complete) {
+        statusSelect.value = "Documents Complete";
+        autoStatusBox.innerHTML = "Auto-check: Documents are complete. Ready for IAS Verification.";
+      } else {
+        statusSelect.value = "Incomplete Documents";
+
+        const missing = REQUIRED_DOCS.filter(doc => !checkedDocs.includes(doc));
+        autoStatusBox.innerHTML = "Auto-check: Missing document/s: " + missing.join(", ");
       }
+    }
 
-      records
-        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-        .forEach(record => {
-          const fullName = `${record.firstName} ${record.lastName}`.trim();
-          const managerEmail = TASK_MANAGER_EMAILS[record.taskManager] || '';
+    function testConnection() {
+      const status = document.getElementById("connectionStatus");
+      status.className = "connection checking";
+      status.textContent = "Checking connection...";
 
-          const documentList = (record.documents || []).map(doc => `
-            <div class="document-row">
-              <div>
-                <strong>${escapeHtml(doc.name)}</strong><br>
-                <span class="muted">${Math.round((doc.size || 0) / 1024)} KB</span>
-              </div>
-              <div class="mini-actions">
-                <button class="secondary" onclick="viewPdf('${doc.dataUrl}')">View</button>
-                <button class="secondary" onclick="downloadDataUrl('${doc.dataUrl}', '${escapeHtml(doc.name)}')">Download</button>
-              </div>
-            </div>
-          `).join('') || '<p class="muted">No PDF uploaded.</p>';
+      const callbackName = "connectionCallback_" + Date.now();
 
-          const card = document.createElement('article');
-          card.className = 'record-card';
+      window[callbackName] = function(response) {
+        if (response && response.status === "success") {
+          status.className = "connection connected";
+          status.textContent = "Connected to Google Apps Script";
+        } else {
+          status.className = "connection failed";
+          status.textContent = "Connection failed";
+        }
 
-          card.innerHTML = `
-            <div class="record-top">
-              <div>
-                <p class="record-name">${escapeHtml(fullName)}</p>
-                <div class="record-meta">${escapeHtml(record.institution)} • Received ${formatDate(record.dateReceive)}</div>
-              </div>
-              <div class="mini-actions">
-                <span class="badge green">${escapeHtml(record.taskManager || 'No Manager')}</span>
-                <span class="badge orange">${record.sentToGoogleDrive ? 'Sent to Google Drive' : 'Local Only'}</span>
-              </div>
-            </div>
+        delete window[callbackName];
+        script.remove();
+      };
 
-            <div class="info-grid">
-              <div class="info-item">
-                <div class="info-label">Applicant Email</div>
-                <div class="info-value">${escapeHtml(record.email)}</div>
-              </div>
+      const script = document.createElement("script");
+      script.src = WEB_APP_URL + "?action=ping&callback=" + callbackName;
+      script.onerror = function() {
+        status.className = "connection failed";
+        status.textContent = "Connection failed";
+        delete window[callbackName];
+        script.remove();
+      };
 
-              <div class="info-item">
-                <div class="info-label">Degree</div>
-                <div class="info-value">${escapeHtml(record.degree)}</div>
-              </div>
+      document.body.appendChild(script);
+    }
 
-              <div class="info-item">
-                <div class="info-label">Country</div>
-                <div class="info-value">${escapeHtml(record.degreeCountry)}</div>
-              </div>
+    function loadDatabase() {
+      const tbody = document.getElementById("databaseBody");
+      tbody.innerHTML = `<tr><td colspan="10">Loading database...</td></tr>`;
 
-              <div class="info-item">
-                <div class="info-label">Task Manager</div>
-                <div class="info-value">${escapeHtml(record.taskManager || '')}</div>
-              </div>
+      const callbackName = "databaseCallback_" + Date.now();
 
-              <div class="info-item">
-                <div class="info-label">Manager Email</div>
-                <div class="info-value">${escapeHtml(managerEmail)}</div>
-              </div>
+      window[callbackName] = function(response) {
+        tbody.innerHTML = "";
 
-              <div class="info-item">
-                <div class="info-label">Last Updated</div>
-                <div class="info-value">${new Date(record.updatedAt).toLocaleString('en-PH')}</div>
-              </div>
-            </div>
+        if (!response || response.status !== "success" || !response.data || response.data.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="10">No records found.</td></tr>`;
+          delete window[callbackName];
+          script.remove();
+          return;
+        }
 
-            ${record.notes ? `<div class="info-item" style="margin-bottom:14px;"><div class="info-label">Notes</div><div class="info-value">${escapeHtml(record.notes)}</div></div>` : ''}
+        response.data.forEach(row => {
+          const tr = document.createElement("tr");
 
-            <div>
-              <div class="info-label">Uploaded PDF Documents</div>
-              <div class="document-list">${documentList}</div>
-            </div>
-
-            <div class="actions">
-              <button class="primary" onclick="editApplication('${record.id}')">Edit</button>
-              <button class="success" onclick="downloadReplyLetter('${record.id}')">Download Word Reply Letter</button>
-              <button class="secondary" onclick="resendToDrive('${record.id}')">Send Again to Google Drive</button>
-              <button class="danger" onclick="removeApplication('${record.id}')">Delete</button>
-            </div>
+          tr.innerHTML = `
+            <td>${escapeHtml(row.dateSubmitted || "")}</td>
+            <td>${escapeHtml(row.fullName || "")}</td>
+            <td>${escapeHtml(row.region || "")}</td>
+            <td>${escapeHtml(row.heiName || "")}</td>
+            <td>${escapeHtml(row.program || "")}</td>
+            <td>${escapeHtml(row.purpose || "")}</td>
+            <td>${escapeHtml(row.taskManager || "")}</td>
+            <td>${escapeHtml(row.status || "")}</td>
+            <td>${escapeHtml(row.documents || "")}</td>
+            <td>${escapeHtml(row.remarks || "")}</td>
           `;
 
-          recordsList.appendChild(card);
+          tbody.appendChild(tr);
         });
+
+        delete window[callbackName];
+        script.remove();
+      };
+
+      const script = document.createElement("script");
+      script.src = WEB_APP_URL + "?action=list&callback=" + callbackName;
+      script.onerror = function() {
+        tbody.innerHTML = `<tr><td colspan="10">Failed to load database.</td></tr>`;
+        delete window[callbackName];
+        script.remove();
+      };
+
+      document.body.appendChild(script);
     }
 
-    async function refreshRecords() {
-      allRecords = await getAllRecords();
-      applyFilters();
+    function escapeHtml(text) {
+      return String(text)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
     }
 
-    function applyFilters() {
-      const term = searchInput.value.toLowerCase().trim();
-      const manager = managerFilter.value;
-
-      let filtered = allRecords;
-
-      if (manager) {
-        filtered = filtered.filter(record => record.taskManager === manager);
-      }
-
-      if (term) {
-        filtered = filtered.filter(record => {
-          const searchable = [
-            record.firstName,
-            record.lastName,
-            record.institution,
-            record.email,
-            record.degree,
-            record.degreeCountry,
-            record.taskManager,
-            record.notes
-          ].join(' ').toLowerCase();
-
-          return searchable.includes(term);
-        });
-      }
-
-      renderRecords(filtered);
-    }
-
-    function resetForm() {
-      form.reset();
-      fields.recordId.value = '';
-      formTitle.textContent = 'Add New Application';
-      modeBadge.textContent = 'New Record';
-      modeBadge.className = 'badge';
-      saveBtn.textContent = 'Submit Application';
-    }
-
-    window.editApplication = function(id) {
-      const record = allRecords.find(item => item.id === id);
-
-      if (!record) return;
-
-      fields.recordId.value = record.id;
-      fields.firstName.value = record.firstName || '';
-      fields.lastName.value = record.lastName || '';
-      fields.institution.value = record.institution || '';
-      fields.dateReceive.value = record.dateReceive || '';
-      fields.email.value = record.email || '';
-      fields.degree.value = record.degree || '';
-      fields.degreeCountry.value = record.degreeCountry || '';
-      fields.taskManager.value = record.taskManager || '';
-      fields.notes.value = record.notes || '';
-      fields.documents.value = '';
-
-      formTitle.textContent = 'Edit Application';
-      modeBadge.textContent = 'Edit Mode';
-      modeBadge.className = 'badge orange';
-      saveBtn.textContent = 'Update Application';
-
-      window.scrollTo({
-        top: form.offsetTop - 110,
-        behavior: 'smooth'
-      });
-    };
-
-    window.removeApplication = async function(id) {
-      const record = allRecords.find(item => item.id === id);
-
-      if (!record) return;
-
-      const fullName = `${record.firstName} ${record.lastName}`.trim();
-
-      if (!confirm(`Delete the local record of ${fullName}? This will not delete files already sent to Google Drive.`)) return;
-
-      await deleteRecord(id);
-      await refreshRecords();
-
-      showToast('Local record deleted.');
-    };
-
-    window.resendToDrive = async function(id) {
-      const record = allRecords.find(item => item.id === id);
-
-      if (!record) return;
-
-      try {
-        setLoading(true);
-
-        await sendToGoogleDrive(record);
-
-        record.sentToGoogleDrive = true;
-        record.updatedAt = new Date().toISOString();
-
-        await saveRecord(record);
-        await refreshRecords();
-
-        showToast('Request sent to Google Drive. Check your Google Drive folder.');
-      } catch (error) {
-        console.error(error);
-        alert(error.message || 'Failed to send to Google Drive.');
-      } finally {
-        setLoading(false);
+    window.onscroll = function() {
+      const topBtn = document.getElementById("topBtn");
+      if (document.body.scrollTop > 250 || document.documentElement.scrollTop > 250) {
+        topBtn.style.display = "block";
+      } else {
+        topBtn.style.display = "none";
       }
     };
 
-    form.addEventListener('submit', async event => {
-      event.preventDefault();
-
-      setLoading(true);
-
-      try {
-        const existingId = fields.recordId.value;
-        const existingRecord = allRecords.find(item => item.id === existingId);
-        const newDocuments = await filesToObjects(fields.documents.files);
-
-        const record = {
-          id: existingId || crypto.randomUUID(),
-          firstName: fields.firstName.value.trim(),
-          lastName: fields.lastName.value.trim(),
-          institution: fields.institution.value.trim(),
-          dateReceive: fields.dateReceive.value,
-          email: fields.email.value.trim(),
-          degree: fields.degree.value.trim(),
-          degreeCountry: fields.degreeCountry.value.trim(),
-          taskManager: fields.taskManager.value,
-          taskManagerEmail: TASK_MANAGER_EMAILS[fields.taskManager.value],
-          notes: fields.notes.value.trim(),
-          documents: [
-            ...(existingRecord?.documents || []),
-            ...newDocuments
-          ],
-          sentToGoogleDrive: existingRecord?.sentToGoogleDrive || false,
-          createdAt: existingRecord?.createdAt || new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        };
-
-        await saveRecord(record);
-
-        const driveResult = await sendToGoogleDrive(record);
-
-        if (driveResult.success && !driveResult.skipped) {
-          record.sentToGoogleDrive = true;
-          record.updatedAt = new Date().toISOString();
-          await saveRecord(record);
-
-          showToast('Application saved and request sent to Google Drive. Check your Google Drive folder.');
-        } else {
-          showToast('Application saved locally. Add Apps Script URL to send to Google Drive.');
-        }
-
-        resetForm();
-        await refreshRecords();
-      } catch (error) {
-        console.error(error);
-        alert(error.message || 'Failed to save application.');
-      } finally {
-        setLoading(false);
-      }
-    });
-
-    resetBtn.addEventListener('click', resetForm);
-    searchInput.addEventListener('input', applyFilters);
-    managerFilter.addEventListener('change', applyFilters);
-
-    saveScriptUrlBtn.addEventListener('click', () => {
-      const value = scriptUrl.value.trim();
-
-      if (!value) {
-        alert('Please paste your Google Apps Script Web App URL.');
-        return;
-      }
-
-      localStorage.setItem(SCRIPT_URL_KEY, value);
-      updateConnectionStatus();
-
-      showToast('Google Apps Script URL saved.');
-    });
-
-    testConnectionBtn.addEventListener('click', testConnection);
-
-    exportJsonBtn.addEventListener('click', () => {
-      const exportData = allRecords.map(record => ({
-        id: record.id,
-        firstName: record.firstName,
-        lastName: record.lastName,
-        institution: record.institution,
-        dateReceive: record.dateReceive,
-        email: record.email,
-        degree: record.degree,
-        degreeCountry: record.degreeCountry,
-        taskManager: record.taskManager,
-        taskManagerEmail: TASK_MANAGER_EMAILS[record.taskManager],
-        notes: record.notes,
-        sentToGoogleDrive: record.sentToGoogleDrive,
-        createdAt: record.createdAt,
-        updatedAt: record.updatedAt,
-        documents: (record.documents || []).map(doc => ({
-          name: doc.name,
-          type: doc.type,
-          size: doc.size,
-          uploadedAt: doc.uploadedAt
-        }))
-      }));
-
-      const blob = new Blob([JSON.stringify(exportData, null, 2)], {
-        type: 'application/json'
-      });
-
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-
-      link.href = url;
-      link.download = `equivalency_database_export_${new Date().toISOString().slice(0, 10)}.json`;
-
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-
-      URL.revokeObjectURL(url);
-    });
-
-    clearAllBtn.addEventListener('click', async () => {
-      if (!confirm('Delete all local records and uploaded PDFs from this browser? This will not delete files already sent to Google Drive.')) return;
-
-      await clearRecords();
-      resetForm();
-      await refreshRecords();
-
-      showToast('All local records deleted.');
-    });
-
-    scriptUrl.value = localStorage.getItem(SCRIPT_URL_KEY) || '';
-    updateConnectionStatus();
-
-    openDatabase()
-      .then(refreshRecords)
-      .catch(error => {
-        console.error(error);
-        alert('Database failed to open. Please use a modern browser such as Chrome or Edge.');
-      });
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   </script>
 </body>
 </html>
