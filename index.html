@@ -443,7 +443,7 @@
         </form>
 
         <div class="footer-note">
-          PDF upload is optional. If applicant folder name already exists, the system will add date and time.
+          PDF upload is optional. Email will send the client Google Drive folder link to the selected task manager.
         </div>
       </div>
     </section>
@@ -452,7 +452,7 @@
       <div class="card">
         <h2>Edit Existing Application</h2>
 
-        <label>Search by Record ID or Applicant Name</label>
+        <label>Search by Record ID, Applicant Name, or Institution</label>
         <input type="text" id="editSearchInput" placeholder="Example: CE-20260427-001 or Dela Cruz" />
 
         <button class="submit-btn" style="max-width: 220px;" onclick="searchApplications()">Search</button>
@@ -746,7 +746,6 @@
 
         try {
           const payload = await buildSubmissionPayload();
-
           const result = await postToAppsScript(payload);
 
           if (!result.success) {
@@ -885,6 +884,8 @@
         }
 
         result.records.forEach(record => {
+          const safeRecord = encodeURIComponent(JSON.stringify(record));
+
           const div = document.createElement("div");
           div.className = "result-item";
 
@@ -893,7 +894,7 @@
             ${record.applicationType} • ${record.institution}<br>
             Month: ${record.submissionMonth}<br>
             Task Manager: ${record.taskManagerName}<br>
-            <button class="secondary-btn" onclick='loadRecordForEditing(${JSON.stringify(record)})'>Edit This Record</button>
+            <button class="secondary-btn" onclick="loadRecordForEditingFromEncoded('${safeRecord}')">Edit This Record</button>
           `;
 
           resultsContainer.appendChild(div);
@@ -903,6 +904,11 @@
         status.className = "status error";
         status.textContent = "Search failed: " + error.message;
       }
+    }
+
+    function loadRecordForEditingFromEncoded(encodedRecord) {
+      const record = JSON.parse(decodeURIComponent(encodedRecord));
+      loadRecordForEditing(record);
     }
 
     function loadRecordForEditing(record) {
@@ -1027,7 +1033,8 @@
           Month: ${item.submissionMonth}<br>
           Country: ${item.country}<br>
           Task Manager: ${item.taskManagerName || ""}<br>
-          PDF Uploaded: ${item.fileCount}
+          PDF Uploaded: ${item.fileCount}<br>
+          ${item.folderUrl ? `<a href="${item.folderUrl}" target="_blank">Open Client Folder</a>` : ""}
         `;
 
         recentList.appendChild(div);
