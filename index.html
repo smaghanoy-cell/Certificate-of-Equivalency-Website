@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Certificate of Equivalency Application</title>
 
   <style>
@@ -453,7 +454,7 @@
   <button id="topBtn" onclick="scrollToTop()">Top</button>
 
   <script>
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxL21xd4sHgLhRMxDJarHN1_R_TZMGWEtZfKNN5gJ53_YYQSQBsGaiN0o4YCqkOAHDr/exec";
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyAn5jhh6NnuzkHkF5LGs6oPA-hM3iXXIAP9yCA-rBN8GY8KL3CwB-V-9qlDa8feFd4ag/exec";
 
     localStorage.setItem("googleAppsScriptWebAppUrl", WEB_APP_URL);
 
@@ -565,6 +566,7 @@
 
       const script = document.createElement("script");
       script.src = WEB_APP_URL + "?action=ping&callback=" + callbackName;
+
       script.onerror = function() {
         status.className = "connection failed";
         status.textContent = "Connection failed";
@@ -616,6 +618,7 @@
 
       const script = document.createElement("script");
       script.src = WEB_APP_URL + "?action=list&callback=" + callbackName;
+
       script.onerror = function() {
         tbody.innerHTML = `<tr><td colspan="10">Failed to load database.</td></tr>`;
         delete window[callbackName];
@@ -636,6 +639,7 @@
 
     window.onscroll = function() {
       const topBtn = document.getElementById("topBtn");
+
       if (document.body.scrollTop > 250 || document.documentElement.scrollTop > 250) {
         topBtn.style.display = "block";
       } else {
